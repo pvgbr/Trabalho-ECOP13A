@@ -5,10 +5,13 @@
 
 using namespace std;
 
-MenuIni::MenuIni(Jogador p) : player{p} {
+MenuIni::MenuIni(Jogador* p) : player{p} {
     ifstream teste("save.txt");
     if (!teste.good()) inicio();
     else menuPrinc();
+
+    dif.setDificuldade(player->getDificuldade());
+
 }  
 
 void MenuIni::inicio() {
@@ -16,29 +19,34 @@ void MenuIni::inicio() {
     cout << "Vamos começar pelo nome do seu personagem: ";
     string n;
     getline(cin, n);
-    nome = n;
+    string nome = n;
     cout << "Perfeito!" << endl << endl;
     map<int, string> m; m[1] = "Fácil"; m[2] = "Médio"; m[3] = "Difícil";
     cout << "1- Fácil\n2- Médio\n3- Difícil\nAgora selecione o nível de dificuldade: ";
     int d;
     cin >> d;
     cout << "Dificuldade " << m[d] << " selecionada!" << endl;
-    dificuldade = d;
+    player->setDificuldade(d);
+    dif.setDificuldade(d);
     cin.ignore();
     sleep(3);
     system("cls");
 
-    player.setNome(nome);
-    player.setNivel(1);
-    player.setForca(1);
-    player.setDefesa(1);
-    player.setVida(100);
-    player.setDinheiro(0);
+    player->setNome(nome);
+    player->setNivel(1);
+    player->setXP(0);
+    player->setForca(1);
+    player->setDefesa(1);
+    player->setVida(100);
+    player->setDinheiro(0);
+    player->setFase(1);
+
+    Fase fase(player);
 
 }
 
 void MenuIni::mostra_menu(){
-    player.imprimir_dados();
+    player->imprimir_dados();
     cout << "1- Jogar" << endl;
     cout << "2- Preferências" << endl;
     cout << "3- Reset" << endl;
@@ -57,6 +65,8 @@ void MenuIni::preferencias() {
             map<int, string> m; m[1] = "Fácil"; m[2] = "Médio"; m[3] = "Difícil";
             cout << "Agora selecione o nível de dificuldade: \n1- Fácil\n2- Médio\n3- Difícil" << endl;
             int d; cin >> d;
+            dif.setDificuldade(d);
+            player->setDificuldade(d);
             cout << "Dificuldade " << m[d] << " selecionada!" << endl;
             sleep(2);
             system("cls");
@@ -66,10 +76,9 @@ void MenuIni::preferencias() {
         case 2: {
             cout << "Entre com o novo nome do seu personagem: ";
             cin.ignore();
-            string n = nome, n1; getline(cin, n1);
+            string n = player->getNome(), n1; getline(cin, n1);
             cout << "Seu nome foi alterado! (" << n << " -> " << n1 <<")" << endl;
-            nome = n1;
-            player.setNome(n1);
+            player->setNome(n1);
             sleep(2);
             system("cls");
             preferencias();
@@ -82,15 +91,37 @@ void MenuIni::preferencias() {
 
 }
 
+void MenuIni::reset() {
+    cout << "Seu jogo foi resetado!" << endl;
+    cout << "Entre com o nome do seu personagem: ";
+    cin.ignore();
+    string n; getline(cin, n);
+    player->setNome(n);
+    player->setFase(1);
+    player->setXP(0);
+    player->setNivel(1);
+    player->setForca(1);
+    player->setDefesa(1);
+    player->setDificuldade(1);
+    dif.setDificuldade(1);
+    player->setVida(100);
+    player->setDinheiro(0);
+    player->salvar("save.txt");
+    cout << endl << "Seu jogo foi resetado com sucesso, abra novamente!" << endl;
+    sleep(2);
+    exit(0);
+}
+
 void MenuIni::menuPrinc() {
 
     ifstream arq("save.txt");
     if (arq.good()) {
-        player.carregar("save.txt");
-        nome = player.getNome();
+        player->carregar("save.txt");
     }
 
+
     while(true) {
+        Fase fase(player);
         mostra_menu();
         cout << "Escolha uma opção para continuar: ";
         int e;
@@ -98,28 +129,23 @@ void MenuIni::menuPrinc() {
 
         switch(e){
             case 1:
-                cout << "Você está jogando!!!!!!" << endl;
+                fase.menu();
                 break;
             case 2:
                 system("cls");
                 preferencias();
                 break;
             case 3:
-                cout << "RESET!" << endl;
-                sleep(2);
                 system("cls");
-                exit(0);
+                reset();
                 break;
             default:
                 cout << "Você escolheu sair! Seu progresso será salvo" << endl;
-                player.salvar("save.txt");
+                player->salvar("save.txt");
                 exit(0);
                 break;
         }
     }
 }
 
-Jogador MenuIni::getPlayer() { return player; }
-
-string MenuIni::getNome() { return nome; }
-int MenuIni::getDificuldade() { return dificuldade; }
+Jogador* MenuIni::getPlayer() { return player; }

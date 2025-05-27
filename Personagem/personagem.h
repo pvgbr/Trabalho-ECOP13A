@@ -15,6 +15,7 @@ class Personagem {
         int defesa;
         int vida;
         bool vivo;
+        int dificuldade;
         
     public:
 
@@ -34,7 +35,12 @@ class Personagem {
         void setDefesa(int);
         void setVida(int);
         void setNivel(int);
+        void setDificuldade(int);
 
+        int getForca();
+        int getDefesa();
+        int getVida();
+        int getDificuldade();
         string getNome();
 
 };

@@ -2,26 +2,29 @@
 #define MENUINICIAL_H
 
 #include <bits/stdc++.h>
+#include "../Fase/fase.h"
+#include "../Utils/dificuldade.h"
 #include "../Personagem/jogador.h"
 using namespace std;
 
 class MenuIni {
     
     private:
-        string nome;
-        int dificuldade;
 
-        Jogador player;
+        Jogador* player;
+        Dificuldade dif;
+
 
     public:
-        MenuIni(Jogador);
+        MenuIni(Jogador*);
         void mostra_menu();
-        string getNome();
-        Jogador getPlayer();
-        int getDificuldade();
+
+        Jogador* getPlayer();
+
         void menuPrinc();
         void inicio();
         void preferencias();
+        void reset();
 };
 
 #endif

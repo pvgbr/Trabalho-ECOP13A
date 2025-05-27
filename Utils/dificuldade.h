@@ -15,10 +15,12 @@ class Dificuldade {
         int multEventoAleatorio;
         
     public:
-
+        Dificuldade() { }
         Dificuldade(int);
         ~Dificuldade() { }
 
+        void setDificuldade(int);
+        
         int getMInimigos();
         int getMEAleatorio();
 

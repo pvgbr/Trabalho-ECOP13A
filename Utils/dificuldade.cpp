@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 
 Dificuldade::Dificuldade(int dif) : dificuldade{dif} {
-    switch(dificuldade){
+    switch(dificuldade) {
         case 1: //facil
             multInimigos = 1;
             multEventoAleatorio = 1;
@@ -17,6 +17,8 @@ Dificuldade::Dificuldade(int dif) : dificuldade{dif} {
             break;
     }   
 }
+
+void Dificuldade::setDificuldade(int dif) { dificuldade = dif; }
 
 int Dificuldade::getMInimigos() { return multInimigos; }
 int Dificuldade::getMEAleatorio() { return multEventoAleatorio; }

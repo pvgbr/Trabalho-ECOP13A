@@ -3,7 +3,8 @@
 
 using namespace std;
 
-Jogador::Jogador(string n, int f, int d) : Personagem(n, f, d) { 
+Jogador::Jogador(string n, int f, int d) : Personagem(n, f, d) {
+    fase = 1;
     xp = 0;
     dinheiro = 0;
 } 
@@ -15,6 +16,7 @@ void Jogador::imprimir_dados(){
     cout<<"Forca: "<< forca <<endl;
     cout<<"Defesa: "<< defesa <<endl;
     cout<<"Dinheiro: "<< dinheiro <<endl;
+    cout<<"Dificuldade: "<< dificuldade <<endl;
     cout<<"---------------------------------"<<endl;
 }
 
@@ -31,12 +33,29 @@ void Jogador::alterarDinheiro(int d) {
     dinheiro += d;
 }
 
+void Jogador::alterarXP(int exp) {
+    xp += exp;
+}
+
 int Jogador::getNivel(){
     return nivel;
 }
 
+int Jogador::getFase(){
+    return fase;
+}
+
+
 void Jogador::setDinheiro(int d){
     dinheiro = d;
+}
+
+void Jogador::setFase(int f) {
+    fase = f;
+}
+
+void Jogador::setXP(int exp){
+    xp = exp;
 }
 
 void Jogador::salvar(string caminho) {
@@ -49,6 +68,8 @@ void Jogador::salvar(string caminho) {
         arq << nivel << '\n';
         arq << xp << '\n';
         arq << dinheiro << '\n';
+        arq << fase << '\n';
+        arq << dificuldade << '\n';
         arq.close();
     }
 }
@@ -64,6 +85,8 @@ void Jogador::carregar(string caminho) {
         arq >> nivel;
         arq >> xp;
         arq >> dinheiro;
+        arq >> fase;
+        arq >> dificuldade;
         arq.ignore();
         arq.close();
     }

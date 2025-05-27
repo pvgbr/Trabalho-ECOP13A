@@ -11,6 +11,8 @@ class Jogador : public Personagem {
 
         int xp;
         int dinheiro;
+        int fase;
+    
         
     public:
 
@@ -21,9 +23,13 @@ class Jogador : public Personagem {
         void imprimir_dados();
         
         void alterarDinheiro(int);
-        void alterarXp(int);
+        void alterarXP(int);
         int getNivel();
+        int getFase();
+  
         void setDinheiro(int);
+        void setXP(int);
+        void setFase(int);
 
         bool verificaNivel();
 

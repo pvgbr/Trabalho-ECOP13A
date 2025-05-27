@@ -13,14 +13,20 @@ class Inimigo : public Personagem {
     protected:
         int recompensaXP;
         int recompensaDinheiro;
+
+        Dificuldade dif;
         
     public:
-
+        Inimigo() { }
         Inimigo(string, int, int, Dificuldade);
         ~Inimigo() { }
 
         void imprimir_dados();
+        void setDific(Dificuldade);
+        int get_recompensaXP();
+        int get_recompensaDinheiro();
 
+        void set_recompensas();
 };
 
 #endif
