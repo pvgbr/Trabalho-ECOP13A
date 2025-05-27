@@ -24,5 +24,5 @@ bool Inventario::removerItem(const T& item) {
             break;
         }
     }
-    return true;
+    return true;  
 }

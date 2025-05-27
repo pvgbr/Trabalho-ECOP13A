@@ -26,7 +26,20 @@ int BatalhaNormal::escolhaBatalha(){
                     return 2;
                     break;
                 case 3:
-                    //player->usarItem();
+                    int escolhaItem;
+                    //abrir inventario
+                    cout << "Escolha qual item deseja usar: " << endl;
+                    cin >> escolhaItem;
+                        switch (escolhaItem){
+                            case 1: // Poção de vida
+                                
+                                break;
+                            case 2: // Poção de força
+
+                                break;
+                            default:
+                                break;
+                        }
                     return 3;
                     break;
                 default:

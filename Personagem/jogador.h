@@ -3,6 +3,9 @@
 
 #include <bits/stdc++.h>
 #include "personagem.h"
+#include "../Inventario/inventario.h"
+#include "../Inventario/armamento.h"
+#include "../Inventario/consumiveis.h"
 using namespace std;
 
 class Jogador : public Personagem {
@@ -12,6 +15,9 @@ class Jogador : public Personagem {
         int xp;
         int dinheiro;
         int fase;
+
+        Inventario<Armamento> invArma;
+        Inventario<Consumiveis> invConsumivel;
     
         
     public:
