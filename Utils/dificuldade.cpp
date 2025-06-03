@@ -22,3 +22,4 @@ void Dificuldade::setDificuldade(int dif) { dificuldade = dif; }
 
 int Dificuldade::getMInimigos() { return multInimigos; }
 int Dificuldade::getMEAleatorio() { return multEventoAleatorio; }
+int Dificuldade::getDificuldade() { return dificuldade; }

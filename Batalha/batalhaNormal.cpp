@@ -3,9 +3,10 @@
 
 BatalhaNormal::BatalhaNormal(Jogador* p, Inimigo e) : Batalha(p), enemy{e} { }
 
-string frases[3] = {" atacou fortemente ", " arrebentou ", " acabou com " };
+
 
 void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor) {
+    string frases[3] = {" atacou fortemente ", " arrebentou ", " acabou com " };
     int ataque = (atacante.getForca() * 10 - defensor.getDefesa()) * -1;
     defensor.alterarVida(ataque);
     int f = rand() % 3;
@@ -27,7 +28,7 @@ int BatalhaNormal::escolhaBatalha(){
                     break;
                 case 3:
                     int escolhaItem;
-                    //abrir inventario
+                    player->mostrarInventariosCompletos();
                     cout << "Escolha qual item deseja usar: " << endl;
                     cin >> escolhaItem;
                         switch (escolhaItem){
@@ -80,8 +81,21 @@ void BatalhaNormal::batalhar() {
         cout << "     Vida: " << enemy.getVida() << endl;
         cout << "     ------------------------      " << endl << endl;
 
-        if(turno % 2 && escolha == 1) atacar(*player, enemy);
-        else atacar(enemy, *player);
+        if(turno % 2){
+            switch(escolha){
+                case 1:
+                    atacar(*player, enemy);
+                    break;
+                case 2:
+                    cout<< "Jogador usou habilidade!" << endl;
+                    break;
+                case 3: 
+                    cout<< "Jogador usou um item!" << endl;
+                    break;
+                default:
+                    break;
+            }
+        }else atacar(enemy, *player);
          
 
         cout << endl << "     ------------------------      " << endl;
@@ -96,8 +110,6 @@ void BatalhaNormal::batalhar() {
     
     if(player->estaVivo()) {
         cout << player->getNome() << " venceu a batalha! " << endl;
-        player->setVida(vidaP);
-        enemy.setVida(vidaE);
         player->alterarDinheiro(enemy.get_recompensaDinheiro());
         player->alterarXP(enemy.get_recompensaXP());
         player->setFase(player->getFase() + 1);
@@ -106,10 +118,6 @@ void BatalhaNormal::batalhar() {
     }
     else {
         cout << enemy.getNome() <<" venceu a batalha! " << endl;
-        player->setVida(vidaP);
-        enemy.setVida(vidaE);
-        player->alterarDinheiro(enemy.get_recompensaDinheiro());
-        player->alterarXP(enemy.get_recompensaXP());
         cin.ignore();
         cout << "Pressione enter para continuar!" << endl;
     }

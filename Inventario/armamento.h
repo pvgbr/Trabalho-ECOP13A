@@ -2,8 +2,10 @@
 #define ARMAMENTO_H
 
 #include <bits/stdc++.h>
-#include "../Personagem/jogador.h"
+//#include "../Personagem/jogador.h"
 using namespace std;
+
+class Jogador;
 
 class Armamento {  
     
@@ -14,10 +16,18 @@ class Armamento {
     
     public:
         
-        Armamento(int, string)
+        Armamento(int, string);
             
         void equiparArma(Jogador*);
         void equiparArmadura(Jogador*);
+
+        // Operadores adicionados
+        friend ostream& operator<<(ostream& os, const Armamento& a);
+        bool operator==(const Armamento& other) const;
+
+        // Getters adicionados
+        int getId() const;
+        string getNome() const;
         
 };
 

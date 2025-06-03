@@ -25,6 +25,7 @@ class MenuIni {
         void inicio();
         void preferencias();
         void reset();
+        void menuPreparacaoFase();
 };
 
 #endif

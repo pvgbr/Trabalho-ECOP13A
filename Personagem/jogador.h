@@ -6,6 +6,7 @@
 #include "../Inventario/inventario.h"
 #include "../Inventario/armamento.h"
 #include "../Inventario/consumiveis.h"
+
 using namespace std;
 
 class Jogador : public Personagem {
@@ -19,7 +20,6 @@ class Jogador : public Personagem {
         Inventario<Armamento> invArma;
         Inventario<Consumiveis> invConsumivel;
     
-        
     public:
 
         Jogador() { }
@@ -32,6 +32,7 @@ class Jogador : public Personagem {
         void alterarXP(int);
         int getNivel();
         int getFase();
+        int getDinheiro() const;
   
         void setDinheiro(int);
         void setXP(int);
@@ -42,8 +43,13 @@ class Jogador : public Personagem {
         void salvar(string caminho);
         void carregar(string caminho);
 
+        void mostrarConsumiveisBatalha() const;
+        bool usarConsumivelBatalha(int indice);
 
-        
+        void adicionarArmamentoAoInventario(const Armamento& arma);
+        void adicionarConsumivelAoInventario(const Consumiveis& consumivel);
+
+        void mostrarInventariosCompletos() const;
 
 };
 

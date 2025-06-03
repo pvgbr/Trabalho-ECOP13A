@@ -1,22 +1,44 @@
 #include "consumiveis.h"
+#include "../Personagem/jogador.h"
 
-Consumiveis::Consumiveis(int i, string n) : id{i}, nome{n} { }
+Consumiveis::Consumiveis(int idx, string n) {
+    id = idx;
+    nome = n;
+}
+
+// Implementação dos operadores
+ostream& operator<<(ostream& os, const Consumiveis& c) {
+    os << "Consumivel: " << c.nome << " (ID: " << c.id << ")";
+    return os;
+}
+
+bool Consumiveis::operator==(const Consumiveis& other) const {
+    return this->id == other.id && this->nome == other.nome;
+}
+
+// Implementação dos getters
+int Consumiveis::getId() const {
+    return id;
+}
+
+string Consumiveis::getNome() const {
+    return nome;
+}
 
 void Consumiveis::usarConsumivel(Jogador* player) {
     cout << "Usando o item " << nome;
     switch(id){
-        case 1: // Poção de vida
-            cout << "Poção de vida" << endl;
+        case 1:
+            cout << "Pocao de vida" << endl;
             player->alterarVida(50);
             break;
-        case 2: // Poção de força
-            cout << "Poção de força" << endl;
+        case 2:
+            cout << "Pocao de forca" << endl;
             player->alterarForca(5);
             break;
         default:
             //tratamento de exceção ?
             break; 
- 
     }
 }   
 

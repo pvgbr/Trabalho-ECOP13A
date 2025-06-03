@@ -1,12 +1,17 @@
-
 #include "batalhaMultipla.h"
 #include <unistd.h>
+#include <algorithm>
 
-BatalhaMultipla::BatalhaMultipla(Jogador* p, Inimigo e[]) : Batalha(p), enemy{e} { }
+BatalhaMultipla::BatalhaMultipla(Jogador* p, Inimigo e[]) : Batalha(p) {
+    for (int i = 0; i < 5; ++i) {
+        this->enemy[i] = e[i];
+    }
+}
 
-string frases[3] = {" atacou fortemente ", " arrebentou ", " acabou com " };
+
 
 void BatalhaMultipla::atacar(Personagem &atacante, Personagem &defensor) {
+    string frases[3] = {" atacou fortemente ", " arrebentou ", " acabou com " };
     int ataque = (atacante.getForca() * 10 - defensor.getDefesa()) * -1;
     defensor.alterarVida(ataque);
     int f = rand() % 3;
@@ -15,23 +20,20 @@ void BatalhaMultipla::atacar(Personagem &atacante, Personagem &defensor) {
     
 }
 
-int BatalhaMultipla::escolhaBatalha(int escolhaIni) {
+int BatalhaMultipla::escolhaBatalha(int& escolhaInimigoParam) {
     int escolhaAcao;
     cin >> escolhaAcao;
             switch(escolhaAcao) {
                 case 1:
                     system("cls");
-                    escolhaIni = escolhaInimigo();
+                    escolhaInimigoParam = escolhaInimigo();
                     return 1;
-                    break;
                 case 2:
                     //player->usarHabilidade(enemy);
                     return 2;
-                    break;
                 case 3:
                     //player->usarItem();
                     return 3;
-                    break;
                 default:
                     cout << "Escolha inválida!" << endl;
                     return -1;
@@ -75,8 +77,8 @@ void BatalhaMultipla::batalhar() {
     while(player->estaVivo() && (enemy[1].getVida() > 0 || enemy[2].getVida() > 0 || enemy[3].getVida() > 0)) {
         if(turno % 2) {
             cout << "     ------------------------      " << endl;
-            cout << "     " << enemy.getNome() << endl;
-            cout << "     Vida: " << enemy.getVida() << endl;
+            cout << "     " << enemy[1].getNome() << endl;
+            cout << "     Vida: " << enemy[1].getVida() << endl;
             cout << "     ------------------------      " << endl << endl;
 
             cout << endl << "     ------------------------      " << endl;
@@ -88,17 +90,17 @@ void BatalhaMultipla::batalhar() {
             cout << "   1 - Atacar" << endl;
             cout << "   2 - Usar habilidade" << endl;
             cout << "   3 - Usar item" << endl;
-            escolha = escolhaBatalha(&escolhaIni);
+            escolha = escolhaBatalha(escolhaIni);
             system("cls");
         }
 
         cout << "     ------------------------      " << endl;
-        cout << "     " << enemy.getNome() << endl;
-        cout << "     Vida: " << enemy.getVida() << endl;
+        cout << "     " << enemy[1].getNome() << endl;
+        cout << "     Vida: " << enemy[1].getVida() << endl;
         cout << "     ------------------------      " << endl << endl;
 
-        if(turno % 2 && escolha == 1) atacar(*player, enemy);
-        else atacar(enemy, *player);
+        if(turno % 2 && escolha == 1) atacar(*player, enemy[1]);
+        else atacar(enemy[1], *player);
          
 
         cout << endl << "     ------------------------      " << endl;
@@ -114,22 +116,20 @@ void BatalhaMultipla::batalhar() {
     if(player->estaVivo()) {
         cout << player->getNome() << " venceu a batalha! " << endl;
         player->setVida(vidaP);
-        enemy.setVida(vidaE);
-        player->alterarDinheiro(enemy.get_recompensaDinheiro());
-        player->alterarXP(enemy.get_recompensaXP());
+        enemy[1].setVida(vidaE1);
+        player->alterarDinheiro(enemy[1].get_recompensaDinheiro());
+        player->alterarXP(enemy[1].get_recompensaXP());
         player->setFase(player->getFase() + 1);
         cin.ignore();
         cout << "Pressione enter para continuar!" << endl;
     }
     else {
-        cout << enemy.getNome() <<" venceu a batalha! " << endl;
+        cout << enemy[1].getNome() <<" venceu a batalha! " << endl;
         player->setVida(vidaP);
-        enemy.setVida(vidaE);
-        player->alterarDinheiro(enemy.get_recompensaDinheiro());
-        player->alterarXP(enemy.get_recompensaXP());
+        enemy[1].setVida(vidaE1);
+        player->alterarDinheiro(enemy[1].get_recompensaDinheiro());
+        player->alterarXP(enemy[1].get_recompensaXP());
         cin.ignore();
         cout << "Pressione enter para continuar!" << endl;
     }
 }
-
-Jogador* BatalhaMultipla::getPlayer() { return player; }

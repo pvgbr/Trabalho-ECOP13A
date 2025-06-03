@@ -15,9 +15,10 @@ class BatalhaMultipla : public Batalha {
     public:
 
         BatalhaMultipla(Jogador*, Inimigo[]);
-        ~BatalhaNormal() { }
+        ~BatalhaMultipla() { }
 
-        int escolhaBatalha();
+        int escolhaInimigo();
+        int escolhaBatalha(int& escolhaInimigo);
         void batalhar();
         void atacar(Personagem&, Personagem&);
 };

@@ -1,5 +1,6 @@
 #include "fase.h"
 #include "../Batalha/batalhaNormal.h"
+#include "../Batalha/batalhaMultipla.h"
 
 
 Fase::Fase(Jogador* p) : player{p} {
@@ -46,17 +47,20 @@ void Fase::setJogador(Jogador* p) { player = p; }
 
 void Fase::iniciarBatalha() {
     switch(fase) {
-        case 1:
+        case 1: {
             BatalhaNormal bat1(player, enemy[1]);
-            bat.batalhar();
+            bat1.batalhar();
             break;
-        case 2:
-            BatalhaMultipla bat2(player, enemy[]);
+        }
+        case 2: {
+            BatalhaMultipla bat2(player, enemy);
             break;
-        default:
+        }
+        default: {
             BatalhaNormal bat1(player, enemy[1]);
-            bat.batalhar();
+            bat1.batalhar();
             break;
+        }
     }
 }
 

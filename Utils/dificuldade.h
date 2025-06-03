@@ -23,6 +23,7 @@ class Dificuldade {
         
         int getMInimigos();
         int getMEAleatorio();
+        int getDificuldade();
 
 };
 
