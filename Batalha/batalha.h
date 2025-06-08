@@ -19,7 +19,7 @@ class Batalha {
         Batalha(Jogador*);
         ~Batalha() { }
 
-        virtual void batalhar() = 0;
+        virtual bool batalhar() = 0;
 
 };
 

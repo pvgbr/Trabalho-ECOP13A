@@ -5,6 +5,9 @@
 #include "../Fase/fase.h"
 #include "../Utils/dificuldade.h"
 #include "../Personagem/jogador.h"
+#include "../Missao/gerenciadorMissoes.h"
+#include "../Missao/missao.h"
+#include "../Inventario/consumiveis.h"
 using namespace std;
 
 class MenuIni {
@@ -26,6 +29,7 @@ class MenuIni {
         void preferencias();
         void reset();
         void menuPreparacaoFase();
+        void menuLoja(Jogador* player);
 };
 
 #endif

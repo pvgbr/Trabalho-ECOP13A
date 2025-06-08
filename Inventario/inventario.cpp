@@ -1,20 +1,8 @@
 #include "inventario.h"
-#include "armamento.h"    // Incluir para a instanciação explícita de Armamento
-#include "consumiveis.h"  // Incluir para a instanciação explícita de Consumiveis
-#include <iostream>        // Para std::cout, std::endl
-#include <algorithm>       // Para std::count, std::find
-// #include <vector> // Já incluído via inventario.h, que agora inclui <vector> explicitamente
-
-using namespace std;
-
-// NOTA: Todas as implementações dos métodos template da classe Inventario
-// foram movidas para o arquivo de cabeçalho (Inventario/inventario.h).
-// Isso é necessário para que o compilador possa instanciar corretamente
-// os templates para tipos específicos (ex: Inventario<Armamento>)
-// e para resolver erros de linkagem "undefined reference".
-// Manter implementações de template em arquivos .cpp separados geralmente
-// leva a esses problemas, a menos que se use exportação explícita de template,
-// o que é menos comum e mais complexo.
+#include "armamento.h"
+#include "consumiveis.h"
+#include <iostream>
+#include <algorithm>
 
 template <typename T>
 void Inventario<T>::adicionarItem(const T& item) {
@@ -22,36 +10,32 @@ void Inventario<T>::adicionarItem(const T& item) {
 }
 
 template <typename T>
-void Inventario<T>::mostrarItens() const {
-    cout << "Itens no inventario: \n";
-    for (const auto& item : itens) {
-        // ATENÇÃO: Requer que o tipo T tenha o operador 'operator<<'
-        // sobrecarregado para funcionar corretamente com std::ostream (std::cout).
-        cout << "- " << item << endl;
-    }
-}
-
-template <typename T>
-int Inventario<T>::verificaItem(const T& item) { 
-    // ATENÇÃO: Requer que o tipo T tenha 'operator==' definido.
-    return count(itens.begin(), itens.end(), item);
-}
-
-template <typename T>
 bool Inventario<T>::removerItem(const T& item) {
-    // ATENÇÃO: Requer que o tipo T tenha 'operator==' definido.
-    auto it = find(itens.begin(), itens.end(), item);
+    auto it = std::find(itens.begin(), itens.end(), item);
     if (it != itens.end()) {
         itens.erase(it);
         return true;
     }
-    return false;  
+    return false;
 }
 
-// A declaração em inventario.h é: const std::vector<T>& getItens() const;
-// A definição deve corresponder exatamente.
 template <typename T>
-const vector<T>& Inventario<T>::getItens() const {
+void Inventario<T>::removerItemUnico(const T& item) {
+    for (auto it = itens.begin(); it != itens.end(); ++it) {
+        if (&(*it) == &item) {
+            itens.erase(it);
+            return;
+        }
+    }
+}
+
+template <typename T>
+const std::vector<T>& Inventario<T>::getItens() const {
+    return itens;
+}
+
+template <typename T>
+std::vector<T>& Inventario<T>::getItens() {
     return itens;
 }
 
@@ -60,12 +44,19 @@ void Inventario<T>::clear() {
     itens.clear();
 }
 
-// Para resolver problemas de linkagem "undefined reference" com templates definidos em .cpp,
-// adicione instanciações explícitas aqui para cada tipo que usará Inventario.
-// Exemplo:
-// template class Inventario<Armamento>;
-// template class Inventario<Consumiveis>;
+template <typename T>
+void Inventario<T>::mostrarItens() const {
+    std::cout << "Itens no inventario: \n";
+    for (const auto& item : itens) {
+        std::cout << "- " << item << std::endl;
+    }
+}
 
-// Instanciações explícitas para os tipos usados no projeto
+template <typename T>
+int Inventario<T>::verificaItem(const T& item) {
+    return std::count(itens.begin(), itens.end(), item);
+}
+
+// Instanciação explícita para os tipos usados no projeto
 template class Inventario<Armamento>;
-template class Inventario<Consumiveis>;
+template class Inventario<Consumiveis>; 

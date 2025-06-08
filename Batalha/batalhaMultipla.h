@@ -19,7 +19,7 @@ class BatalhaMultipla : public Batalha {
 
         int escolhaInimigo();
         int escolhaBatalha(int& escolhaInimigo);
-        void batalhar();
+        bool batalhar();
         void atacar(Personagem&, Personagem&);
 };
 

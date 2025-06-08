@@ -3,20 +3,30 @@
 
 using namespace std;
 
-Jogador::Jogador(string n, int f, int d) : Personagem(n, f, d) {
-    fase = 1;
-    xp = 0;
-    dinheiro = 0;
-} 
+Jogador::Jogador(string n, int f, int d) : 
+    Personagem(n, f, d),
+    fase(1),
+    xp(0),
+    dinheiro(0),
+    armaPadrao(0, "Mãos Vazias", TipoArmamento::ARMA, 0, 0, 100),
+    escudoPadrao(0, "Sem Escudo", TipoArmamento::ESCUDO, 0, 0, 100) {
+    armaEquipada = &armaPadrao;
+    escudoEquipado = &escudoPadrao;
+}
 
 void Jogador::imprimir_dados(){
     cout<<"---------------------------------"<<endl;
     cout<<"Nome: "<< nome <<"   Nivel: "<<nivel<<" ("<<xp<<"/"<< nivel*100 <<") "<<endl;
     cout<<"Vida: "<< vida <<endl;
-    cout<<"Forca: "<< forca <<endl;
-    cout<<"Defesa: "<< defesa <<endl;
+    cout<<"Forca: "<< forca << " (+" << getBonusAtaqueEquipado() << ")" << endl;
+    cout<<"Defesa: "<< defesa << " (+" << getBonusDefesaEquipado() << ")" << endl;
     cout<<"Dinheiro: "<< dinheiro <<endl;
     cout<<"Dificuldade: "<< dificuldade <<endl;
+    cout << "Equipado: ";
+    if (armaEquipada) cout << armaEquipada->getNome(); else cout << "N/A";
+    cout << " | ";
+    if (escudoEquipado) cout << escudoEquipado->getNome(); else cout << "N/A";
+    cout << endl;
     cout<<"---------------------------------"<<endl;
 }
 
@@ -62,8 +72,14 @@ void Jogador::setXP(int exp){
 }
 
 void Jogador::salvar(string caminho) {
-    ofstream arq(caminho);
-    if (arq.is_open()) {
+    try {
+        ofstream arq(caminho);
+        if (!arq.is_open()) {
+            cout << "Erro ao abrir arquivo para salvar!" << endl;
+            return;
+        }
+
+        // Dados básicos do jogador
         arq << nome << '\n';
         arq << forca << '\n';
         arq << defesa << '\n';
@@ -74,26 +90,54 @@ void Jogador::salvar(string caminho) {
         arq << fase << '\n';
         arq << dificuldade << '\n';
 
-        arq << invArma.getItens().size() << '\n';
-        for (const auto& arma : invArma.getItens()) {
+        // Equipamentos atuais
+        arq << (armaEquipada ? armaEquipada->getId() : 0) << '\n';
+        arq << (escudoEquipado ? escudoEquipado->getId() : 0) << '\n';
+
+        // Inventário de armas
+        const auto& armas = invArma.getItens();
+        arq << armas.size() << '\n';
+        for (const auto& arma : armas) {
             arq << arma.getId() << '\n';
             arq << arma.getNome() << '\n';
+            arq << static_cast<int>(arma.getTipo()) << '\n';
+            arq << arma.getBonusAtaque() << '\n';
+            arq << arma.getBonusDefesa() << '\n';
+            arq << arma.getDurabilidade() << '\n';
         }
 
-        arq << invConsumivel.getItens().size() << '\n';
-        for (const auto& consumivel : invConsumivel.getItens()) {
+        // Inventário de consumíveis
+        const auto& consumiveis = invConsumivel.getItens();
+        arq << consumiveis.size() << '\n';
+        for (const auto& consumivel : consumiveis) {
             arq << consumivel.getId() << '\n';
             arq << consumivel.getNome() << '\n';
         }
 
+        if (arq.fail()) {
+            cout << "Erro ao salvar dados do jogador!" << endl;
+            arq.close();
+            return;
+        }
+
         arq.close();
+    } catch (const exception& e) {
+        cout << "Erro ao salvar jogo: " << e.what() << endl;
     }
 }
-
 
 void Jogador::carregar(string caminho) {
     ifstream arq(caminho);
     if (arq.is_open()) {
+        // Limpar inventários antes de carregar
+        invArma.clear();
+        invConsumivel.clear();
+        
+        // Resetar para equipamentos padrão
+        armaEquipada = &armaPadrao;
+        escudoEquipado = &escudoPadrao;
+
+        // Dados básicos do jogador
         getline(arq, nome);
         arq >> forca;
         arq >> defesa;
@@ -105,31 +149,54 @@ void Jogador::carregar(string caminho) {
         arq >> dificuldade;
         arq.ignore(); 
 
-        invArma.clear();
-        invConsumivel.clear();
+        // IDs dos equipamentos atuais
+        int idArmaEquipada, idEscudoEquipado;
+        arq >> idArmaEquipada >> idEscudoEquipado;
+        arq.ignore();
 
+        // Carregar inventário de armas
         int numArmas;
         arq >> numArmas;
-        arq.ignore(); 
+        arq.ignore();
+        
         for (int i = 0; i < numArmas; ++i) {
-            int id;
+            int id, tipoInt, bonusAtk, bonusDef, durabilidade;
             string nomeItem;
+            
             arq >> id;
-            arq.ignore(); 
+            arq.ignore();
             getline(arq, nomeItem);
-            invArma.adicionarItem(Armamento(id, nomeItem));
+            arq >> tipoInt >> bonusAtk >> bonusDef >> durabilidade;
+            arq.ignore();
+            
+            Armamento arma(id, nomeItem, static_cast<TipoArmamento>(tipoInt), bonusAtk, bonusDef, durabilidade);
+            invArma.adicionarItem(arma);
+            
+            // Equipar itens se necessário
+            if (id == idArmaEquipada) {
+                armaEquipada = &invArma.getItens().back();
+            }
+            if (id == idEscudoEquipado) {
+                escudoEquipado = &invArma.getItens().back();
+            }
         }
 
+        // Carregar inventário de consumíveis
         int numConsumiveis;
         arq >> numConsumiveis;
-        arq.ignore(); 
+        arq.ignore();
+        
         for (int i = 0; i < numConsumiveis; ++i) {
             int id;
             string nomeItem;
+            
             arq >> id;
-            arq.ignore(); 
+            arq.ignore();
             getline(arq, nomeItem);
-            invConsumivel.adicionarItem(Consumiveis(id, nomeItem));
+            
+            if (!nomeItem.empty()) {
+                invConsumivel.adicionarItem(Consumiveis(id, nomeItem));
+            }
         }
 
         arq.close();
@@ -174,11 +241,130 @@ void Jogador::adicionarConsumivelAoInventario(const Consumiveis& consumivel) {
 }
 
 void Jogador::mostrarInventariosCompletos() const {
-    cout << "\n--- Inventario de Armamentos ---" << endl;
-    invArma.mostrarItens(); 
-    cout << "-------------------------------" << endl;
+    cout << "\n=== Inventário de Armas ===\n";
+    const auto& armas = invArma.getItens();
+    if (armas.empty()) {
+        cout << "Nenhuma arma no inventário.\n";
+    } else {
+        for (size_t i = 0; i < armas.size(); ++i) {
+            cout << i + 1 << ". " << armas[i] << endl;
+        }
+    }
 
-    cout << "\n--- Inventario de Consumiveis ---" << endl;
-    invConsumivel.mostrarItens(); 
-    cout << "--------------------------------" << endl;
+    cout << "\n=== Inventário de Consumíveis ===\n";
+    const auto& consumiveis = invConsumivel.getItens();
+    if (consumiveis.empty()) {
+        cout << "Nenhum consumível no inventário.\n";
+    } else {
+        for (size_t i = 0; i < consumiveis.size(); ++i) {
+            cout << i + 1 << ". " << consumiveis[i] << endl;
+        }
+    }
+
+    cout << "\n=== Equipamentos Atuais ===\n";
+    cout << "Arma: " << (armaEquipada ? armaEquipada->getNome() : "Nenhuma") << endl;
+    cout << "Escudo: " << (escudoEquipado ? escudoEquipado->getNome() : "Nenhum") << endl;
+}
+
+int Jogador::getBonusAtaqueEquipado() const {
+    return armaEquipada ? armaEquipada->getBonusAtaque() : 0;
+}
+
+int Jogador::getBonusDefesaEquipado() const {
+    return escudoEquipado ? escudoEquipado->getBonusDefesa() : 0;
+}
+
+void Jogador::equiparItem(int indiceNoInventario) {
+    int indiceReal = indiceNoInventario - 1;
+    auto& inventarioArmas = invArma.getItens();
+
+    if (indiceReal < 0 || (size_t)indiceReal >= inventarioArmas.size()) {
+        cout << "Indice de item invalido." << endl;
+        return;
+    }
+
+    Armamento* itemParaEquipar = &inventarioArmas[indiceReal];
+
+    if (itemParaEquipar->getTipo() == TipoArmamento::ARMA) {
+        desequiparItem(TipoArmamento::ARMA);
+        armaEquipada = itemParaEquipar;
+        cout << "Voce equipou: " << armaEquipada->getNome() << endl;
+    } else if (itemParaEquipar->getTipo() == TipoArmamento::ESCUDO) {
+        desequiparItem(TipoArmamento::ESCUDO);
+        escudoEquipado = itemParaEquipar;
+        cout << "Voce equipou: " << escudoEquipado->getNome() << endl;
+    } else {
+        cout << "Este item nao pode ser equipado." << endl;
+    }
+}
+
+void Jogador::desequiparItem(TipoArmamento tipo) {
+    if (tipo == TipoArmamento::ARMA && armaEquipada) {
+        cout << "Voce desequipou: " << armaEquipada->getNome() << endl;
+        armaEquipada = nullptr;
+    } else if (tipo == TipoArmamento::ESCUDO && escudoEquipado) {
+        cout << "Voce desequipou: " << escudoEquipado->getNome() << endl;
+        escudoEquipado = nullptr;
+    }
+}
+
+void Jogador::gerenciarPosBatalha() {
+    if (armaEquipada && armaEquipada->getDurabilidade() != -1) {
+        armaEquipada->reduzirDurabilidade(1);
+        cout << "A durabilidade da sua arma " << armaEquipada->getNome() << " foi reduzida." << endl;
+        if (armaEquipada->getDurabilidade() <= 0) {
+            cout << "Sua arma " << armaEquipada->getNome() << " quebrou!" << endl;
+            invArma.removerItemUnico(*armaEquipada);
+            armaEquipada = nullptr;
+        }
+    }
+}
+
+const Inventario<Consumiveis>& Jogador::getInvConsumivel() const {
+    return invConsumivel;
+}
+
+void Jogador::gerenciarInventario() {
+    int escolha = -1;
+    while (escolha != 0) {
+        system("cls");
+        mostrarInventariosCompletos();
+        
+        cout << "\nOpções:\n";
+        cout << "1-" << invArma.getItens().size() << " - Equipar arma/escudo\n";
+        cout << "98 - Desequipar arma\n";
+        cout << "99 - Desequipar escudo\n";
+        cout << "0 - Voltar\n";
+        cout << "Escolha uma opção: ";
+        
+        cin >> escolha;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada inválida!" << endl;
+            cout << "\nPressione Enter para continuar...";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.get();
+            continue;
+        }
+
+        if (escolha > 0 && (size_t)escolha <= invArma.getItens().size()) {
+            equiparItem(escolha);
+            cout << "\nItem equipado com sucesso!" << endl;
+        } else if (escolha == 98) {
+            desequiparItem(TipoArmamento::ARMA);
+            cout << "\nArma desequipada!" << endl;
+        } else if (escolha == 99) {
+            desequiparItem(TipoArmamento::ESCUDO);
+            cout << "\nEscudo desequipado!" << endl;
+        } else if (escolha != 0) {
+            cout << "\nOpção inválida!" << endl;
+        }
+        
+        if (escolha != 0) {
+            cout << "\nPressione Enter para continuar...";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.get();
+        }
+    }
 }

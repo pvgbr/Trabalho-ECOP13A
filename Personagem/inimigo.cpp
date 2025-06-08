@@ -7,12 +7,13 @@ Inimigo::Inimigo(string n, int f, int d, Dificuldade dif) : Personagem(n, f, d) 
     forca *= dif.getMInimigos();
     defesa *= dif.getMInimigos();
     set_recompensas();
+    vivo = true;
 } 
 
 
 void Inimigo::set_recompensas(){
-    recompensaDinheiro = nivel*dif.getMInimigos();
-    recompensaXP = nivel*dif.getMInimigos();
+    recompensaDinheiro = 10;
+    recompensaXP = 2;
 }
 
 void Inimigo::imprimir_dados() {

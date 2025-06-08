@@ -16,13 +16,13 @@ void interagirComLoja(Jogador& jogador) {
         cout << "> ";
         cin >> escolha;
 
-        if (cin.fail() || cin.peek() != '\n') { // Verifica se a entrada é um inteiro e se não há lixo depois
-            cin.clear(); // Limpa flags de erro
+        if (cin.fail() || cin.peek() != '\n') { 
+            cin.clear(); 
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Descarta entrada inválida
             cout << "Entrada invalida. Por favor, digite um numero inteiro valido." << endl;
-            escolha = -1; // Reseta a escolha para pedir nova entrada
+            escolha = -1; 
         } else {
-            // Consome o newline restante se a entrada foi válida
+
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
             if (escolha == 0) {

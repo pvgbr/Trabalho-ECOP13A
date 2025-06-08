@@ -11,18 +11,18 @@ int main() {
     SetConsoleOutputCP(CP_UTF8);
     srand(time(NULL));
     
-    Jogador player;
-    
-    MenuIni m(&player);
+    Jogador* player = new Jogador();
 
     ifstream teste("save.txt");
     if (teste.good()) {
-        player.carregar("save.txt");
+        player->carregar("save.txt");
     }
+
+    MenuIni m(player);
+
 
     m.menuPrinc();
 
-
-
+    delete player; // Liberando a memória alocada
     return 0;
 }

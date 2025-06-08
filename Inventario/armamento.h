@@ -1,34 +1,46 @@
 #ifndef ARMAMENTO_H
 #define ARMAMENTO_H
 
-#include <bits/stdc++.h>
-//#include "../Personagem/jogador.h"
-using namespace std;
+#include <string>
+#include <iostream>
 
-class Jogador;
+class Jogador; // Forward declaration
+
+enum class TipoArmamento {
+    INDETERMINADO,
+    ARMA,
+    ESCUDO
+};
 
 class Armamento {  
     
     protected:
-    
         int id;
-        string nome;
+        std::string nome;
+        TipoArmamento tipo;
+        int bonusAtaque;
+        int bonusDefesa;
+        int durabilidade;
+        int durabilidadeMaxima;
     
     public:
-        
-        Armamento(int, string);
+        Armamento(int id, std::string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade);
             
-        void equiparArma(Jogador*);
-        void equiparArmadura(Jogador*);
-
-        // Operadores adicionados
-        friend ostream& operator<<(ostream& os, const Armamento& a);
-        bool operator==(const Armamento& other) const;
-
-        // Getters adicionados
+        // Métodos de acesso (Getters)
         int getId() const;
-        string getNome() const;
-        
+        std::string getNome() const;
+        TipoArmamento getTipo() const;
+        int getBonusAtaque() const;
+        int getBonusDefesa() const;
+        int getDurabilidade() const;
+        int getDurabilidadeMaxima() const;
+
+        // Modificadores
+        void reduzirDurabilidade(int quantidade);
+
+        // Operadores
+        friend std::ostream& operator<<(std::ostream& os, const Armamento& a);
+        bool operator==(const Armamento& other) const;
 };
 
 #endif

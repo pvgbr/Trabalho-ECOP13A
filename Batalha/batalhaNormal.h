@@ -1,24 +1,19 @@
-#ifndef BATALHANORMAL_H
-#define BATALHANORMAL_H
+#ifndef BATALHA_NORMAL_H
+#define BATALHA_NORMAL_H
 
 #include "batalha.h"
-#include <bits/stdc++.h>
+#include "../Personagem/inimigo.h"
 
 class BatalhaNormal : public Batalha {
 
-    protected:
-
-        Inimigo enemy;
+    private:
+        Inimigo& enemy;
 
     public:
-
-        BatalhaNormal(Jogador*, Inimigo);
-        ~BatalhaNormal() { }
-        
+        BatalhaNormal(Jogador* p, Inimigo& e);
+        bool batalhar() override;
+        void atacar(Personagem &atacante, Personagem &defensor, bool jogador);
         int escolhaBatalha();
-        void batalhar();
-        void atacar(Personagem&, Personagem&);
-
         Jogador* getPlayer();
 };
 

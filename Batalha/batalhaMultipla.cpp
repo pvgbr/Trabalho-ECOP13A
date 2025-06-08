@@ -64,7 +64,7 @@ int BatalhaMultipla::escolhaInimigo(){
     }
 }
 
-void BatalhaMultipla::batalhar() {
+bool BatalhaMultipla::batalhar() {
     int turno = 1;
 
     int vidaP = player->getVida();
@@ -113,23 +113,5 @@ void BatalhaMultipla::batalhar() {
         system("cls");
     }
     
-    if(player->estaVivo()) {
-        cout << player->getNome() << " venceu a batalha! " << endl;
-        player->setVida(vidaP);
-        enemy[1].setVida(vidaE1);
-        player->alterarDinheiro(enemy[1].get_recompensaDinheiro());
-        player->alterarXP(enemy[1].get_recompensaXP());
-        player->setFase(player->getFase() + 1);
-        cin.ignore();
-        cout << "Pressione enter para continuar!" << endl;
-    }
-    else {
-        cout << enemy[1].getNome() <<" venceu a batalha! " << endl;
-        player->setVida(vidaP);
-        enemy[1].setVida(vidaE1);
-        player->alterarDinheiro(enemy[1].get_recompensaDinheiro());
-        player->alterarXP(enemy[1].get_recompensaXP());
-        cin.ignore();
-        cout << "Pressione enter para continuar!" << endl;
-    }
+    return player->estaVivo();
 }

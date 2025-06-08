@@ -10,15 +10,23 @@ Fase::Fase(Jogador* p) : player{p} {
 
     Dificuldade d(dif);
 
-    enemy[1].setNome("Imimigo 1");
+    enemy[0].setNome("Inimigo 1");
+    enemy[0].setForca(1 * player->getNivel() + fase);
+    enemy[0].setDefesa(1 * fase + player->getNivel());
+    enemy[0].setNivel(1);
+    enemy[0].setDific(d);
+    enemy[0].setVida(100);
+    enemy[0].set_recompensas();
+    
+    enemy[1].setNome("Inimigo 2");
     enemy[1].setForca(1 * player->getNivel() + fase);
     enemy[1].setDefesa(1 * fase + player->getNivel());
     enemy[1].setNivel(1);
     enemy[1].setDific(d);
     enemy[1].setVida(100);
     enemy[1].set_recompensas();
-    
-    enemy[2].setNome("Imimigo 2");
+
+    enemy[2].setNome("Inimigo 3");
     enemy[2].setForca(1 * player->getNivel() + fase);
     enemy[2].setDefesa(1 * fase + player->getNivel());
     enemy[2].setNivel(1);
@@ -26,21 +34,13 @@ Fase::Fase(Jogador* p) : player{p} {
     enemy[2].setVida(100);
     enemy[2].set_recompensas();
 
-    enemy[3].setNome("Imimigo 3");
+    enemy[3].setNome("Inimigo 4");
     enemy[3].setForca(1 * player->getNivel() + fase);
     enemy[3].setDefesa(1 * fase + player->getNivel());
     enemy[3].setNivel(1);
     enemy[3].setDific(d);
     enemy[3].setVida(100);
     enemy[3].set_recompensas();
-
-    enemy[4].setNome("Imimigo 4");
-    enemy[4].setForca(1 * player->getNivel() + fase);
-    enemy[4].setDefesa(1 * fase + player->getNivel());
-    enemy[4].setNivel(1);
-    enemy[4].setDific(d);
-    enemy[4].setVida(100);
-    enemy[4].set_recompensas();
 }
 
 void Fase::setJogador(Jogador* p) { player = p; }
@@ -48,7 +48,7 @@ void Fase::setJogador(Jogador* p) { player = p; }
 void Fase::iniciarBatalha() {
     switch(fase) {
         case 1: {
-            BatalhaNormal bat1(player, enemy[1]);
+            BatalhaNormal bat1(player, enemy[0]);
             bat1.batalhar();
             break;
         }
@@ -57,7 +57,7 @@ void Fase::iniciarBatalha() {
             break;
         }
         default: {
-            BatalhaNormal bat1(player, enemy[1]);
+            BatalhaNormal bat1(player, enemy[0]);
             bat1.batalhar();
             break;
         }

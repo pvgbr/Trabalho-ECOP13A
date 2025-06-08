@@ -6,6 +6,9 @@
 #include "../Batalha/batalhaNormal.h"
 #include "../Personagem/inimigo.h"
 #include "../Utils/dificuldade.h"
+#include "../Missao/gerenciadorMissoes.h"
+#include "../Missao/missao.h"
+#include "../Inventario/consumiveis.h"
 #include <iostream>
 #include <limits>
 #include <cstdlib>
@@ -18,42 +21,74 @@ using namespace std;
 
 MenuIni::MenuIni(Jogador* p) : player{p} {
     ifstream teste("save.txt");
-    if (!teste.good()) inicio();
-    else menuPrinc();
-
-    dif.setDificuldade(player->getDificuldade());
-
+    if (!teste.good()) {
+        inicio();
+    } else {
+        player->carregar("save.txt");
+        dif.setDificuldade(player->getDificuldade());
+        menuPrinc();
+    }
 }  
 
 void MenuIni::inicio() {
-    cout << "Seja bem-vindo ao sdasdasddas" << endl;
-    cout << "Vamos começar pelo nome do seu personagem: ";
-    string n;
-    getline(cin, n);
-    string nome = n;
-    cout << "Perfeito!" << endl << endl;
-    map<int, string> m; m[1] = "Facil"; m[2] = "Medio"; m[3] = "Dificil";
-    cout << "1- Facil\n2- Medio\n3- Dificil\nAgora selecione o nivel de dificuldade: ";
+    system("cls");
+    cout << "=== Bem-vindo ao RPG de Batalha ===\n\n";
+    cout << "Vamos começar criando seu personagem!\n\n";
+    
+    // Nome do personagem
+    cout << "Digite o nome do seu personagem: ";
+    string nome;
+    getline(cin, nome);
+    cout << "Perfeito! Seu personagem se chamará " << nome << "!\n\n";
+    cin.ignore();
+    // Dificuldade
+    map<int, string> m; 
+    m[1] = "Fácil"; 
+    m[2] = "Médio"; 
+    m[3] = "Difícil";
+    
     int d_input;
-    cin >> d_input;
-    cout << "Dificuldade " << m[d_input] << " selecionada!" << endl;
+    do {
+        cout << "Selecione o nível de dificuldade:\n";
+        cout << "1 - Fácil\n";
+        cout << "2 - Médio\n";
+        cout << "3 - Difícil\n";
+        cout << "Sua escolha: ";
+        cin >> d_input;
+        
+        if (d_input < 1 || d_input > 3) {
+            cout << "\nOpção inválida! Por favor, escolha entre 1 e 3.\n\n";
+        }
+    } while (d_input < 1 || d_input > 3);
+    
+    cout << "\nDificuldade " << m[d_input] << " selecionada!\n";
     player->setDificuldade(d_input);
     dif.setDificuldade(d_input);
-    cin.ignore();
-    sleep(3);
-    system("cls");
-
+    
+    // Configuração inicial do personagem
     player->setNome(nome);
     player->setNivel(1);
     player->setXP(0);
-    player->setForca(1);
-    player->setDefesa(1);
+    player->setForca(5);
+    player->setDefesa(3);
     player->setVida(100);
-    player->setDinheiro(0);
+    player->setDinheiro(100);
     player->setFase(1);
-
-    Fase fase(player);
-
+    
+    // Inicializa o gerenciador de missões
+    GerenciadorMissoes gerenciadorMissoes(player);
+    
+    cout << "\nSeu personagem foi criado com sucesso!\n";
+    cout << "Você começa com:\n";
+    cout << "- 100 de vida\n";
+    cout << "- 5 de força\n";
+    cout << "- 3 de defesa\n";
+    cout << "- 100 moedas\n\n";
+    cout << "Pressione Enter para continuar...";
+    cin.get();
+    
+    system("cls");
+    menuPrinc();
 }
 
 void MenuIni::mostra_menu(){
@@ -124,71 +159,96 @@ void MenuIni::reset() {
 }
 
 void MenuIni::menuPrinc() {
-    int op;
-    bool sair = false;
-
-    while (!sair) {
-        limparTela();
-        ifstream teste("save.txt");
-        if (teste.good()) {
-                    player->carregar("save.txt");
-        }
-        cout << "===== Menu Principal =====" << endl;
+    GerenciadorMissoes gerenciadorMissoes(player);
+    int escolha = -1;
+    
+    while (escolha != 0) {
+        system("cls");
         player->imprimir_dados();
-        cout << "------------------------" << endl;
-        cout << "1 - Jogar" << endl;
-        cout << "2 - Salvar Jogo" << endl;
-        cout << "3 - Carregar Jogo (feito automaticamente ao iniciar, mas pode ser opcao)" << endl;
-        cout << "4 - Preferencias (Exemplo)" << endl;
-        cout << "0 - Sair do Jogo" << endl;
-        cout << "------------------------" << endl;
-        cout << "Escolha uma opcao: ";
-        cin >> op;
-
+        cout << "\n=== Menu Principal ===\n";
+        cout << "1 - Iniciar Missão Atual\n";
+        cout << "2 - Ver Missões Disponíveis\n";
+        cout << "3 - Ver Progresso da Missão\n";
+        cout << "4 - Loja\n";
+        cout << "5 - Inventário\n";
+        cout << "6 - Salvar Jogo\n";
+        cout << "7 - Carregar Jogo\n";
+        cout << "0 - Sair\n";
+        cout << "Escolha uma opção: ";
+        
+        cin >> escolha;
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Opcao invalida. Tente novamente." << endl;
-            cin.get();
+            cout << "Entrada inválida!" << endl;
             continue;
         }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        switch (op) {
+        switch (escolha) {
             case 1:
-                menuPreparacaoFase();
+                if (!gerenciadorMissoes.todasMissoesConcluidas()) {
+                    gerenciadorMissoes.iniciarMissaoAtual();
+                    Missao* missaoAtual = gerenciadorMissoes.getMissaoAtual();
+                    if (missaoAtual) {
+                        for (auto& inimigo : missaoAtual->getInimigos()) {
+                            BatalhaNormal batalha(player, inimigo);
+                            if (batalha.batalhar()) {
+                                if (missaoAtual->adicionarInimigoDerrotado()) {
+                                    gerenciadorMissoes.avancarMissao();
+                                }
+                            } else {
+                                cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
+                                cout << "Pressione Enter para continuar...";
+                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                                cin.get();
+                            }
+                        }
+                    }
+                } else {
+                    cout << "\nTodas as missões foram concluídas!\n";
+                    cout << "Pressione Enter para continuar...";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cin.get();
+                }
                 break;
             case 2:
-                player->salvar("save.txt");
-                cout << "Jogo salvo com sucesso!" << endl;
-                cin.get();
+                gerenciadorMissoes.mostrarMissoesDisponiveis();
                 break;
             case 3:
-            {
-                if (teste.good()) {
-                    player->carregar("save.txt");
-                    cout << "Jogo carregado com sucesso!" << endl;
-                }
-                else {
-                    cout << "Nenhum jogo salvo encontrado." << endl;
-                }
-                teste.close();
+                gerenciadorMissoes.mostrarProgressoAtual();
+                cout << "Pressione Enter para continuar...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cin.get();
                 break;
-            }
             case 4:
-                cout << "Opcao de Preferencias ainda nao implementada." << endl;
+                limparTela();
+                interagirComLoja(*player);
+                break;
+            case 5:
+                player->gerenciarInventario();
+                break;
+            case 6:
+                player->salvar("save.txt");
+                cout << "\nJogo salvo com sucesso!\n";
+                cout << "Pressione Enter para continuar...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.get();
+                break;
+            case 7:
+                player->carregar("save.txt");
+                cout << "\nJogo carregado com sucesso!\n";
+                cout << "Pressione Enter para continuar...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cin.get();
                 break;
             case 0:
-                cout << "Saindo do jogo... Obrigado por jogar!" << endl;
-                player->salvar("save.txt");
-                sair = true;
+                cout << "\nSaindo do jogo...\n";
                 break;
             default:
-                cout << "Opcao invalida. Tente novamente." << endl;
+                cout << "\nOpção inválida!\n";
+                cout << "Pressione Enter para continuar...";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cin.get();
-                break;
         }
     }
 }
@@ -226,39 +286,42 @@ void MenuIni::menuPreparacaoFase() {
                 
                 Dificuldade d(player->getDificuldade());
                 
-                int forca_base_inimigo = 10;
-                int defesa_base_inimigo = 5;
-                int vida_base_inimigo = 30;
-                int moedas_batalha = 25;
-
-                float multiplicador_status = static_cast<float>(d.getMInimigos());
-                if (multiplicador_status == 0) multiplicador_status = 1;
-
+                int forca_base_inimigo = 3;
+                int defesa_base_inimigo = 2;
+                int vida_base_inimigo = 40;
+                
                 Inimigo enemy("Goblin Assustador", forca_base_inimigo, defesa_base_inimigo, d);
+                enemy.setVida(vida_base_inimigo);
                 
                 BatalhaNormal batalha(player, enemy); 
-                batalha.batalhar();
+                bool vitoria = batalha.batalhar();
 
-                if(player->getVida() <= 0) {
+                if (vitoria) {
+                    cout << "Voce venceu a batalha!" << endl;
+                    player->alterarDinheiro(enemy.get_recompensaDinheiro());
+                    player->alterarXP(enemy.get_recompensaXP());
+                    player->gerenciarPosBatalha();
+                    player->setVida(100); 
+                    player->salvar("save.txt");
+                    cout << "Pressione Enter para continuar..." << endl;
+                    cin.get();
+                } else {
                     cout << "Voce foi derrotado! Game Over." << endl;
                     cout << "Voltando ao menu principal..." << endl;
                     player->setVida(100);
+                    player->salvar("save.txt");
                     cin.get();
                     voltarMenuPrincipal = true;
-                } else {
-                    player->alterarDinheiro(moedas_batalha);
-                    player->setVida(100);
-                    cout << "Voce ganhou " << moedas_batalha << " moedas!" << endl;
-                    cout << "Batalha concluida! Pressione Enter para continuar..." << endl;
-                    cin.get();
                 }
                 break;
             }
             case 2:
                 interagirComLoja(*player);
+                player->salvar("save.txt");
                 break;
             case 3:
                 limparTela();
+                cout << "Exibindo seu inventario..." << endl;
                 player->mostrarInventariosCompletos();
                 cout << "\nPressione Enter para voltar..." << endl;
                 cin.get();

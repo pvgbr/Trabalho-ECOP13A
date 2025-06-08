@@ -10,7 +10,7 @@ class Fase {
     protected:
 
         Jogador* player;
-        Inimigo enemy[5];
+        Inimigo enemy[4];
 
         int dif;
         int fase;

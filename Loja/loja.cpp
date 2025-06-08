@@ -6,14 +6,17 @@
 using namespace std;
 
 Loja::Loja() {
-    // Adicionar itens de teste
-    // Armamentos: (id, nome)
-    armamentos_disponiveis.push_back(Armamento(101, "Espada Curta Velha"));
+    // Armamentos: (id, nome, tipo, bonusAtaque, bonusDefesa, durabilidade)
+    armamentos_disponiveis.push_back(Armamento(101, "Espada Curta", TipoArmamento::ARMA, 5, 0, 15));
     precos_armamentos.push_back(50);
-    armamentos_disponiveis.push_back(Armamento(102, "Escudo de Madeira Podre"));
-    precos_armamentos.push_back(30);
-    armamentos_disponiveis.push_back(Armamento(201, "Varinha de Graveto"));
+    armamentos_disponiveis.push_back(Armamento(102, "Espada Longa", TipoArmamento::ARMA, 10, 0, 20));
+    precos_armamentos.push_back(120);
+
+    // Escudos: (id, nome, tipo, bonusAtaque, bonusDefesa, durabilidade) - durabilidade -1 para infinito
+    armamentos_disponiveis.push_back(Armamento(201, "Escudo de Madeira", TipoArmamento::ESCUDO, 0, 5, -1));
     precos_armamentos.push_back(40);
+    armamentos_disponiveis.push_back(Armamento(202, "Escudo de Ferro", TipoArmamento::ESCUDO, 0, 10, -1));
+    precos_armamentos.push_back(100);
 
     // Consumíveis: (id, nome) - IDs devem corresponder aos de Consumiveis::usarConsumivel
     consumiveis_disponiveis.push_back(Consumiveis(1, "Pocao de Vida Pequena"));
