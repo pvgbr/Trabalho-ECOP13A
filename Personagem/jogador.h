@@ -6,9 +6,14 @@
 #include "../Inventario/inventario.h"
 #include "../Inventario/armamento.h"
 #include "../Inventario/consumiveis.h"
-#include <string>
 
 using namespace std;
+
+// Enum para habilidades do Jogador
+enum class HabilidadeJogador {
+    GOLPE_DUPLO = 1,
+    ATAQUE_GELO = 2
+};
 
 class Jogador : public Personagem {
 
@@ -17,6 +22,8 @@ class Jogador : public Personagem {
         int xp;
         int dinheiro;
         int fase;
+
+        int missaoAtual;
 
         Inventario<Armamento> invArma;
         Inventario<Consumiveis> invConsumivel;
@@ -45,8 +52,8 @@ class Jogador : public Personagem {
 
         bool verificaNivel();
 
-        void salvar(string caminho);
-        void carregar(string caminho);
+        void salvar(string caminho, int missaoAtual = -1);
+        void carregar(string caminho, int* missaoAtual = nullptr);
 
         void equiparItem(int indiceNoInventario);
         void desequiparItem(TipoArmamento tipo);
@@ -67,6 +74,10 @@ class Jogador : public Personagem {
         int getBonusDefesaEquipado() const;
 
         void gerenciarInventario();
+
+        // Sistema de habilidades
+        // O método retorna um par: dano causado e se congelou o alvo (bool)
+        pair<int, bool> usarHabilidade(HabilidadeJogador habilidade, Personagem* alvo = nullptr);
 
 };
 

@@ -12,14 +12,14 @@ int main() {
     srand(time(NULL));
     
     Jogador* player = new Jogador();
+    int missaoAtual = 0;
 
     ifstream teste("save.txt");
     if (teste.good()) {
-        player->carregar("save.txt");
+        player->carregar("save.txt", &missaoAtual);
     }
 
-    MenuIni m(player);
-
+    MenuIni m(player, missaoAtual);
 
     m.menuPrinc();
 

@@ -1,7 +1,7 @@
 #include "armamento.h"
 #include "../Personagem/jogador.h"
 
-Armamento::Armamento(int id, std::string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade)
+Armamento::Armamento(int id, string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade)
     : id(id), nome(nome), tipo(tipo), bonusAtaque(bonusAtaque), bonusDefesa(bonusDefesa), durabilidade(durabilidade), durabilidadeMaxima(durabilidade) {}
 
 // Implementação dos getters
@@ -9,7 +9,7 @@ int Armamento::getId() const {
     return id;
 }
 
-std::string Armamento::getNome() const {
+string Armamento::getNome() const {
     return nome;
 }
 
@@ -41,7 +41,7 @@ void Armamento::reduzirDurabilidade(int quantidade) {
 }
 
 // Implementação dos operadores
-std::ostream& operator<<(std::ostream& os, const Armamento& a) {
+ostream& operator<<(ostream& os, const Armamento& a) {
     os << a.nome << " (";
     if (a.bonusAtaque > 0) {
         os << "ATK: " << a.bonusAtaque;
@@ -50,7 +50,7 @@ std::ostream& operator<<(std::ostream& os, const Armamento& a) {
         if (a.bonusAtaque > 0) os << ", ";
         os << "DEF: " << a.bonusDefesa;
     }
-    if (a.getTipo() == TipoArmamento::ARMA) {
+    if (a.getTipo() == TipoArmamento::ARMA || a.getTipo() == TipoArmamento::ESCUDO) {
          if (a.bonusAtaque > 0 || a.bonusDefesa > 0) os << ", ";
          os << "DUR: " << a.durabilidade << "/" << a.durabilidadeMaxima;
     }

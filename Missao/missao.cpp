@@ -1,26 +1,36 @@
 #include "missao.h"
 #include <iostream>
 
-Missao::Missao(int id, std::string titulo, std::string descricao, 
-               std::vector<Inimigo> inimigos, int recompensaXP, int recompensaDinheiro)
+Missao::Missao(int id, string titulo, string descricao, 
+               vector<Inimigo> inimigos, int recompensaXP, int recompensaDinheiro)
     : id(id), titulo(titulo), descricao(descricao), inimigos(inimigos),
       inimigosDerrotados(0), concluida(false), recompensaXP(recompensaXP),
       recompensaDinheiro(recompensaDinheiro) {}
 
 void Missao::iniciar() {
     system("cls");
-    std::cout << "\n=== " << titulo << " ===\n";
-    std::cout << descricao << "\n\n";
-    std::cout << "Inimigos a derrotar: " << inimigos.size() << "\n";
-    std::cout << "Recompensas:\n";
-    std::cout << "- XP: " << recompensaXP << "\n";
-    std::cout << "- Dinheiro: " << recompensaDinheiro << "\n\n";
-    std::cout << "Pressione Enter para continuar...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin.get();
+    cout << "\n=== " << titulo << " ===\n";
+    cout << descricao << "\n";
+    if (id == 0) {
+        cout << "\nPressione Enter para começar sua aventura...";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.get();
+        return;
+    }
+    cout << "Inimigos a derrotar: " << inimigos.size() << "\n";
+    cout << "Recompensas:\n";
+    cout << "- XP: " << recompensaXP << "\n";
+    cout << "- Dinheiro: " << recompensaDinheiro << "\n\n";
+    cout << "Pressione Enter para continuar...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
 }
 
 bool Missao::adicionarInimigoDerrotado() {
+    if (id == 0) { // Missão de introdução
+        concluida = true;
+        return true;
+    }
     inimigosDerrotados++;
     if (inimigosDerrotados >= inimigos.size()) {
         concluida = true;
@@ -30,14 +40,15 @@ bool Missao::adicionarInimigoDerrotado() {
 }
 
 bool Missao::estaConcluida() const {
+    if (id == 0) return concluida; // Missão 0 pode ser marcada manualmente
     return concluida;
 }
 
-std::string Missao::getTitulo() const {
+string Missao::getTitulo() const {
     return titulo;
 }
 
-std::string Missao::getDescricao() const {
+string Missao::getDescricao() const {
     return descricao;
 }
 
@@ -50,17 +61,17 @@ int Missao::getRecompensaDinheiro() const {
 }
 
 void Missao::mostrarProgresso() const {
-    std::cout << "\n=== Progresso da Missão ===\n";
-    std::cout << "Título: " << titulo << "\n";
-    std::cout << "Inimigos derrotados: " << inimigosDerrotados << "/" << inimigos.size() << "\n";
+    cout << "\n=== Progresso da Missão ===\n";
+    cout << "Título: " << titulo << "\n";
+    cout << "Inimigos derrotados: " << inimigosDerrotados << "/" << inimigos.size() << "\n";
     if (concluida) {
-        std::cout << "Status: Concluída!\n";
+        cout << "Status: Concluída!\n";
     } else {
-        std::cout << "Status: Em andamento\n";
+        cout << "Status: Em andamento\n";
     }
-    std::cout << "==========================\n\n";
+    cout << "==========================\n\n";
 }
 
-std::vector<Inimigo>& Missao::getInimigos() {
+vector<Inimigo>& Missao::getInimigos() {
     return inimigos;
 } 

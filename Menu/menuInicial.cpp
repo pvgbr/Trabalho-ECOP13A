@@ -15,55 +15,82 @@
 #include <fstream>
 
 // Declaração da função limparTela para que seja visível antes do uso
-void limparTela();
 
 using namespace std;
 
-MenuIni::MenuIni(Jogador* p) : player{p} {
+MenuIni::MenuIni(Jogador* p, int missaoAtual) : player{p}, missaoAtual{missaoAtual} {
     ifstream teste("save.txt");
     if (!teste.good()) {
         inicio();
     } else {
-        player->carregar("save.txt");
+        player->carregar("save.txt", &this->missaoAtual);
         dif.setDificuldade(player->getDificuldade());
         menuPrinc();
     }
 }  
 
 void MenuIni::inicio() {
-    system("cls");
-    cout << "=== Bem-vindo ao RPG de Batalha ===\n\n";
-    cout << "Vamos começar criando seu personagem!\n\n";
-    
-    // Nome do personagem
-    cout << "Digite o nome do seu personagem: ";
-    string nome;
-    getline(cin, nome);
-    cout << "Perfeito! Seu personagem se chamará " << nome << "!\n\n";
+    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "\nPressione Enter para continuar...";
     cin.ignore();
+    system("cls");
+    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
+    cout << "\nPressione Enter para continuar...";
+    cin.ignore();
+    system("cls");
+    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
+    cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...'\n";
+    cout << "\nPressione Enter para continuar...";
+    cin.ignore();
+    system("cls");
+    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
+    cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...'\n";
+    cout << "Com o coração acelerado, você sente que está prestes a viver a maior aventura de sua vida.\n";
+    cout << "\nPressione Enter para continuar...";
+    cin.ignore();
+    cout << "\n\n=== Bem-vindo ao RPG de Batalha ===\n\n";
+    cout << "Vamos começar criando seu personagem!\n";
+    // Nome do personagem
+    string nome;
+    while (true) {
+        try {
+            cout << "Digite o nome do seu personagem: ";
+            getline(cin, nome);
+            if (nome.length() > 30) {
+                throw length_error("O nome deve ter no máximo 30 caracteres!");
+            }
+            break;
+        } catch (const length_error& e) {
+            cout << "Erro: " << e.what() << endl;
+        }
+    }
+    cout << "Perfeito! Seu personagem se chamará " << nome << "!\n\n";
     // Dificuldade
     map<int, string> m; 
     m[1] = "Fácil"; 
     m[2] = "Médio"; 
     m[3] = "Difícil";
     
-    int d_input;
+    int dific;
     do {
         cout << "Selecione o nível de dificuldade:\n";
         cout << "1 - Fácil\n";
         cout << "2 - Médio\n";
         cout << "3 - Difícil\n";
         cout << "Sua escolha: ";
-        cin >> d_input;
+        cin >> dific;
         
-        if (d_input < 1 || d_input > 3) {
+        if (dific < 1 || dific > 3) {
             cout << "\nOpção inválida! Por favor, escolha entre 1 e 3.\n\n";
         }
-    } while (d_input < 1 || d_input > 3);
+    } while (dific < 1 || dific > 3);
     
-    cout << "\nDificuldade " << m[d_input] << " selecionada!\n";
-    player->setDificuldade(d_input);
-    dif.setDificuldade(d_input);
+    cout << "Dificuldade " << m[dific] << " selecionada!\n";
+    player->setDificuldade(dific);
+    dif.setDificuldade(dific);
     
     // Configuração inicial do personagem
     player->setNome(nome);
@@ -77,8 +104,8 @@ void MenuIni::inicio() {
     
     // Inicializa o gerenciador de missões
     GerenciadorMissoes gerenciadorMissoes(player);
-    
-    cout << "\nSeu personagem foi criado com sucesso!\n";
+    cin.ignore();
+    cout << "\nSeu personagem foi criado com sucesso!\n\n";
     cout << "Você começa com:\n";
     cout << "- 100 de vida\n";
     cout << "- 5 de força\n";
@@ -91,13 +118,6 @@ void MenuIni::inicio() {
     menuPrinc();
 }
 
-void MenuIni::mostra_menu(){
-    player->imprimir_dados();
-    cout << "1- Jogar" << endl;
-    cout << "2- Preferencias" << endl;
-    cout << "3- Reset" << endl;
-    cout << "4- Sair e salvar" << endl; 
-}
 
 void MenuIni::preferencias() {
     cout << "Menu de preferencias: " << endl;
@@ -110,19 +130,30 @@ void MenuIni::preferencias() {
         case 1: {
             map<int, string> m; m[1] = "Facil"; m[2] = "Medio"; m[3] = "Dificil";
             cout << "Agora selecione o nivel de dificuldade: \n1- Facil\n2- Medio\n3- Dificil" << endl;
-            int d_input; cin >> d_input;
-            dif.setDificuldade(d_input);
-            player->setDificuldade(d_input);
-            cout << "Dificuldade " << m[d_input] << " selecionada!" << endl;
+            int dific; cin >> dific;
+            dif.setDificuldade(dific);
+            player->setDificuldade(dific);
+            cout << "Dificuldade " << m[dific] << " selecionada!" << endl;
             sleep(2);
             system("cls");
             preferencias();
             break;
         }
         case 2: {
-            cout << "Entre com o novo nome do seu personagem: ";
+            string n = player->getNome(), n1;
             cin.ignore();
-            string n = player->getNome(), n1; getline(cin, n1);
+            while (true) {
+                try {
+                    cout << "Entre com o novo nome do seu personagem: ";
+                    getline(cin, n1);
+                    if (n1.length() > 30) {
+                        throw length_error("O nome deve ter no máximo 30 caracteres!");
+                    }
+                    break;
+                } catch (const length_error& e) {
+                    cout << "Erro: " << e.what() << endl;
+                }
+            }
             cout << "Seu nome foi alterado! (" << n << " -> " << n1 <<")" << endl;
             player->setNome(n1);
             sleep(2);
@@ -139,11 +170,22 @@ void MenuIni::preferencias() {
 
 void MenuIni::reset() {
     cout << "Seu jogo foi resetado!" << endl;
-    cout << "Entre com o nome do seu personagem: ";
+    string n;
     cin.ignore();
-    string n; getline(cin, n);
+    while (true) {
+        try {
+            cout << "Entre com o nome do seu personagem: ";
+            getline(cin, n);
+            if (n.length() > 30) {
+                throw length_error("O nome deve ter no máximo 30 caracteres!");
+            }
+            break;
+        } catch (const length_error& e) {
+            cout << "Erro: " << e.what() << endl;
+        }
+    }
     player->setNome(n);
-    player->setFase(1);
+    player->setFase(0);
     player->setXP(0);
     player->setNivel(1);
     player->setForca(1);
@@ -160,10 +202,12 @@ void MenuIni::reset() {
 
 void MenuIni::menuPrinc() {
     GerenciadorMissoes gerenciadorMissoes(player);
+    gerenciadorMissoes.setMissaoAtual(missaoAtual);
     int escolha = -1;
     
     while (escolha != 0) {
         system("cls");
+        if(!player->getVida()) player->setVida(100);
         player->imprimir_dados();
         cout << "\n=== Menu Principal ===\n";
         cout << "1 - Iniciar Missão Atual\n";
@@ -173,16 +217,12 @@ void MenuIni::menuPrinc() {
         cout << "5 - Inventário\n";
         cout << "6 - Salvar Jogo\n";
         cout << "7 - Carregar Jogo\n";
-        cout << "0 - Sair\n";
+        cout << "8 - Resetar Jogo\n";
+        cout << "9 - Preferências\n";
+        cout << "0 - Sair e salvar\n";
         cout << "Escolha uma opção: ";
         
         cin >> escolha;
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Entrada inválida!" << endl;
-            continue;
-        }
 
         switch (escolha) {
             case 1:
@@ -190,24 +230,47 @@ void MenuIni::menuPrinc() {
                     gerenciadorMissoes.iniciarMissaoAtual();
                     Missao* missaoAtual = gerenciadorMissoes.getMissaoAtual();
                     if (missaoAtual) {
-                        for (auto& inimigo : missaoAtual->getInimigos()) {
-                            BatalhaNormal batalha(player, inimigo);
-                            if (batalha.batalhar()) {
-                                if (missaoAtual->adicionarInimigoDerrotado()) {
-                                    gerenciadorMissoes.avancarMissao();
+                        if (missaoAtual->getInimigos().empty()) {
+                            // Missão narrativa, avança automaticamente
+                            missaoAtual->adicionarInimigoDerrotado();
+                            gerenciadorMissoes.avancarMissao();
+                            player->setFase(player->getFase() + 1);
+                        } else {
+                            for (auto& inimigo : missaoAtual->getInimigos()) {
+                                BatalhaNormal batalha(player, inimigo);
+                                if (batalha.batalhar()) {
+                                    if (missaoAtual->adicionarInimigoDerrotado()) {
+                                        gerenciadorMissoes.avancarMissao();
+                                        if (missaoAtual->ehMissaoFinal()) {
+                                            system("cls");
+                                            cout << "\n==============================\n";
+                                            cout << "Parabéns! Você derrotou o Boss Final e salvou o reino!\n";
+                                            cout << "O Dragão Ancião ruge pela última vez: \"Você nunca derrotará as trevas!\"\n";
+                                            cout << "\nFIM DE JOGO\n";
+                                            cout << "==============================\n";
+                                            cout << "\nPressione Enter para sair...";
+                                            cin.ignore();
+                                            cin.get();
+                                            exit(0);
+                                        }
+                                    }
+                                } else {
+                                    cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
+                                    cout << "Você recebeu:\n";
+                                    cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
+                                    cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
+                                    cout << "Pressione Enter para continuar...";
+                                    cin.ignore();
+                                    cin.get();
+                                    break;
                                 }
-                            } else {
-                                cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
-                                cout << "Pressione Enter para continuar...";
-                                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                                cin.get();
                             }
                         }
                     }
                 } else {
                     cout << "\nTodas as missões foram concluídas!\n";
                     cout << "Pressione Enter para continuar...";
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cin.ignore();
                     cin.get();
                 }
                 break;
@@ -217,37 +280,47 @@ void MenuIni::menuPrinc() {
             case 3:
                 gerenciadorMissoes.mostrarProgressoAtual();
                 cout << "Pressione Enter para continuar...";
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
                 cin.get();
                 break;
             case 4:
-                limparTela();
+                system("cls");
                 interagirComLoja(*player);
                 break;
             case 5:
                 player->gerenciarInventario();
                 break;
             case 6:
-                player->salvar("save.txt");
+                player->salvar("save.txt", gerenciadorMissoes.getMissaoAtualIndex());
                 cout << "\nJogo salvo com sucesso!\n";
                 cout << "Pressione Enter para continuar...";
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
                 cin.get();
                 break;
             case 7:
                 player->carregar("save.txt");
                 cout << "\nJogo carregado com sucesso!\n";
                 cout << "Pressione Enter para continuar...";
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
                 cin.get();
                 break;
+            case 8:
+                system("cls");
+                reset();
+                break;
+            case 9:
+                system("cls");
+                preferencias();
+                break;
             case 0:
-                cout << "\nSaindo do jogo...\n";
+                player->salvar("save.txt", gerenciadorMissoes.getMissaoAtualIndex());
+                cout << "\nSalvando e saindo do jogo...\n";
+                exit(0);
                 break;
             default:
                 cout << "\nOpção inválida!\n";
                 cout << "Pressione Enter para continuar...";
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
                 cin.get();
         }
     }
@@ -258,7 +331,7 @@ void MenuIni::menuPreparacaoFase() {
     bool voltarMenuPrincipal = false;
 
     while (!voltarMenuPrincipal) {
-        limparTela();
+        system("cls");
         cout << "===== Preparacao da Fase =====" << endl;
         player->imprimir_dados();
         cout << "----------------------------" << endl;
@@ -272,16 +345,16 @@ void MenuIni::menuPreparacaoFase() {
 
         if (cin.fail()) {
             cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
             cout << "Opcao invalida. Tente novamente." << endl;
             cin.get();
             continue;
         }
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
 
         switch (op) {
             case 1: {
-                limparTela();
+                system("cls");
                 cout << "Iniciando proxima fase/batalha..." << endl;
                 
                 Dificuldade d(player->getDificuldade());
@@ -320,7 +393,7 @@ void MenuIni::menuPreparacaoFase() {
                 player->salvar("save.txt");
                 break;
             case 3:
-                limparTela();
+                system("cls");
                 cout << "Exibindo seu inventario..." << endl;
                 player->mostrarInventariosCompletos();
                 cout << "\nPressione Enter para voltar..." << endl;
@@ -338,11 +411,3 @@ void MenuIni::menuPreparacaoFase() {
 }
 
 Jogador* MenuIni::getPlayer() { return player; }
-
-void limparTela() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}

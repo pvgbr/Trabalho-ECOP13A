@@ -1,12 +1,13 @@
 #ifndef INVENTARIO_H
 #define INVENTARIO_H
 
-#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
 
 template <typename T>
 class Inventario {
 private:
-    std::vector<T> itens;
+    vector<T> itens;
 
 public:
     void adicionarItem(const T& item);
@@ -14,8 +15,8 @@ public:
     int verificaItem(const T& item);
     bool removerItem(const T& item);
     void removerItemUnico(const T& item);
-    const std::vector<T>& getItens() const;
-    std::vector<T>& getItens();
+    const vector<T>& getItens() const;
+    vector<T>& getItens();
     void clear();
 };
 

@@ -23,3 +23,28 @@ void Dificuldade::setDificuldade(int dif) { dificuldade = dif; }
 int Dificuldade::getMInimigos() { return multInimigos; }
 int Dificuldade::getMEAleatorio() { return multEventoAleatorio; }
 int Dificuldade::getDificuldade() { return dificuldade; }
+
+double Dificuldade::getMultiplicadorRecompensa() {
+    switch(dificuldade) {
+        case 1: return 1.0;   // Fácil
+        case 2: return 0.7;   // Médio
+        case 3: return 0.5;   // Difícil
+        default: return 1.0;
+    }
+}
+double Dificuldade::getMultiplicadorPreco() {
+    switch(dificuldade) {
+        case 1: return 1.0;   // Fácil
+        case 2: return 1.2;   // Médio
+        case 3: return 1.5;   // Difícil
+        default: return 1.0;
+    }
+}
+double Dificuldade::getMultiplicadorDanoInimigo() {
+    switch(dificuldade) {
+        case 1: return 0.8;   // Fácil
+        case 2: return 1.0;   // Médio
+        case 3: return 1.2;   // Difícil
+        default: return 1.0;
+    }
+}

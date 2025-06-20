@@ -2,7 +2,6 @@
 #define CONSUMIVEIS_H
 
 #include <bits/stdc++.h>
-//#include "../Personagem/jogador.h"
 using namespace std;
 
 class Jogador;

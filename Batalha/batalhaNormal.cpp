@@ -4,13 +4,13 @@
 
 BatalhaNormal::BatalhaNormal(Jogador* p, Inimigo& e) : Batalha(p), enemy(e) {
     if (!p) {
-        throw std::invalid_argument("Ponteiro do jogador não pode ser nulo");
+        throw invalid_argument("Ponteiro do jogador não pode ser nulo");
     }
 }
 
 void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool jogador) {
     if (!player) {
-        throw std::runtime_error("Ponteiro do jogador é nulo durante o ataque");
+        throw runtime_error("Ponteiro do jogador é nulo durante o ataque");
     }
 
     string frases[3] = {" atacou fortemente ", " arrebentou ", " acabou com " };
@@ -26,6 +26,9 @@ void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool joga
         if (auto* p = dynamic_cast<Jogador*>(&defensor)) {
             defesaTotalDefensor += p->getBonusDefesaEquipado();
         }
+        // Aplicar multiplicador de dano de inimigo
+        Dificuldade dif(player->getDificuldade());
+        forcaTotalAtacante = static_cast<int>(forcaTotalAtacante * dif.getMultiplicadorDanoInimigo());
     }
 
     // Fórmula de dano mais balanceada
@@ -40,14 +43,14 @@ void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool joga
 
 int BatalhaNormal::escolhaBatalha(){
     if (!player) {
-        throw std::runtime_error("Ponteiro do jogador é nulo durante a escolha da batalha");
+        throw runtime_error("Ponteiro do jogador é nulo durante a escolha da batalha");
     }
 
     int escolha;
     while (!(cin >> escolha)) {
         cout << "Entrada inválida! Digite um número: ";
         cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
     }
     
     switch(escolha) {
@@ -59,7 +62,7 @@ int BatalhaNormal::escolhaBatalha(){
             player->mostrarConsumiveisBatalha();
             if (player->getInvConsumivel().getItens().empty()) {
                 cout << "Pressione Enter para voltar..." << endl;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
                 cin.get();
                 return -1;
             }
@@ -68,7 +71,7 @@ int BatalhaNormal::escolhaBatalha(){
             while (!(cin >> escolhaItem)) {
                 cout << "Entrada inválida! Digite um número: ";
                 cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
             }
             if (escolhaItem > 0) {
                 player->usarConsumivelBatalha(escolhaItem);
@@ -83,7 +86,7 @@ int BatalhaNormal::escolhaBatalha(){
 
 bool BatalhaNormal::batalhar() {
     if (!player) {
-        throw std::runtime_error("Ponteiro do jogador é nulo durante a batalha");
+        throw runtime_error("Ponteiro do jogador é nulo durante a batalha");
     }
 
     int turno = 1;
@@ -106,7 +109,7 @@ bool BatalhaNormal::batalhar() {
             cout << " >> Seu turno! << " << endl;
             cout << " Escolha uma acao: " << endl;
             cout << "   1 - Atacar" << endl;
-            cout << "   2 - Usar habilidade (Nao implementado)" << endl;
+            cout << "   2 - Usar habilidade" << endl;
             cout << "   3 - Usar item" << endl;
             
             int escolha = escolhaBatalha();
@@ -119,9 +122,55 @@ bool BatalhaNormal::batalhar() {
                     atacar(*player, enemy, true);
                     acaoRealizada = true;
                     break;
-                case 2:
-                    cout<< "Habilidades ainda nao foram implementadas!" << endl;
+                case 2: {
+                    cout << "Escolha a habilidade:" << endl;
+                    if (!usouGolpeDuplo) cout << "  1 - Golpe Duplo (Ataca duas vezes)" << endl;
+                    else cout << "  1 - Golpe Duplo (JÁ USADO)" << endl;
+                    if (!usouAtaqueGelo) cout << "  2 - Ataque de Gelo (Pode congelar o inimigo)" << endl;
+                    else cout << "  2 - Ataque de Gelo (JÁ USADO)" << endl;
+                    int hab;
+                    while (!(cin >> hab) || hab < 1 || hab > 2) {
+                        cout << "Escolha inválida! Digite 1 ou 2: ";
+                        cin.clear();
+                        cin.ignore();
+                    }
+                    if ((hab == 1 && usouGolpeDuplo) || (hab == 2 && usouAtaqueGelo)) {
+                        cout << "Você já usou essa habilidade nesta batalha! Escolha outra ação." << endl;
+                        cout << "\nPressione Enter para continuar..." << endl;
+                        cin.ignore();
+                        cin.get();
+                        break;
+                    }
+                    if (hab == 2) {
+                        cout << "\033[1;36m";
+                        cout << R"(
+   *    *   *
+ *    *   *    *
+   *  ❄️  *   *
+ *   *   *    *
+)";
+                        cout << "\033[0m";
+                    }
+                    auto resultado = player->usarHabilidade(static_cast<HabilidadeJogador>(hab), &enemy);
+                    if (hab == 1) usouGolpeDuplo = true;
+                    if (hab == 2) usouAtaqueGelo = true;
+                    if (hab == 2 && resultado.second) {
+                        inimigoCongelado = true;
+                        cout << "\033[1;34m";
+                        cout << R"(
+   ██████████
+  ██        ██
+ ██  INIMIGO  ██
+ ██ CONGELADO ██
+  ██        ██
+   ██████████
+)";
+                        cout << "O inimigo está completamente congelado!\n";
+                        cout << "\033[0m";
+                    }
+                    acaoRealizada = true;
                     break;
+                }
                 case 3: 
                     cout<< "Voce usou um item!" << endl;
                     acaoRealizada = true;
@@ -129,11 +178,30 @@ bool BatalhaNormal::batalhar() {
             }
             if(acaoRealizada) {
                 cout << "\nPressione Enter para continuar..." << endl;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore();
                 cin.get();
                 turno++;
             }
         } else { // Turno do Inimigo
+            if (inimigoCongelado) {
+                cout << "\033[1;34m"; // Azul
+                cout << R"(
+   ██████████
+  ██        ██
+ ██  INIMIGO  ██
+ ██ CONGELADO ██
+  ██        ██
+   ██████████
+)";
+                cout << "O inimigo está congelado e perde o turno!\n";
+                cout << "\033[0m";
+                inimigoCongelado = false;
+                cout << "\nPressione Enter para continuar..." << endl;
+                cin.ignore();
+                cin.get();
+                turno++;
+                continue;
+            }
             cout << " >> Turno de " << enemy.getNome() << "! <<" << endl;
             atacar(enemy, *player, false);
             cout << "\nPressione Enter para continuar..." << endl;
@@ -143,12 +211,42 @@ bool BatalhaNormal::batalhar() {
     }
     
     system("cls");
-    return player->estaVivo();
+    bool venceu = player->estaVivo();
+    // Resetar controle de habilidades ao fim da batalha
+    usouGolpeDuplo = false;
+    usouAtaqueGelo = false;
+    if (venceu) {
+        eventoAleatorioPosBatalha();
+    }
+    return venceu;
+}
+
+void BatalhaNormal::eventoAleatorioPosBatalha() {
+    int chance = rand() % 100;
+    if (chance < 20) { // 30% de chance
+        cout << "\033[1;31m"; // Vermelho
+        cout << R"(
+   !!! INIMIGO SURPRESA APARECEU !!!
+   ████████████████████████████
+   ██                      ██
+   ██   INIMIGO SURPRESA   ██
+   ██        👹           ██
+   ██                      ██
+   ████████████████████████████
+)";
+        cout << "\033[0m";
+        cout << "\nUm inimigo surpresa salta das sombras! Prepare-se para lutar novamente!\n";
+        // Cria um inimigo surpresa simples
+        Inimigo inimigoSurpresa("Inimigo Surpresa", 5 + rand()%6, 3 + rand()%4, Dificuldade(1 + rand()%3));
+        sleep(2);
+        BatalhaNormal novaBatalha(player, inimigoSurpresa);
+        novaBatalha.batalhar();
+    }
 }
 
 Jogador* BatalhaNormal::getPlayer() { 
     if (!player) {
-        throw std::runtime_error("Ponteiro do jogador é nulo ao tentar acessá-lo");
+        throw runtime_error("Ponteiro do jogador é nulo ao tentar acessá-lo");
     }
     return player; 
 }

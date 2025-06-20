@@ -11,7 +11,7 @@ void Inventario<T>::adicionarItem(const T& item) {
 
 template <typename T>
 bool Inventario<T>::removerItem(const T& item) {
-    auto it = std::find(itens.begin(), itens.end(), item);
+    auto it = find(itens.begin(), itens.end(), item);
     if (it != itens.end()) {
         itens.erase(it);
         return true;
@@ -30,12 +30,12 @@ void Inventario<T>::removerItemUnico(const T& item) {
 }
 
 template <typename T>
-const std::vector<T>& Inventario<T>::getItens() const {
+const vector<T>& Inventario<T>::getItens() const {
     return itens;
 }
 
 template <typename T>
-std::vector<T>& Inventario<T>::getItens() {
+vector<T>& Inventario<T>::getItens() {
     return itens;
 }
 
@@ -46,15 +46,15 @@ void Inventario<T>::clear() {
 
 template <typename T>
 void Inventario<T>::mostrarItens() const {
-    std::cout << "Itens no inventario: \n";
+    cout << "Itens no inventario: \n";
     for (const auto& item : itens) {
-        std::cout << "- " << item << std::endl;
+        cout << "- " << item << endl;
     }
 }
 
 template <typename T>
 int Inventario<T>::verificaItem(const T& item) {
-    return std::count(itens.begin(), itens.end(), item);
+    return count(itens.begin(), itens.end(), item);
 }
 
 // Instanciação explícita para os tipos usados no projeto

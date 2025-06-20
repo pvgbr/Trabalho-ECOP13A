@@ -7,7 +7,7 @@
 
 class GerenciadorMissoes {
 private:
-    std::vector<Missao> missoes;
+    vector<Missao> missoes;
     int missaoAtual;
     Jogador* jogador;
 
@@ -19,6 +19,8 @@ public:
     bool avancarMissao();
     void mostrarProgressoAtual() const;
     Missao* getMissaoAtual();
+    void setMissaoAtual(int idx);
+    int getMissaoAtualIndex() const { return missaoAtual; }
     bool todasMissoesConcluidas() const;
 };
 

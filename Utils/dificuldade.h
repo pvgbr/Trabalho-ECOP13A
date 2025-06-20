@@ -24,6 +24,10 @@ class Dificuldade {
         int getMInimigos();
         int getMEAleatorio();
         int getDificuldade();
+        // Multiplicadores de economia e dificuldade
+        double getMultiplicadorRecompensa();
+        double getMultiplicadorPreco();
+        double getMultiplicadorDanoInimigo();
 
 };
 

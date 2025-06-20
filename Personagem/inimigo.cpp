@@ -20,7 +20,7 @@ void Inimigo::imprimir_dados() {
     cout<<"----------------------------"<<endl;
     cout<<"Nome: "<< nome << endl;
     cout<<"Vida: "<< vida << endl;
-    cout<<"Forca: "<< forca << endl;
+    cout<<"Força: "<< forca << endl;
     cout<<"Defesa: "<< defesa << endl;
     cout<<"----------------------------"<<endl;
 }

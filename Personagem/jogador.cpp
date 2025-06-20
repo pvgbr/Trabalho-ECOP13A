@@ -15,13 +15,18 @@ Jogador::Jogador(string n, int f, int d) :
 }
 
 void Jogador::imprimir_dados(){
+    map<int, string> m; 
+    m[1] = "Fácil"; 
+    m[2] = "Médio"; 
+    m[3] = "Difícil";
+
     cout<<"---------------------------------"<<endl;
     cout<<"Nome: "<< nome <<"   Nivel: "<<nivel<<" ("<<xp<<"/"<< nivel*100 <<") "<<endl;
     cout<<"Vida: "<< vida <<endl;
-    cout<<"Forca: "<< forca << " (+" << getBonusAtaqueEquipado() << ")" << endl;
+    cout<<"Força: "<< forca << " (+" << getBonusAtaqueEquipado() << ")" << endl;
     cout<<"Defesa: "<< defesa << " (+" << getBonusDefesaEquipado() << ")" << endl;
     cout<<"Dinheiro: "<< dinheiro <<endl;
-    cout<<"Dificuldade: "<< dificuldade <<endl;
+    cout<<"Dificuldade: "<< m[dificuldade] << endl;
     cout << "Equipado: ";
     if (armaEquipada) cout << armaEquipada->getNome(); else cout << "N/A";
     cout << " | ";
@@ -33,7 +38,9 @@ void Jogador::imprimir_dados(){
 bool Jogador::verificaNivel() {
     if(xp / 100 >= nivel) {
         nivel++;
-        xp -= nivel*100;
+        xp -= (nivel-1)*100;
+        forca++;
+        defesa++;
         return true;
     }
     return false;
@@ -45,6 +52,7 @@ void Jogador::alterarDinheiro(int d) {
 
 void Jogador::alterarXP(int exp) {
     xp += exp;
+    verificaNivel();
 }
 
 int Jogador::getNivel(){
@@ -69,9 +77,10 @@ void Jogador::setFase(int f) {
 
 void Jogador::setXP(int exp){
     xp = exp;
+    verificaNivel();
 }
 
-void Jogador::salvar(string caminho) {
+void Jogador::salvar(string caminho, int missaoAtual) {
     try {
         ofstream arq(caminho);
         if (!arq.is_open()) {
@@ -89,6 +98,9 @@ void Jogador::salvar(string caminho) {
         arq << dinheiro << '\n';
         arq << fase << '\n';
         arq << dificuldade << '\n';
+        if (missaoAtual != -1) {
+            arq << missaoAtual << '\n';
+        }
 
         // Equipamentos atuais
         arq << (armaEquipada ? armaEquipada->getId() : 0) << '\n';
@@ -126,7 +138,7 @@ void Jogador::salvar(string caminho) {
     }
 }
 
-void Jogador::carregar(string caminho) {
+void Jogador::carregar(string caminho, int* missaoAtual) {
     ifstream arq(caminho);
     if (arq.is_open()) {
         // Limpar inventários antes de carregar
@@ -147,6 +159,12 @@ void Jogador::carregar(string caminho) {
         arq >> dinheiro;
         arq >> fase;
         arq >> dificuldade;
+        if (missaoAtual) {
+            int missaoSalva;
+            if (arq >> missaoSalva) {
+                *missaoAtual = missaoSalva;
+            }
+        }
         arq.ignore(); 
 
         // IDs dos equipamentos atuais
@@ -233,7 +251,34 @@ bool Jogador::usarConsumivelBatalha(int indice) {
 }
 
 void Jogador::adicionarArmamentoAoInventario(const Armamento& arma) {
+    // Salva os IDs dos itens equipados antes da potencial re-alocação do vetor
+    int idArmaEquipada = -1;
+    if (armaEquipada && armaEquipada != &armaPadrao) {
+        idArmaEquipada = armaEquipada->getId();
+    }
+
+    int idEscudoEquipado = -1;
+    if (escudoEquipado && escudoEquipado != &escudoPadrao) {
+        idEscudoEquipado = escudoEquipado->getId();
+    }
+
+    // Adiciona o novo item, o que pode invalidar os ponteiros armaEquipada/escudoEquipado
     invArma.adicionarItem(arma);
+
+    // Reseta para o padrão, caso os itens não sejam encontrados novamente (não deve acontecer)
+    armaEquipada = &armaPadrao;
+    escudoEquipado = &escudoPadrao;
+
+    // Re-encontra os itens no inventário e re-atribui os ponteiros
+    auto& inventarioItens = invArma.getItens();
+    for (Armamento& item : inventarioItens) {
+        if (item.getId() == idArmaEquipada) {
+            armaEquipada = &item;
+        }
+        if (item.getId() == idEscudoEquipado) {
+            escudoEquipado = &item;
+        }
+    }
 }
 
 void Jogador::adicionarConsumivelAoInventario(const Consumiveis& consumivel) {
@@ -340,10 +385,10 @@ void Jogador::gerenciarInventario() {
         cin >> escolha;
         if (cin.fail()) {
             cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
             cout << "Entrada inválida!" << endl;
             cout << "\nPressione Enter para continuar...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
             cin.get();
             continue;
         }
@@ -363,8 +408,41 @@ void Jogador::gerenciarInventario() {
         
         if (escolha != 0) {
             cout << "\nPressione Enter para continuar...";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
             cin.get();
         }
     }
+}
+
+// Sistema de habilidades do jogador
+pair<int, bool> Jogador::usarHabilidade(HabilidadeJogador habilidade, Personagem* alvo) {
+    switch (habilidade) {
+        case HabilidadeJogador::GOLPE_DUPLO: {
+            if (alvo) {
+                int dano1 = forca + (rand() % 6);
+                int dano2 = forca + (rand() % 6);
+                alvo->alterarVida(-dano1);
+                alvo->alterarVida(-dano2);
+                cout << "Você usa GOLPE DUPLO! Causa " << dano1 << " + " << dano2 << " de dano no inimigo!" << endl;
+                return {dano1 + dano2, false};
+            }
+            break;
+        }
+        case HabilidadeJogador::ATAQUE_GELO: {
+            if (alvo) {
+                int dano = forca + 5 + (rand() % 6); // Dano base + bônus
+                alvo->alterarVida(-dano);
+                bool congelou = (rand() % 100) < 40; // 40% de chance
+                cout << "Você lança um ATAQUE DE GELO! Causa " << dano << " de dano";
+                if (congelou) cout << " e CONGELA o inimigo por 1 turno!";
+                cout << endl;
+                return {dano, congelou};
+            }
+            break;
+        }
+        default:
+            cout << "Habilidade desconhecida!" << endl;
+            break;
+    }
+    return {0, false};
 }

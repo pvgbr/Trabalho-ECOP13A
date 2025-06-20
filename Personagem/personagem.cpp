@@ -59,4 +59,4 @@ int Personagem::getDefesa(){ return defesa; }
 
 int Personagem::getVida(){ return vida; }
 
-int Personagem::getDificuldade(){ return dificuldade; }
+int Personagem::getDificuldade() const { return dificuldade; }

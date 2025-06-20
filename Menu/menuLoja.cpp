@@ -1,9 +1,9 @@
 #include "menuLoja.h"
 #include "../Loja/Loja.h" // Para usar a classe Loja
 #include <iostream>
-#include <string>     // Para std::to_string
-#include <iomanip>    // Para std::setw, std::left
-#include <limits>     // Para std::numeric_limits
+#include <string>     // Para to_string
+#include <iomanip>    // Para setw, left
+#include <limits>     // Para numeric_limits
 
 using namespace std;
 
@@ -18,12 +18,12 @@ void interagirComLoja(Jogador& jogador) {
 
         if (cin.fail() || cin.peek() != '\n') { 
             cin.clear(); 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Descarta entrada inválida
+            cin.ignore(); // Descarta entrada inválida
             cout << "Entrada invalida. Por favor, digite um numero inteiro valido." << endl;
             escolha = -1; 
         } else {
 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
 
             if (escolha == 0) {
                 cout << "Saindo da loja..." << endl;
@@ -42,6 +42,7 @@ void interagirComLoja(Jogador& jogador) {
         if (escolha != 0) { // Só pausa se não for sair
             cout << "Pressione Enter para continuar..." << endl;
             cin.get(); // Espera pelo Enter
+            system("cls");
         }
 
     } while (escolha != 0);

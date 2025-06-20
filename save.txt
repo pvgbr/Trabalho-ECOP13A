@@ -1,27 +1,14 @@
-pvg
+Paulo
 5
 3
-76
+100
 1
-50
-90
-1
-1
-101
-201
-2
-101
-Espada Curta
-1
-5
 0
-15
-201
-Escudo de Madeira
-2
+1000
+1
+3
 0
-5
--1
-1
-1
-Pocao de Vida Pequena
+0
+0
+0
+0

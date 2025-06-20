@@ -40,7 +40,7 @@ class Personagem {
         int getForca();
         int getDefesa();
         int getVida();
-        int getDificuldade();
+        int getDificuldade() const;
         string getNome();
 
 };

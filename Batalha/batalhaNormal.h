@@ -8,6 +8,10 @@ class BatalhaNormal : public Batalha {
 
     private:
         Inimigo& enemy;
+        bool inimigoCongelado = false;
+        bool usouGolpeDuplo = false;
+        bool usouAtaqueGelo = false;
+        void eventoAleatorioPosBatalha();
 
     public:
         BatalhaNormal(Jogador* p, Inimigo& e);

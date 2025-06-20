@@ -16,10 +16,10 @@ class MenuIni {
 
         Jogador* player;
         Dificuldade dif;
-
+        int missaoAtual = 0;
 
     public:
-        MenuIni(Jogador*);
+        MenuIni(Jogador*, int missaoAtual = 0);
         void mostra_menu();
 
         Jogador* getPlayer();

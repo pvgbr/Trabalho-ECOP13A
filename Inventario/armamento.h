@@ -1,8 +1,8 @@
 #ifndef ARMAMENTO_H
 #define ARMAMENTO_H
 
-#include <string>
-#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
 
 class Jogador; // Forward declaration
 
@@ -16,7 +16,7 @@ class Armamento {
     
     protected:
         int id;
-        std::string nome;
+        string nome;
         TipoArmamento tipo;
         int bonusAtaque;
         int bonusDefesa;
@@ -24,11 +24,11 @@ class Armamento {
         int durabilidadeMaxima;
     
     public:
-        Armamento(int id, std::string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade);
+        Armamento(int id, string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade);
             
         // Métodos de acesso (Getters)
         int getId() const;
-        std::string getNome() const;
+        string getNome() const;
         TipoArmamento getTipo() const;
         int getBonusAtaque() const;
         int getBonusDefesa() const;
@@ -39,7 +39,7 @@ class Armamento {
         void reduzirDurabilidade(int quantidade);
 
         // Operadores
-        friend std::ostream& operator<<(std::ostream& os, const Armamento& a);
+        friend ostream& operator<<(ostream& os, const Armamento& a);
         bool operator==(const Armamento& other) const;
 };
 
