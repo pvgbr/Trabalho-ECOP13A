@@ -365,6 +365,32 @@ void Jogador::gerenciarPosBatalha() {
     }
 }
 
+void Jogador::reduzirDurabilidadeEquipamentos() {
+    // Reduz durabilidade da arma equipada
+    if (armaEquipada && armaEquipada != &armaPadrao && armaEquipada->getDurabilidade() > 0) {
+        armaEquipada->reduzirDurabilidade(1);
+        if (armaEquipada->getDurabilidade() <= 0) {
+            cout << "\033[1;31m"; // Vermelho
+            cout << "⚔️  Sua arma " << armaEquipada->getNome() << " quebrou! ⚔️" << endl;
+            cout << "\033[0m";
+            invArma.removerItemUnico(*armaEquipada);
+            armaEquipada = &armaPadrao; // Volta para arma padrão
+        }
+    }
+    
+    // Reduz durabilidade do escudo equipado
+    if (escudoEquipado && escudoEquipado != &escudoPadrao && escudoEquipado->getDurabilidade() > 0) {
+        escudoEquipado->reduzirDurabilidade(1);
+        if (escudoEquipado->getDurabilidade() <= 0) {
+            cout << "\033[1;31m"; // Vermelho
+            cout << "🛡️  Seu escudo " << escudoEquipado->getNome() << " quebrou! 🛡️" << endl;
+            cout << "\033[0m";
+            invArma.removerItemUnico(*escudoEquipado);
+            escudoEquipado = &escudoPadrao; // Volta para escudo padrão
+        }
+    }
+}
+
 const Inventario<Consumiveis>& Jogador::getInvConsumivel() const {
     return invConsumivel;
 }
@@ -389,7 +415,7 @@ void Jogador::gerenciarInventario() {
             cout << "Entrada inválida!" << endl;
             cout << "\nPressione Enter para continuar...";
             cin.ignore();
-            cin.get();
+            cin.ignore();
             continue;
         }
 
@@ -409,7 +435,7 @@ void Jogador::gerenciarInventario() {
         if (escolha != 0) {
             cout << "\nPressione Enter para continuar...";
             cin.ignore();
-            cin.get();
+            cin.ignore();
         }
     }
 }
@@ -445,4 +471,9 @@ pair<int, bool> Jogador::usarHabilidade(HabilidadeJogador habilidade, Personagem
             break;
     }
     return {0, false};
+}
+
+void Jogador::limparInv() {
+    invArma.clear();
+    invConsumivel.clear();
 }

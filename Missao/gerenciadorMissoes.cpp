@@ -51,9 +51,7 @@ void GerenciadorMissoes::inicializarMissoes() {
         inimigosMissao4, 500, 1000));
 
     // Missão 5: O Despertar do Dragão
-    vector<Inimigo> inimigosMissao5;
-    Boss bossFinal("Dragão Ancião", 20, 15, "Você nunca derrotará as trevas!");
-    inimigosMissao5.push_back(*reinterpret_cast<Inimigo*>(&bossFinal));
+    vector<Inimigo> inimigosMissao5 = { Boss("Dragão Ancião", 15, 10, "Você nunca derrotará as trevas!") };
     missoes.push_back(Missao(5, "O Despertar do Dragão",
         "Quando tudo parecia resolvido, o verdadeiro mal desperta: o lendário Dragão Ancião, criatura de poder inimaginável, ergue-se das profundezas para destruir tudo o que resta de esperança.\n\n"
         "Apenas um herói de coragem inabalável pode enfrentar o dragão e salvar Eldoria do fim. Esta é a batalha final. O destino do reino está em suas mãos!",
@@ -76,7 +74,7 @@ void GerenciadorMissoes::mostrarMissoesDisponiveis() const {
     }
     cout << "\nPressione Enter para continuar...";
     cin.ignore();
-    cin.get();
+    cin.ignore();
 }
 
 void GerenciadorMissoes::iniciarMissaoAtual() {
@@ -112,7 +110,7 @@ bool GerenciadorMissoes::avancarMissao() {
         
         cout << "\nPressione Enter para continuar...";
         cin.ignore();
-        cin.get();
+        cin.ignore();
         
         return true;
     }

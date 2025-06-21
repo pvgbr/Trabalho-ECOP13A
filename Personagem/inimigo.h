@@ -27,6 +27,8 @@ class Inimigo : public Personagem {
         int get_recompensaDinheiro();
 
         void set_recompensas();
+        void setRecompensaXP(int xp);
+        void setRecompensaDinheiro(int dinheiro);
 };
 
 #endif

@@ -52,6 +52,8 @@ class Jogador : public Personagem {
 
         bool verificaNivel();
 
+        void limparInv();
+
         void salvar(string caminho, int missaoAtual = -1);
         void carregar(string caminho, int* missaoAtual = nullptr);
 
@@ -78,6 +80,9 @@ class Jogador : public Personagem {
         // Sistema de habilidades
         // O método retorna um par: dano causado e se congelou o alvo (bool)
         pair<int, bool> usarHabilidade(HabilidadeJogador habilidade, Personagem* alvo = nullptr);
+
+        // Gerenciamento de durabilidade
+        void reduzirDurabilidadeEquipamentos();
 
 };
 

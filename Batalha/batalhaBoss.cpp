@@ -11,6 +11,7 @@ bool BatalhaBoss::batalhar() {
     bool usouAtaqueGelo = false;
     bool bossCongelado = false;
     int turno = 1;
+    system("cls");
 
     cout << R"(
 
@@ -31,7 +32,6 @@ bool BatalhaBoss::batalhar() {
     cout << "\nO Boss ruge: 'Você chegou longe, mas aqui será seu fim! Prepare-se para o verdadeiro poder!\n";
     cout << "\nPressione Enter para começar a batalha...";
     cin.ignore();
-    cin.get();
 
     while (player->estaVivo() && boss.estaVivo()) {
         system("cls");
@@ -43,6 +43,9 @@ bool BatalhaBoss::batalhar() {
 
         // TURNO DO JOGADOR
         if (!bossCongelado) {
+            // Reduz durabilidade dos equipamentos a cada turno
+            player->reduzirDurabilidadeEquipamentos();
+            
             cout << "Sua vez! Escolha sua ação:\n";
             cout << "1 - Atacar\n";
             cout << "2 - Defender (reduz dano do próximo ataque)\n";
@@ -126,7 +129,7 @@ bool BatalhaBoss::batalhar() {
                 }
             }
             cout << "\nPressione Enter para continuar...";
-            cin.get();
+            cin.ignore();
         } else {
             cout << R"(
    ██████████
@@ -139,7 +142,7 @@ bool BatalhaBoss::batalhar() {
             cout << "O Boss está congelado e perde o turno!\n";
             bossCongelado = false;
             cout << "\nPressione Enter para continuar...";
-            cin.get();
+            cin.ignore();
             turno++;
             continue;
         }
@@ -151,11 +154,11 @@ bool BatalhaBoss::batalhar() {
             cout << R"(
 
    * * * * * * * * * * * * * * * * * * * *
-  *   PARABÉNS, HERÓI! VOCÊ VENCEU!   *
+  *   PARABÉNS, HERÓI! VOCÊ VENCEU!     *
    * * * * * * * * * * * * * * * * * * * *
 )";
             cout << "\nPressione Enter para encerrar a batalha...";
-            cin.get();
+            cin.ignore();
             return true;
         }
 
@@ -187,7 +190,7 @@ bool BatalhaBoss::batalhar() {
             cout << R"(
    ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡
 )";
-            int dano = boss.getForca() * 2 + (rand() % 21);
+            int dano = boss.getForca() + (rand() % 21);
             if (jogadorDefendendo) {
                 dano /= 2;
                 cout << "Você defendeu! O dano foi reduzido pela metade!\n";
@@ -203,7 +206,7 @@ bool BatalhaBoss::batalhar() {
         }
         jogadorDefendendo = false;
         cout << "\nPressione Enter para continuar...";
-        cin.get();
+        cin.ignore();
 
         // CHECA DERROTA
         if (!player->estaVivo()) {
@@ -215,7 +218,7 @@ bool BatalhaBoss::batalhar() {
 )";
             cout << "\nO Boss triunfa e o reino cai nas trevas...\n";
             cout << "\nPressione Enter para encerrar a batalha...";
-            cin.get();
+            cin.ignore();
             return false;
         }
         turno++;

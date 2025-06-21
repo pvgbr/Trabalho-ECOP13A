@@ -14,7 +14,7 @@ void Missao::iniciar() {
     if (id == 0) {
         cout << "\nPressione Enter para começar sua aventura...";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cin.get();
+        cin.ignore();
         return;
     }
     cout << "Inimigos a derrotar: " << inimigos.size() << "\n";
@@ -23,7 +23,7 @@ void Missao::iniciar() {
     cout << "- Dinheiro: " << recompensaDinheiro << "\n\n";
     cout << "Pressione Enter para continuar...";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cin.get();
+    cin.ignore();
 }
 
 bool Missao::adicionarInimigoDerrotado() {

@@ -26,18 +26,18 @@ string Consumiveis::getNome() const {
 }
 
 void Consumiveis::usarConsumivel(Jogador* player) {
-    cout << "Usando o item " << nome;
+    cout << "Usando o item " << nome << endl;
     switch(id){
         case 1:
-            cout << "Pocao de vida" << endl;
             player->alterarVida(50);
             break;
+        case 3:
+            player->alterarVida(25);
+            break;
         case 2:
-            cout << "Pocao de forca" << endl;
             player->alterarForca(5);
             break;
         default:
-            //tratamento de exceção ?
             break; 
     }
 }   

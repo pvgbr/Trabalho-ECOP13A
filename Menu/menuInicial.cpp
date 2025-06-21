@@ -108,7 +108,7 @@ void MenuIni::inicio() {
     cout << "- 3 de defesa\n";
     cout << "- 100 moedas\n\n";
     cout << "Pressione Enter para continuar...";
-    cin.get();
+    cin.ignore();
     
     system("cls");
     menuPrinc();
@@ -184,13 +184,14 @@ void MenuIni::reset() {
     player->setFase(0);
     player->setXP(0);
     player->setNivel(1);
-    player->setForca(1);
-    player->setDefesa(1);
+    player->setForca(5);
+    player->setDefesa(3);
     player->setDificuldade(1);
     dif.setDificuldade(1);
     player->setVida(100);
-    player->setDinheiro(0);
-    player->salvar("save.txt");
+    player->setDinheiro(100);
+    player->limparInv();
+    player->salvar("save.txt", 0);
     cout << endl << "Seu jogo foi resetado com sucesso, abra novamente!" << endl;
     sleep(2);
     exit(0);
@@ -226,36 +227,37 @@ void MenuIni::menuPrinc() {
                     gerenciadorMissoes.iniciarMissaoAtual();
                     Missao* missaoAtual = gerenciadorMissoes.getMissaoAtual();
                     if (missaoAtual) {
-                        for (auto& inimigo : missaoAtual->getInimigos()) {
-                            // Verifica se é a missão final e se o inimigo é um Boss
-                            Boss* bossPtr = dynamic_cast<Boss*>(&inimigo);
-                            if (missaoAtual->ehMissaoFinal() && bossPtr) {
-                                BatalhaBoss batalhaBoss(player, *bossPtr);
-                                if (batalhaBoss.batalhar()) {
-                                    if (missaoAtual->adicionarInimigoDerrotado()) {
-                                        gerenciadorMissoes.avancarMissao();
-                                        system("cls");
-                                        cout << "\n==============================\n";
-                                        cout << "Parabéns! Você derrotou o Boss Final e salvou o reino!\n";
-                                        cout << "O Dragão Ancião ruge pela última vez: \"Você nunca derrotará as trevas!\"\n";
-                                        cout << "\nFIM DE JOGO\n";
-                                        cout << "==============================\n";
-                                        cout << "\nPressione Enter para sair...";
-                                        cin.ignore();
-                                        cin.get();
-                                        exit(0);
-                                    }
-                                } else {
-                                    cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
-                                    cout << "Você recebeu:\n";
-                                    cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
-                                    cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
-                                    cout << "Pressione Enter para continuar...";
+                        Boss *bossPtr = new Boss("Dragão Ancião", 15, 10, "Você nunca derrotará as trevas!");
+                        if (missaoAtual->ehMissaoFinal() && bossPtr) {
+                            BatalhaBoss batalhaBoss(player, *bossPtr);
+                            if (batalhaBoss.batalhar()) {
+                                if (missaoAtual->adicionarInimigoDerrotado()) {
+                                    gerenciadorMissoes.avancarMissao();
+                                    system("cls");
+                                    cout << "\n==============================\n";
+                                    cout << "Parabéns! Você derrotou o Boss Final e salvou o reino!\n";
+                                    cout << "O Dragão Ancião ruge pela última vez: \"Você nunca derrotará as trevas!\"\n";
+                                    cout << "\nFIM DE JOGO\n";
+                                    cout << "==============================\n";
+                                    cout << "\nPressione Enter para sair...";
                                     cin.ignore();
-                                    cin.get();
-                                    break;
+                                    cin.ignore();
+                                    player->salvar("save.txt", gerenciadorMissoes.getMissaoAtualIndex());
+                                    exit(0);
                                 }
                             } else {
+                                cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
+                                cout << "Você recebeu:\n";
+                                cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
+                                cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
+                                cout << "Pressione Enter para continuar...";
+                                cin.ignore();
+                                cin.ignore();
+                                break;
+                            }
+                        }
+                        else {
+                            for (auto& inimigo : missaoAtual->getInimigos()) {
                                 BatalhaNormal batalha(player, inimigo);
                                 if (batalha.batalhar()) {
                                     if (missaoAtual->adicionarInimigoDerrotado()) {
@@ -268,7 +270,7 @@ void MenuIni::menuPrinc() {
                                     cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
                                     cout << "Pressione Enter para continuar...";
                                     cin.ignore();
-                                    cin.get();
+                                    cin.ignore();
                                     break;
                                 }
                             }
@@ -278,7 +280,6 @@ void MenuIni::menuPrinc() {
                     cout << "\nTodas as missões foram concluídas!\n";
                     cout << "Pressione Enter para continuar...";
                     cin.ignore();
-                    cin.get();
                 }
                 break;
             case 2:
@@ -288,7 +289,6 @@ void MenuIni::menuPrinc() {
                 gerenciadorMissoes.mostrarProgressoAtual();
                 cout << "Pressione Enter para continuar...";
                 cin.ignore();
-                cin.get();
                 break;
             case 4:
                 system("cls");
@@ -302,14 +302,14 @@ void MenuIni::menuPrinc() {
                 cout << "\nJogo salvo com sucesso!\n";
                 cout << "Pressione Enter para continuar...";
                 cin.ignore();
-                cin.get();
+                cin.ignore();
                 break;
             case 7:
                 player->carregar("save.txt");
                 cout << "\nJogo carregado com sucesso!\n";
                 cout << "Pressione Enter para continuar...";
                 cin.ignore();
-                cin.get();
+                cin.ignore();
                 break;
             case 8:
                 system("cls");
@@ -328,7 +328,7 @@ void MenuIni::menuPrinc() {
                 cout << "\nOpção inválida!\n";
                 cout << "Pressione Enter para continuar...";
                 cin.ignore();
-                cin.get();
+                cin.ignore();
         }
     }
 }

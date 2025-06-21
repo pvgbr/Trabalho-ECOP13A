@@ -1,7 +1,7 @@
 #ifndef BOSS_H
 #define BOSS_H
 
-#include "personagem.h"
+#include "inimigo.h"
 #include <string>
 #include <iostream>
 
@@ -11,7 +11,7 @@ enum class HabilidadeBoss {
     REGENERACAO_DRAGONICA = 2
 };
 
-class Boss : public Personagem {
+class Boss : public Inimigo {
 private:
     string fraseFinal;
 public:

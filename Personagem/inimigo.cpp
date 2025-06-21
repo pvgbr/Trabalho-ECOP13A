@@ -36,3 +36,11 @@ void Inimigo::setDific(Dificuldade d){
 int Inimigo::get_recompensaDinheiro() {
     return recompensaDinheiro;
 }
+
+void Inimigo::setRecompensaXP(int xp) {
+    recompensaXP = xp;
+}
+
+void Inimigo::setRecompensaDinheiro(int dinheiro) {
+    recompensaDinheiro = dinheiro;
+}

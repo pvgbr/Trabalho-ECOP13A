@@ -7,28 +7,30 @@ using namespace std;
 
 Loja::Loja() {
     // Armamentos: (id, nome, tipo, bonusAtaque, bonusDefesa, durabilidade)
-    armamentos_disponiveis.push_back(Armamento(101, "Espada Curta", TipoArmamento::ARMA, 5, 0, 5));
+    armamentos_disponiveis.push_back(Armamento(101, "Espada Curta", TipoArmamento::ARMA, 5, 0, 10));
     precos_armamentos.push_back(50);
-    armamentos_disponiveis.push_back(Armamento(102, "Espada Longa", TipoArmamento::ARMA, 10, 0, 10));
+    armamentos_disponiveis.push_back(Armamento(102, "Espada Longa", TipoArmamento::ARMA, 10, 0, 20));
     precos_armamentos.push_back(120);
-    armamentos_disponiveis.push_back(Armamento(104, "Lança Longa", TipoArmamento::ARMA, 8, 2, 15));
+    armamentos_disponiveis.push_back(Armamento(104, "Lança Longa", TipoArmamento::ARMA, 8, 2, 30));
     precos_armamentos.push_back(150);
-    armamentos_disponiveis.push_back(Armamento(103, "Machado Pesado", TipoArmamento::ARMA, 15, 0, 20));
+    armamentos_disponiveis.push_back(Armamento(103, "Machado Pesado", TipoArmamento::ARMA, 15, 0, 40));
     precos_armamentos.push_back(200);
+    armamentos_disponiveis.push_back(Armamento(103, "Espada de Titânio", TipoArmamento::ARMA, 18, 0, 100));
+    precos_armamentos.push_back(600);
 
     // Escudos: (id, nome, tipo, bonusAtaque, bonusDefesa, durabilidade) - durabilidade -1 para infinito
-    armamentos_disponiveis.push_back(Armamento(201, "Escudo de Madeira", TipoArmamento::ESCUDO, 0, 5, 5));
+    armamentos_disponiveis.push_back(Armamento(201, "Escudo de Madeira", TipoArmamento::ESCUDO, 0, 5, 10));
     precos_armamentos.push_back(40);
-    armamentos_disponiveis.push_back(Armamento(202, "Escudo de Ferro", TipoArmamento::ESCUDO, 0, 10, 10));
+    armamentos_disponiveis.push_back(Armamento(202, "Escudo de Ferro", TipoArmamento::ESCUDO, 0, 10, 25));
     precos_armamentos.push_back(100);
-    armamentos_disponiveis.push_back(Armamento(203, "Escudo de Titânio", TipoArmamento::ESCUDO, 0, 20, 20));
+    armamentos_disponiveis.push_back(Armamento(203, "Escudo de Titânio", TipoArmamento::ESCUDO, 0, 20, 50));
     precos_armamentos.push_back(300);
 
     // Consumíveis: (id, nome) - ID correspondente ao da classe Consumivel
     consumiveis_disponiveis.push_back(Consumiveis(1, "Poção de Vida Pequena"));
     precos_consumiveis.push_back(50);
     consumiveis_disponiveis.push_back(Consumiveis(2, "Pocao de Força"));
-    precos_consumiveis.push_back(100);
+    precos_consumiveis.push_back(150);
     consumiveis_disponiveis.push_back(Consumiveis(1, "Super Poção de Vida"));
     precos_consumiveis.push_back(100);
 }

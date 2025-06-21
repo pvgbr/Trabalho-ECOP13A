@@ -62,7 +62,7 @@ int BatalhaNormal::escolhaBatalha(){
             if (player->getInvConsumivel().getItens().empty()) {
                 cout << "Pressione Enter para voltar..." << endl;
                 cin.ignore();
-                cin.get();
+                cin.ignore();
                 return -1;
             }
             cout << "Escolha qual item deseja usar (ou 0 para cancelar): " << endl;
@@ -105,6 +105,9 @@ bool BatalhaNormal::batalhar() {
         cout << "     ------------------------      " << endl << endl << endl;
 
         if (turno % 2 != 0) { // Turno do Jogador
+            // Reduz durabilidade dos equipamentos a cada turno
+            player->reduzirDurabilidadeEquipamentos();
+            
             cout << " >> Seu turno! << " << endl;
             cout << " Escolha uma acao: " << endl;
             cout << "   1 - Atacar" << endl;
@@ -122,22 +125,23 @@ bool BatalhaNormal::batalhar() {
                     acaoRealizada = true;
                     break;
                 case 2: {
-                    cout << "Escolha a habilidade:" << endl;
+                    cout << "Escolha a habilidade (ou 0 para cancelar):" << endl;
                     if (!usouGolpeDuplo) cout << "  1 - Golpe Duplo (Ataca duas vezes)" << endl;
                     else cout << "  1 - Golpe Duplo (JÁ USADO)" << endl;
                     if (!usouAtaqueGelo) cout << "  2 - Ataque de Gelo (Pode congelar o inimigo)" << endl;
                     else cout << "  2 - Ataque de Gelo (JÁ USADO)" << endl;
                     int hab;
-                    while (!(cin >> hab) || hab < 1 || hab > 2) {
+                    while (cin >> hab && (hab < 0 || hab > 2)) {
                         cout << "Escolha inválida! Digite 1 ou 2: ";
                         cin.clear();
                         cin.ignore();
                     }
+                    if(hab == 0) break;
                     if ((hab == 1 && usouGolpeDuplo) || (hab == 2 && usouAtaqueGelo)) {
                         cout << "Você já usou essa habilidade nesta batalha! Escolha outra ação." << endl;
                         cout << "\nPressione Enter para continuar..." << endl;
                         cin.ignore();
-                        cin.get();
+                        cin.ignore();
                         break;
                     }
                     if (hab == 2) {
@@ -178,7 +182,6 @@ bool BatalhaNormal::batalhar() {
             if(acaoRealizada) {
                 cout << "\nPressione Enter para continuar..." << endl;
                 cin.ignore();
-                cin.get();
                 turno++;
             }
         } else { // Turno do Inimigo
@@ -197,7 +200,6 @@ bool BatalhaNormal::batalhar() {
                 inimigoCongelado = false;
                 cout << "\nPressione Enter para continuar..." << endl;
                 cin.ignore();
-                cin.get();
                 turno++;
                 continue;
             }
@@ -222,7 +224,7 @@ bool BatalhaNormal::batalhar() {
 
 void BatalhaNormal::eventoAleatorioPosBatalha() {
     int chance = rand() % 100;
-    if (chance < 20) { // 30% de chance
+    if (chance < 10) { // 30% de chance
         cout << "\033[1;31m"; // Vermelho
         cout << R"(
    !!! INIMIGO SURPRESA APARECEU !!!

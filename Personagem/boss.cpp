@@ -4,10 +4,12 @@
 #include <iostream>
 
 Boss::Boss(string nome, int forca, int defesa, string frase)
-    : Personagem(nome, forca, defesa), fraseFinal(frase) {
+    : Inimigo(nome, forca, defesa, Dificuldade(3)), fraseFinal(frase) {
     vida = 300;
     nivel = 10;
-    dificuldade = 3;
+    // Define recompensas especiais do boss
+    setRecompensaXP(50);
+    setRecompensaDinheiro(200);
 }
 
 void Boss::imprimir_dados() {
@@ -37,15 +39,13 @@ void Boss::usarHabilidade(HabilidadeBoss habilidade) {
     switch (habilidade) {
         case HabilidadeBoss::RAIO_ANIQUILADOR: {
             int dano = forca * 2 + (rand() % 21); // Dano massivo
-            cout << "O Boss canaliza energia e dispara o RAIO ANIQUILADOR! Causa " << dano << " de dano devastador!" << endl;
-            // Aqui você pode aplicar o dano ao jogador (exemplo: return dano;)
             break;
         }
         case HabilidadeBoss::REGENERACAO_DRAGONICA: {
             int cura = 50 + (rand() % 51); // Cura entre 50 e 100
             vida += cura;
             if (vida > 300) vida = 300; // Vida máxima
-            cout << "O Boss ativa REGENERAÇÃO DRAGÔNICA e recupera " << cura << " de vida!" << endl;
+            cout << "O Boss ativa REGENERAÇÃO DRAGÔNICA!" << endl;
             break;
         }
         default:
