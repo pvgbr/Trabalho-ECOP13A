@@ -1,10 +1,7 @@
 #ifndef LOJA_H
 #define LOJA_H
 
-#include <vector>
-#include <string>
-// Os caminhos para Jogador, Armamento e Consumiveis são relativos à localização de Loja.h
-// Se Loja.h está em Loja/, e Personagem/ e Inventario/ estão na raiz, então:
+#include <bits/stdc++.h>
 #include "../Personagem/jogador.h"
 #include "../Inventario/armamento.h"
 #include "../Inventario/consumiveis.h"

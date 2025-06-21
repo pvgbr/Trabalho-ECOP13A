@@ -1,18 +1,14 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
-#include <cstdio>
 #include "menuInicial.h"
 #include "menuLoja.h"
 #include "../Batalha/batalhaNormal.h"
+#include "../Batalha/batalhaBoss.h"
 #include "../Personagem/inimigo.h"
 #include "../Utils/dificuldade.h"
 #include "../Missao/gerenciadorMissoes.h"
 #include "../Missao/missao.h"
 #include "../Inventario/consumiveis.h"
-#include <iostream>
-#include <limits>
-#include <cstdlib>
-#include <fstream>
 
 // Declaração da função limparTela para que seja visível antes do uso
 
@@ -230,29 +226,40 @@ void MenuIni::menuPrinc() {
                     gerenciadorMissoes.iniciarMissaoAtual();
                     Missao* missaoAtual = gerenciadorMissoes.getMissaoAtual();
                     if (missaoAtual) {
-                        if (missaoAtual->getInimigos().empty()) {
-                            // Missão narrativa, avança automaticamente
-                            missaoAtual->adicionarInimigoDerrotado();
-                            gerenciadorMissoes.avancarMissao();
-                            player->setFase(player->getFase() + 1);
-                        } else {
-                            for (auto& inimigo : missaoAtual->getInimigos()) {
+                        for (auto& inimigo : missaoAtual->getInimigos()) {
+                            // Verifica se é a missão final e se o inimigo é um Boss
+                            Boss* bossPtr = dynamic_cast<Boss*>(&inimigo);
+                            if (missaoAtual->ehMissaoFinal() && bossPtr) {
+                                BatalhaBoss batalhaBoss(player, *bossPtr);
+                                if (batalhaBoss.batalhar()) {
+                                    if (missaoAtual->adicionarInimigoDerrotado()) {
+                                        gerenciadorMissoes.avancarMissao();
+                                        system("cls");
+                                        cout << "\n==============================\n";
+                                        cout << "Parabéns! Você derrotou o Boss Final e salvou o reino!\n";
+                                        cout << "O Dragão Ancião ruge pela última vez: \"Você nunca derrotará as trevas!\"\n";
+                                        cout << "\nFIM DE JOGO\n";
+                                        cout << "==============================\n";
+                                        cout << "\nPressione Enter para sair...";
+                                        cin.ignore();
+                                        cin.get();
+                                        exit(0);
+                                    }
+                                } else {
+                                    cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
+                                    cout << "Você recebeu:\n";
+                                    cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
+                                    cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
+                                    cout << "Pressione Enter para continuar...";
+                                    cin.ignore();
+                                    cin.get();
+                                    break;
+                                }
+                            } else {
                                 BatalhaNormal batalha(player, inimigo);
                                 if (batalha.batalhar()) {
                                     if (missaoAtual->adicionarInimigoDerrotado()) {
                                         gerenciadorMissoes.avancarMissao();
-                                        if (missaoAtual->ehMissaoFinal()) {
-                                            system("cls");
-                                            cout << "\n==============================\n";
-                                            cout << "Parabéns! Você derrotou o Boss Final e salvou o reino!\n";
-                                            cout << "O Dragão Ancião ruge pela última vez: \"Você nunca derrotará as trevas!\"\n";
-                                            cout << "\nFIM DE JOGO\n";
-                                            cout << "==============================\n";
-                                            cout << "\nPressione Enter para sair...";
-                                            cin.ignore();
-                                            cin.get();
-                                            exit(0);
-                                        }
                                     }
                                 } else {
                                     cout << "\nVocê foi derrotado! Voltando ao menu principal...\n";
@@ -322,90 +329,6 @@ void MenuIni::menuPrinc() {
                 cout << "Pressione Enter para continuar...";
                 cin.ignore();
                 cin.get();
-        }
-    }
-}
-
-void MenuIni::menuPreparacaoFase() {
-    int op;
-    bool voltarMenuPrincipal = false;
-
-    while (!voltarMenuPrincipal) {
-        system("cls");
-        cout << "===== Preparacao da Fase =====" << endl;
-        player->imprimir_dados();
-        cout << "----------------------------" << endl;
-        cout << "1 - Iniciar Proxima Fase/Batalha" << endl;
-        cout << "2 - Ir para Loja" << endl;
-        cout << "3 - Ver Inventario" << endl;
-        cout << "0 - Voltar ao Menu Principal" << endl;
-        cout << "----------------------------" << endl;
-        cout << "Escolha uma opcao: ";
-        cin >> op;
-
-        if (cin.fail()) {
-            cin.clear();
-            cin.ignore();
-            cout << "Opcao invalida. Tente novamente." << endl;
-            cin.get();
-            continue;
-        }
-        cin.ignore();
-
-        switch (op) {
-            case 1: {
-                system("cls");
-                cout << "Iniciando proxima fase/batalha..." << endl;
-                
-                Dificuldade d(player->getDificuldade());
-                
-                int forca_base_inimigo = 3;
-                int defesa_base_inimigo = 2;
-                int vida_base_inimigo = 40;
-                
-                Inimigo enemy("Goblin Assustador", forca_base_inimigo, defesa_base_inimigo, d);
-                enemy.setVida(vida_base_inimigo);
-                
-                BatalhaNormal batalha(player, enemy); 
-                bool vitoria = batalha.batalhar();
-
-                if (vitoria) {
-                    cout << "Voce venceu a batalha!" << endl;
-                    player->alterarDinheiro(enemy.get_recompensaDinheiro());
-                    player->alterarXP(enemy.get_recompensaXP());
-                    player->gerenciarPosBatalha();
-                    player->setVida(100); 
-                    player->salvar("save.txt");
-                    cout << "Pressione Enter para continuar..." << endl;
-                    cin.get();
-                } else {
-                    cout << "Voce foi derrotado! Game Over." << endl;
-                    cout << "Voltando ao menu principal..." << endl;
-                    player->setVida(100);
-                    player->salvar("save.txt");
-                    cin.get();
-                    voltarMenuPrincipal = true;
-                }
-                break;
-            }
-            case 2:
-                interagirComLoja(*player);
-                player->salvar("save.txt");
-                break;
-            case 3:
-                system("cls");
-                cout << "Exibindo seu inventario..." << endl;
-                player->mostrarInventariosCompletos();
-                cout << "\nPressione Enter para voltar..." << endl;
-                cin.get();
-                break;
-            case 0:
-                voltarMenuPrincipal = true;
-                break;
-            default:
-                cout << "Opcao invalida. Tente novamente." << endl;
-                cin.get();
-                break;
         }
     }
 }

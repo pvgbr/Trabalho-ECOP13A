@@ -31,9 +31,8 @@ void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool joga
         forcaTotalAtacante = static_cast<int>(forcaTotalAtacante * dif.getMultiplicadorDanoInimigo());
     }
 
-    // Fórmula de dano mais balanceada
     int dano = (forcaTotalAtacante * 1.2) - (defesaTotalDefensor * 0.8);
-    if (dano < 1) dano = 1; // Garante um dano mínimo de 1
+    if (dano < 1) dano = 1;
 
     defensor.alterarVida(-dano);
     int f = rand() % 3;
@@ -228,10 +227,10 @@ void BatalhaNormal::eventoAleatorioPosBatalha() {
         cout << R"(
    !!! INIMIGO SURPRESA APARECEU !!!
    ████████████████████████████
-   ██                      ██
-   ██   INIMIGO SURPRESA   ██
-   ██        👹           ██
-   ██                      ██
+   ██                        ██
+   ██    INIMIGO SURPRESA    ██
+   ██         👹            ██
+   ██                        ██
    ████████████████████████████
 )";
         cout << "\033[0m";

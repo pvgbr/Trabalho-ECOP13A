@@ -5,6 +5,7 @@
 #include "Personagem/jogador.h"
 #include "Personagem/inimigo.h"
 #include "Utils/dificuldade.h"
+
 using namespace std;
 
 int main() {
@@ -23,6 +24,6 @@ int main() {
 
     m.menuPrinc();
 
-    delete player; // Liberando a memória alocada
+    delete player;
     return 0;
 }

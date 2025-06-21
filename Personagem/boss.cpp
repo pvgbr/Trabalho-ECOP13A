@@ -8,8 +8,6 @@ Boss::Boss(string nome, int forca, int defesa, string frase)
     vida = 300;
     nivel = 10;
     dificuldade = 3;
-    // Inicializa o gerador de números aleatórios
-    srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 void Boss::imprimir_dados() {

@@ -6,8 +6,7 @@
 #include "../Personagem/jogador.h"
 #include "../Personagem/inimigo.h"
 
-
-
+//Classe base de batalha
 class Batalha {
 
     protected:

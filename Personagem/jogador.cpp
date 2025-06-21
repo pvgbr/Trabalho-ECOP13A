@@ -8,8 +8,8 @@ Jogador::Jogador(string n, int f, int d) :
     fase(1),
     xp(0),
     dinheiro(0),
-    armaPadrao(0, "Mãos Vazias", TipoArmamento::ARMA, 0, 0, 100),
-    escudoPadrao(0, "Sem Escudo", TipoArmamento::ESCUDO, 0, 0, 100) {
+    armaPadrao(0, "Nenhuma", TipoArmamento::ARMA, 0, 0, 100),
+    escudoPadrao(0, "Nenhum", TipoArmamento::ESCUDO, 0, 0, 100) {
     armaEquipada = &armaPadrao;
     escudoEquipado = &escudoPadrao;
 }
@@ -28,9 +28,9 @@ void Jogador::imprimir_dados(){
     cout<<"Dinheiro: "<< dinheiro <<endl;
     cout<<"Dificuldade: "<< m[dificuldade] << endl;
     cout << "Equipado: ";
-    if (armaEquipada) cout << armaEquipada->getNome(); else cout << "N/A";
+    if (armaEquipada) cout << armaEquipada->getNome(); else cout << "Nenhuma";
     cout << " | ";
-    if (escudoEquipado) cout << escudoEquipado->getNome(); else cout << "N/A";
+    if (escudoEquipado) cout << escudoEquipado->getNome(); else cout << "Nenhum";
     cout << endl;
     cout<<"---------------------------------"<<endl;
 }

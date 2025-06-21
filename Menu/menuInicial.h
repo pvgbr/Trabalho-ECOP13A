@@ -2,7 +2,6 @@
 #define MENUINICIAL_H
 
 #include <bits/stdc++.h>
-#include "../Fase/fase.h"
 #include "../Utils/dificuldade.h"
 #include "../Personagem/jogador.h"
 #include "../Missao/gerenciadorMissoes.h"
@@ -28,7 +27,6 @@ class MenuIni {
         void inicio();
         void preferencias();
         void reset();
-        void menuPreparacaoFase();
         void menuLoja(Jogador* player);
 };
 
