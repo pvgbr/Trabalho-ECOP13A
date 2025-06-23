@@ -72,7 +72,7 @@ void GerenciadorMissoes::mostrarMissoesDisponiveis() const {
         }
         cout << "------------------------\n";
     }
-    cout << "\nPressione Enter para continuar... 👉 👉";
+    cout << "\nPressione Enter para continuar... 👉";
     cin.ignore();
     cin.ignore();
 }

@@ -27,12 +27,14 @@ Loja::Loja() {
     precos_armamentos.push_back(300);
 
     // Consumíveis: (id, nome) - ID correspondente ao da classe Consumivel
-    consumiveis_disponiveis.push_back(Consumiveis(1, "Poção de Vida Pequena"));
+    consumiveis_disponiveis.push_back(Consumiveis(3, "Poção de Vida Pequena"));
     precos_consumiveis.push_back(50);
-    consumiveis_disponiveis.push_back(Consumiveis(2, "Pocao de Força"));
+    consumiveis_disponiveis.push_back(Consumiveis(2, "Poção de Força"));
     precos_consumiveis.push_back(150);
-    consumiveis_disponiveis.push_back(Consumiveis(1, "Super Poção de Vida"));
+    consumiveis_disponiveis.push_back(Consumiveis(1, "Poção de Vida"));
     precos_consumiveis.push_back(100);
+    consumiveis_disponiveis.push_back(Consumiveis(4, "Super Poção de Vida"));
+    precos_consumiveis.push_back(150);
 }
 
 void Loja::mostrarItens(const Jogador& jogador) const {
@@ -40,25 +42,25 @@ void Loja::mostrarItens(const Jogador& jogador) const {
     double multPreco = dif.getMultiplicadorPreco();
     cout << "\n--- 🛒 Bem-vindo à Loja! 🛒 ---" << endl;
     cout << "Você tem " << jogador.getDinheiro() << " moedas 💰." << endl;
-    cout << "\n--- ⚔️ Armamentos ---" << endl;
+    cout << "\n--- ⚔️ Armamentos ------------------------------" << endl;
     cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preço" << endl;
-    cout << string(45, '-') << endl;
+    cout << "------------------------------------------------" << endl;
     for (int i = 0; i < armamentos_disponiveis.size(); ++i) {
         int preco = static_cast<int>(precos_armamentos[i] * multPreco);
         cout << left << setw(5) << to_string(i + 1) + "." 
                     << setw(30) << armamentos_disponiveis[i].getNome() 
                     << preco << " moedas 💰" << endl;
     }
-    cout << "\n--- 🧪 Consumíveis ---" << endl;
+    cout << "\n--- 🧪 Consumíveis -----------------------------" << endl;
     cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preço" << endl;
-    cout << string(45, '-') << endl;
+    cout << "------------------------------------------------" << endl;
     for (int i = 0; i < consumiveis_disponiveis.size(); ++i) {
         int preco = static_cast<int>(precos_consumiveis[i] * multPreco);
         cout << left << setw(5) << to_string(i + 1 + armamentos_disponiveis.size()) + "." 
                     << setw(30) << consumiveis_disponiveis[i].getNome() 
                     << preco << " moedas 💰" << endl;
     }
-    cout << "-------------------------" << endl;
+    cout << "------------------------------------------------" << endl;
     cout << "Digite o número do item para comprar ou 0 para sair. 🛍️" << endl;
 }
 

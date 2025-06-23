@@ -21,7 +21,7 @@ void Missao::iniciar() {
     cout << "Recompensas:\n";
     cout << "- XP: " << recompensaXP << " ✨\n";
     cout << "- Dinheiro: " << recompensaDinheiro << " 💰\n\n";
-    cout << "Pressione Enter para continuar... 👉 👉";
+    cout << "Pressione Enter para continuar... 👉";
     cin.ignore();
     cin.ignore();
 }

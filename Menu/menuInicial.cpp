@@ -27,25 +27,25 @@ MenuIni::MenuIni(Jogador* p, int missaoAtual) : player{p}, missaoAtual{missaoAtu
 
 void MenuIni::inicio() {
     cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
-    cout << "\nPressione Enter para continuar... 👉 👉";
+    cout << "\nPressione Enter para continuar... 👉";
     cin.ignore();
     system("cls");
     cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
     cout << "🧙‍♂️ Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
-    cout << "\nPressione Enter para continuar... 👉 👉";
+    cout << "\nPressione Enter para continuar... 👉";
     cin.ignore();
     system("cls");
     cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
     cout << "🧙‍♂️ Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
     cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...' 🔮\n";
-    cout << "\nPressione Enter para continuar... 👉 👉";
+    cout << "\nPressione Enter para continuar... 👉";
     cin.ignore();
     system("cls");
     cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
     cout << "🧙‍♂️ Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
     cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...' 🔮\n";
     cout << "Com o coração acelerado, você sente que está prestes a viver a maior aventura de sua vida. ✨\n";
-    cout << "\nPressione Enter para continuar... 👉 👉";
+    cout << "\nPressione Enter para continuar... 👉";
     cin.ignore();
     cout << "\n\n=== 🎯 Bem-vindo ao RPG de Batalha! 🎯 ===\n\n";
     cout << "Vamos começar criando seu personagem! 👤✨\n";
@@ -102,7 +102,7 @@ void MenuIni::inicio() {
     cout << "- 5 de força 💪\n";
     cout << "- 3 de defesa 🛡️\n";
     cout << "- 100 moedas 💰\n\n";
-    cout << "Pressione Enter para continuar... 👉 👉";
+    cout << "Pressione Enter para continuar... 👉";
     cin.ignore();
     system("cls");
     menuPrinc();

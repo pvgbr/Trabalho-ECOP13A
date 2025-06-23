@@ -30,7 +30,7 @@ void interagirComLoja(Jogador& jogador) {
         }
         
         if (escolha != 0) {
-            cout << "Pressione Enter para continuar... 👉 👉" << endl;
+            cout << "Pressione Enter para continuar... 👉" << endl;
             cin.ignore();
             system("cls");
         }

@@ -31,11 +31,14 @@ void Consumiveis::usarConsumivel(Jogador* player) {
         case 1:
             player->alterarVida(50);
             break;
+        case 2:
+            player->alterarForca(5);
+            break;
         case 3:
             player->alterarVida(25);
             break;
-        case 2:
-            player->alterarForca(5);
+        case 4:
+            player->alterarVida(100);
             break;
         default:
             break; 

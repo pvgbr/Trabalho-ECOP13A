@@ -35,29 +35,14 @@ bool BatalhaBoss::batalhar() {
 
     while (player->estaVivo() && boss.estaVivo()) {
         system("cls");
-        cout << "\n========= TURNO " << turno << " =========\n";
-        // RESUMO VISUAL DOS STATUS
         cout << "================== STATUS ==================" << endl;
         cout << "👑 Boss:  " << boss.getNome() << endl;
-        cout << "   Vida:  ";
-        int vidaBoss = boss.getVida();
-        int vidaBossMax = 200; // Valor simbólico, ajuste se necessário
-        int barraBoss = (vidaBoss * 20) / vidaBossMax;
-        cout << "[";
-        for(int i=0;i<20;i++) cout << (i<barraBoss?"█":" ");
-        cout << "] " << vidaBoss << " ❤️" << endl;
+        cout << "   Vida:  " << boss.getVida() << " ❤️" << endl;
         cout << "   Força: " << boss.getForca() << " 💪   Defesa: " << boss.getDefesa() << " 🛡️" << endl;
         cout << "-------------------------------------------" << endl;
         cout << "🧑‍🎤 Jogador: " << player->getNome() << endl;
-        cout << "   Vida:  ";
-        int vidaPlayer = player->getVida();
-        int vidaPlayerMax = 100; // Valor simbólico, ajuste se necessário
-        int barraPlayer = (vidaPlayer * 20) / vidaPlayerMax;
-        cout << "[";
-        for(int i=0;i<20;i++) cout << (i<barraPlayer?"█":" ");
-        cout << "] " << vidaPlayer << " ❤️" << endl;
+        cout << "   Vida:  " << player->getVida() << " ❤️" << endl;
         cout << "   Força: " << player->getForca() << " (+" << player->getBonusAtaqueEquipado() << ") 💪   Defesa: " << player->getDefesa() << " (+" << player->getBonusDefesaEquipado() << ") 🛡️" << endl;
-        cout << "   Dinheiro: " << player->getDinheiro() << " 💰" << endl;
         cout << "===========================================\n" << endl;
 
         // TURNO DO JOGADOR
@@ -66,10 +51,9 @@ bool BatalhaBoss::batalhar() {
             player->reduzirDurabilidadeEquipamentos();
             
             cout << "Sua vez! Escolha sua ação:\n";
-            cout << "1 - Atacar\n";
-            cout << "2 - Defender (reduz dano do próximo ataque)\n";
-            cout << "3 - Usar Habilidade\n";
-            cout << "4 - Usar Consumível\n";
+            cout << "1 - Atacar ⚔️\n";
+            cout << "2 - Usar habilidade ✨\n";
+            cout << "3 - Usar item 🧪\n";
             int acao = 0;
             while (!(cin >> acao) || acao < 1 || acao > 4) {
                 cout << "Opção inválida! Escolha 1-4: ";
@@ -86,13 +70,7 @@ bool BatalhaBoss::batalhar() {
                     cout << "-----------------------------" << endl;
                     break;
                 }
-                case 2: { // Defender
-                    jogadorDefendendo = true;
-                    cout << "\n🛡️ Você ergue seu escudo e se prepara para o impacto! Defesa ativada! 🛡️\n";
-                    cout << "-----------------------------" << endl;
-                    break;
-                }
-                case 3: { // Usar Habilidade
+                case 2: { // Usar Habilidade
                     cout << "Escolha a habilidade:\n";
                     if (!usouGolpeDuplo) cout << "  1 - Golpe Duplo (Ataca duas vezes) 💥" << endl;
                     else cout << "  1 - Golpe Duplo (JÁ USADO)" << endl;
@@ -138,7 +116,7 @@ bool BatalhaBoss::batalhar() {
                     }
                     break;
                 }
-                case 4: { // Usar Consumível
+                case 3: { // Usar Consumível
                     player->mostrarConsumiveisBatalha();
                     cout << "Escolha o número do consumível para usar (0 para cancelar): ";
                     int idx;
@@ -157,7 +135,7 @@ bool BatalhaBoss::batalhar() {
                     break;
                 }
             }
-            cout << "\nPressione Enter para continuar... 👉 👉";
+            cout << "\nPressione Enter para continuar... 👉";
             cin.ignore();
         } else {
             cout << R"(
@@ -170,7 +148,7 @@ bool BatalhaBoss::batalhar() {
 )";
             cout << "O Boss está congelado e perde o turno! 🧊\n";
             bossCongelado = false;
-            cout << "\nPressione Enter para continuar... 👉 👉";
+            cout << "\nPressione Enter para continuar... 👉";
             cin.ignore();
             turno++;
             continue;
@@ -193,27 +171,14 @@ bool BatalhaBoss::batalhar() {
 
         // TURNO DO BOSS
         system("cls");
-        cout << "\n========= TURNO " << turno << " (Boss) =========\n";
-        // RESUMO VISUAL DOS STATUS
         cout << "================== STATUS ==================" << endl;
         cout << "👑 Boss:  " << boss.getNome() << endl;
-        cout << "   Vida:  ";
-        vidaBoss = boss.getVida();
-        barraBoss = (vidaBoss * 20) / vidaBossMax;
-        cout << "[";
-        for(int i=0;i<20;i++) cout << (i<barraBoss?"█":" ");
-        cout << "] " << vidaBoss << " ❤️" << endl;
+        cout << "   Vida:  " << boss.getVida() << " ❤️" << endl;
         cout << "   Força: " << boss.getForca() << " 💪   Defesa: " << boss.getDefesa() << " 🛡️" << endl;
         cout << "-------------------------------------------" << endl;
         cout << "🧑‍🎤 Jogador: " << player->getNome() << endl;
-        cout << "   Vida:  ";
-        vidaPlayer = player->getVida();
-        barraPlayer = (vidaPlayer * 20) / vidaPlayerMax;
-        cout << "[";
-        for(int i=0;i<20;i++) cout << (i<barraPlayer?"█":" ");
-        cout << "] " << vidaPlayer << " ❤️" << endl;
+        cout << "   Vida:  " << player->getVida() << " ❤️" << endl;
         cout << "   Força: " << player->getForca() << " (+" << player->getBonusAtaqueEquipado() << ") 💪   Defesa: " << player->getDefesa() << " (+" << player->getBonusDefesaEquipado() << ") 🛡️" << endl;
-        cout << "   Dinheiro: " << player->getDinheiro() << " 💰" << endl;
         cout << "===========================================\n" << endl;
         cout << "Turno do Boss! 🐲\n";
         int acaoBoss = rand() % 100;
@@ -255,7 +220,7 @@ bool BatalhaBoss::batalhar() {
             cout << "-----------------------------" << endl;
         }
         jogadorDefendendo = false;
-        cout << "\nPressione Enter para continuar... 👉 👉";
+        cout << "\nPressione Enter para continuar... 👉";
         cin.ignore();
 
         // CHECA DERROTA

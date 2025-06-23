@@ -150,7 +150,7 @@ bool BatalhaNormal::batalhar() {
                     if(hab == 0) break;
                     if ((hab == 1 && usouGolpeDuplo) || (hab == 2 && usouAtaqueGelo)) {
                         cout << "Você já usou essa habilidade nesta batalha! Escolha outra ação. ⚠️" << endl;
-                        cout << "\nPressione Enter para continuar... 👉 👉" << endl;
+                        cout << "\nPressione Enter para continuar... 👉" << endl;
                         cin.ignore();
                         break;
                     }
@@ -190,7 +190,7 @@ bool BatalhaNormal::batalhar() {
                     break;
             }
             if(acaoRealizada) {
-                cout << "\nPressione Enter para continuar... 👉 👉" << endl;
+                cout << "\nPressione Enter para continuar... 👉" << endl;
                 cin.ignore();
                 turno++;
             }
