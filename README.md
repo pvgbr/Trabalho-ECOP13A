@@ -55,7 +55,7 @@ Trabalho-ECOP13A/
 
 ## Créditos
 
-Este projeto foi desenvolvido por Paulo Vinícius e Felipe Kenji, como projeto final da disciplina ECOP13A.
+Este projeto foi desenvolvido por Paulo Vinícius e Felipe Kenji, como trabalho final da disciplina ECOP13A.
 
 ---
 
