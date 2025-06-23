@@ -7,7 +7,6 @@ Boss::Boss(string nome, int forca, int defesa, string frase)
     : Inimigo(nome, forca, defesa, Dificuldade(3)), fraseFinal(frase) {
     vida = 300;
     nivel = 10;
-    // Define recompensas especiais do boss
     setRecompensaXP(50);
     setRecompensaDinheiro(200);
 }
@@ -28,7 +27,6 @@ string Boss::getFraseFinal() const {
 
 // Mecânica especial: ataque especial do boss
 int Boss::ataqueEspecial() {
-    // Dano: 1.5x força + bônus aleatório entre 0 e 10
     int bonus = rand() % 11;
     int dano = static_cast<int>(forca * 1.5) + bonus;
     cout << "O Boss usa seu ataque especial! Causa " << dano << " de dano!" << endl;

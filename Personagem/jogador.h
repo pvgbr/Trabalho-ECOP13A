@@ -15,6 +15,7 @@ enum class HabilidadeJogador {
     ATAQUE_GELO = 2
 };
 
+// Classe de Jogador, que herda da classe Personagem
 class Jogador : public Personagem {
 
     private:
@@ -38,7 +39,7 @@ class Jogador : public Personagem {
         Jogador(string n = "", int f = 1, int d = 1);
         ~Jogador() { }
 
-        void imprimir_dados();
+        void imprimir_dados(); // Função sobrescrita para imprimir dados do jogador
         
         void alterarDinheiro(int d);
         void alterarXP(int exp);
@@ -50,39 +51,37 @@ class Jogador : public Personagem {
         void setXP(int exp);
         void setFase(int f);
 
-        bool verificaNivel();
+        bool verificaNivel(); // Função que verifica se o jogador pode upar de nivel
 
-        void limparInv();
+        void limparInv(); // Função para limpar os inventarios do jogador
 
-        void salvar(string caminho, int missaoAtual = -1);
-        void carregar(string caminho, int* missaoAtual = nullptr);
+        void salvar(string caminho, int missaoAtual = -1); // Função para salvar as informações do jogo no arquivo
+        void carregar(string caminho, int* missaoAtual = nullptr); // Função para carregar as informações do jogo do arquivo
 
-        void equiparItem(int indiceNoInventario);
-        void desequiparItem(TipoArmamento tipo);
+        void equiparItem(int indiceNoInventario); // Função para equipar item do inventário
+        void desequiparItem(TipoArmamento tipo); // Função para desequipar item do inventário
 
-        void gerenciarPosBatalha();
+        void gerenciarPosBatalha(); // Função que gerencia o pos batalha, reduzindo durabilidades
 
-        void mostrarConsumiveisBatalha() const;
-        bool usarConsumivelBatalha(int indice);
+        void mostrarConsumiveisBatalha() const; // Função que mostra os consumiveis disponiveis na batalha
+        bool usarConsumivelBatalha(int indice); // Função para usar um consumível na batalha
 
         const Inventario<Consumiveis>& getInvConsumivel() const;
 
-        void adicionarArmamentoAoInventario(const Armamento& arma);
-        void adicionarConsumivelAoInventario(const Consumiveis& consumivel);
+        void adicionarArmamentoAoInventario(const Armamento& arma); // Função para adicionar um armamento no inventário
+        void adicionarConsumivelAoInventario(const Consumiveis& consumivel); // Função para adicionar um consumivel no inventário
 
-        void mostrarInventariosCompletos() const;
+        void mostrarInventariosCompletos() const; // Função para mostrar os dois inventario (arma e consumivel)
 
         int getBonusAtaqueEquipado() const;
         int getBonusDefesaEquipado() const;
 
-        void gerenciarInventario();
+        void gerenciarInventario(); // Função para gerenciar inventario (equipar e desequipar itens)
 
-        // Sistema de habilidades
-        // O método retorna um par: dano causado e se congelou o alvo (bool)
-        pair<int, bool> usarHabilidade(HabilidadeJogador habilidade, Personagem* alvo = nullptr);
+        pair<int, bool> usarHabilidade(HabilidadeJogador habilidade, Personagem* alvo = nullptr); // Função para usar habilidade, retorna um par: dano causado e se congelou o alvo
 
         // Gerenciamento de durabilidade
-        void reduzirDurabilidadeEquipamentos();
+        void reduzirDurabilidadeEquipamentos(); // Função para reduzir durabilidade de equipamento
 
 };
 

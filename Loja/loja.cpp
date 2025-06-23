@@ -38,37 +38,35 @@ Loja::Loja() {
 void Loja::mostrarItens(const Jogador& jogador) const {
     Dificuldade dif(jogador.getDificuldade());
     double multPreco = dif.getMultiplicadorPreco();
-    cout << "\n--- Bem-vindo a Loja! ---" << endl;
-    cout << "Você tem " << jogador.getDinheiro() << " moedas." << endl;
-    cout << "\n--- Armamentos ---" << endl;
-    cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preco" << endl;
+    cout << "\n--- 🛒 Bem-vindo à Loja! 🛒 ---" << endl;
+    cout << "Você tem " << jogador.getDinheiro() << " moedas 💰." << endl;
+    cout << "\n--- ⚔️ Armamentos ---" << endl;
+    cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preço" << endl;
     cout << string(45, '-') << endl;
-    for (size_t i = 0; i < armamentos_disponiveis.size(); ++i) {
+    for (int i = 0; i < armamentos_disponiveis.size(); ++i) {
         int preco = static_cast<int>(precos_armamentos[i] * multPreco);
         cout << left << setw(5) << to_string(i + 1) + "." 
                     << setw(30) << armamentos_disponiveis[i].getNome() 
-                    << preco << " moedas" << endl;
+                    << preco << " moedas 💰" << endl;
     }
-
-    cout << "\n--- Consumiveis ---" << endl;
-    cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preco" << endl;
+    cout << "\n--- 🧪 Consumíveis ---" << endl;
+    cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preço" << endl;
     cout << string(45, '-') << endl;
-    for (size_t i = 0; i < consumiveis_disponiveis.size(); ++i) {
+    for (int i = 0; i < consumiveis_disponiveis.size(); ++i) {
         int preco = static_cast<int>(precos_consumiveis[i] * multPreco);
         cout << left << setw(5) << to_string(i + 1 + armamentos_disponiveis.size()) + "." 
                     << setw(30) << consumiveis_disponiveis[i].getNome() 
-                    << preco << " moedas" << endl;
+                    << preco << " moedas 💰" << endl;
     }
-
     cout << "-------------------------" << endl;
-    cout << "Digite o numero do item para comprar ou 0 para sair." << endl;
+    cout << "Digite o número do item para comprar ou 0 para sair. 🛍️" << endl;
 }
 
 bool Loja::comprarArmamento(Jogador& jogador, int indice_loja) {
     Dificuldade dif(jogador.getDificuldade());
     double multPreco = dif.getMultiplicadorPreco();
     int indice_real = indice_loja - 1;
-    if (indice_real >= 0 && (size_t)indice_real < armamentos_disponiveis.size()) {
+    if (indice_real >= 0 && (int)indice_real < armamentos_disponiveis.size()) {
         const Armamento& item_para_comprar = armamentos_disponiveis[indice_real];
         int preco = static_cast<int>(precos_armamentos[indice_real] * multPreco);
 
@@ -91,7 +89,7 @@ bool Loja::comprarConsumivel(Jogador& jogador, int indice_loja) {
     Dificuldade dif(jogador.getDificuldade());
     double multPreco = dif.getMultiplicadorPreco();
     int indice_real = indice_loja - 1 - armamentos_disponiveis.size(); 
-    if (indice_real >= 0 && (size_t)indice_real < consumiveis_disponiveis.size()) {
+    if (indice_real >= 0 && (int)indice_real < consumiveis_disponiveis.size()) {
         const Consumiveis& item_para_comprar = consumiveis_disponiveis[indice_real];
         int preco = static_cast<int>(precos_consumiveis[indice_real] * multPreco);
 
@@ -110,10 +108,10 @@ bool Loja::comprarConsumivel(Jogador& jogador, int indice_loja) {
     }
 }
 
-size_t Loja::getNumeroDeArmamentos() const {
+int Loja::getNumeroDeArmamentos() const {
     return armamentos_disponiveis.size();
 }
 
-size_t Loja::getNumeroDeConsumiveis() const {
+int Loja::getNumeroDeConsumiveis() const {
     return consumiveis_disponiveis.size();
 }

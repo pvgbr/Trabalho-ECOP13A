@@ -18,7 +18,7 @@ class Batalha {
         Batalha(Jogador*);
         ~Batalha() { }
 
-        virtual bool batalhar() = 0;
+        virtual bool batalhar() = 0; //Função virtual de batalha
 
 };
 

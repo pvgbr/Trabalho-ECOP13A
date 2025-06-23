@@ -13,7 +13,16 @@ void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool joga
         throw runtime_error("Ponteiro do jogador é nulo durante o ataque");
     }
 
-    string frases[3] = {" atacou fortemente ", " arrebentou ", " acabou com " };
+    string frases[8] = {
+        " atacou fortemente ",
+        " arrebentou ",
+        " acabou com ",
+        " desferiu um golpe certeiro em ",
+        " surpreendeu ",
+        " esmagou ",
+        " não deu chance para ",
+        " fez um ataque crítico em "
+    };
     
     int forcaTotalAtacante = atacante.getForca();
     int defesaTotalDefensor = defensor.getDefesa();
@@ -35,9 +44,9 @@ void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool joga
     if (dano < 1) dano = 1;
 
     defensor.alterarVida(-dano);
-    int f = rand() % 3;
-    cout << atacante.getNome() << frases[f] << defensor.getNome() << endl;
-    cout << defensor.getNome() << " levou " << dano << " de dano!" << endl;
+    int f = rand() % 8;
+    cout << atacante.getNome() << frases[f] << defensor.getNome() << "! ⚔️" << endl;
+    cout << defensor.getNome() << " levou " << dano << " de dano! 💥" << endl;
 }
 
 int BatalhaNormal::escolhaBatalha(){
@@ -95,13 +104,13 @@ bool BatalhaNormal::batalhar() {
 
         // Exibir status no início de cada turno
         cout << "     ------------------------      " << endl;
-        cout << "     " << enemy.getNome() << endl;
-        cout << "     Vida: " << enemy.getVida() << endl;
+        cout << "     " << enemy.getNome() << " 👾" << endl;
+        cout << "     Vida: " << enemy.getVida() << " ❤️" << endl;
         cout << "     ------------------------      " << endl << endl;
 
         cout << endl << "     ------------------------      " << endl;
-        cout << "     " << player->getNome() << endl;
-        cout << "     Vida: " << player->getVida() << endl;
+        cout << "     " << player->getNome() << " 🧑‍🎤" << endl;
+        cout << "     Vida: " << player->getVida() << " ❤️" << endl;
         cout << "     ------------------------      " << endl << endl << endl;
 
         if (turno % 2 != 0) { // Turno do Jogador
@@ -109,10 +118,10 @@ bool BatalhaNormal::batalhar() {
             player->reduzirDurabilidadeEquipamentos();
             
             cout << " >> Seu turno! << " << endl;
-            cout << " Escolha uma acao: " << endl;
-            cout << "   1 - Atacar" << endl;
-            cout << "   2 - Usar habilidade" << endl;
-            cout << "   3 - Usar item" << endl;
+            cout << " Escolha uma ação: " << endl;
+            cout << "   1 - Atacar ⚔️" << endl;
+            cout << "   2 - Usar habilidade ✨" << endl;
+            cout << "   3 - Usar item 🧪" << endl;
             
             int escolha = escolhaBatalha();
             if (escolha == -1) {
@@ -122,13 +131,14 @@ bool BatalhaNormal::batalhar() {
             switch(escolha){
                 case 1:
                     atacar(*player, enemy, true);
+                    cin.ignore();
                     acaoRealizada = true;
                     break;
                 case 2: {
                     cout << "Escolha a habilidade (ou 0 para cancelar):" << endl;
-                    if (!usouGolpeDuplo) cout << "  1 - Golpe Duplo (Ataca duas vezes)" << endl;
+                    if (!usouGolpeDuplo) cout << "  1 - Golpe Duplo (Ataca duas vezes) 💥" << endl;
                     else cout << "  1 - Golpe Duplo (JÁ USADO)" << endl;
-                    if (!usouAtaqueGelo) cout << "  2 - Ataque de Gelo (Pode congelar o inimigo)" << endl;
+                    if (!usouAtaqueGelo) cout << "  2 - Ataque de Gelo (Pode congelar o inimigo) ❄️" << endl;
                     else cout << "  2 - Ataque de Gelo (JÁ USADO)" << endl;
                     int hab;
                     while (cin >> hab && (hab < 0 || hab > 2)) {
@@ -136,11 +146,11 @@ bool BatalhaNormal::batalhar() {
                         cin.clear();
                         cin.ignore();
                     }
+                    cin.ignore();
                     if(hab == 0) break;
                     if ((hab == 1 && usouGolpeDuplo) || (hab == 2 && usouAtaqueGelo)) {
-                        cout << "Você já usou essa habilidade nesta batalha! Escolha outra ação." << endl;
-                        cout << "\nPressione Enter para continuar..." << endl;
-                        cin.ignore();
+                        cout << "Você já usou essa habilidade nesta batalha! Escolha outra ação. ⚠️" << endl;
+                        cout << "\nPressione Enter para continuar... 👉 👉" << endl;
                         cin.ignore();
                         break;
                     }
@@ -168,19 +178,19 @@ bool BatalhaNormal::batalhar() {
   ██        ██
    ██████████
 )";
-                        cout << "O inimigo está completamente congelado!\n";
+                        cout << "O inimigo está completamente congelado! 🧊\n";
                         cout << "\033[0m";
                     }
                     acaoRealizada = true;
                     break;
                 }
                 case 3: 
-                    cout<< "Voce usou um item!" << endl;
+                    cout<< "Você usou um item! 🧪" << endl;
                     acaoRealizada = true;
                     break;
             }
             if(acaoRealizada) {
-                cout << "\nPressione Enter para continuar..." << endl;
+                cout << "\nPressione Enter para continuar... 👉 👉" << endl;
                 cin.ignore();
                 turno++;
             }
@@ -198,14 +208,14 @@ bool BatalhaNormal::batalhar() {
                 cout << "O inimigo está congelado e perde o turno!\n";
                 cout << "\033[0m";
                 inimigoCongelado = false;
-                cout << "\nPressione Enter para continuar..." << endl;
+                cout << "\nPressione Enter para continuar... 👉" << endl;
                 cin.ignore();
                 turno++;
                 continue;
             }
             cout << " >> Turno de " << enemy.getNome() << "! <<" << endl;
             atacar(enemy, *player, false);
-            cout << "\nPressione Enter para continuar..." << endl;
+            cout << "\nPressione Enter para continuar... 👉" << endl;
             cin.ignore();
             turno++;
         }

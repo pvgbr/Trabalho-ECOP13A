@@ -26,29 +26,29 @@ MenuIni::MenuIni(Jogador* p, int missaoAtual) : player{p}, missaoAtual{missaoAtu
 }  
 
 void MenuIni::inicio() {
-    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
-    cout << "\nPressione Enter para continuar...";
+    cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "\nPressione Enter para continuar... 👉 👉";
     cin.ignore();
     system("cls");
-    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
-    cout << "Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
-    cout << "\nPressione Enter para continuar...";
+    cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "🧙‍♂️ Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
+    cout << "\nPressione Enter para continuar... 👉 👉";
     cin.ignore();
     system("cls");
-    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
-    cout << "Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
-    cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...'\n";
-    cout << "\nPressione Enter para continuar...";
+    cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "🧙‍♂️ Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
+    cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...' 🔮\n";
+    cout << "\nPressione Enter para continuar... 👉 👉";
     cin.ignore();
     system("cls");
-    cout << "Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
-    cout << "Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
-    cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...'\n";
-    cout << "Com o coração acelerado, você sente que está prestes a viver a maior aventura de sua vida.\n";
-    cout << "\nPressione Enter para continuar...";
+    cout << "🏰 Em tempos antigos, o Reino de Eldoria era um lugar de paz e prosperidade, protegido por heróis lendários e magos poderosos. Mas, nas sombras das montanhas distantes, uma força sombria desperta após séculos de silêncio.\n";
+    cout << "🧙‍♂️ Você é um jovem habitante de uma vila simples, mas com um coração inquieto e sede de aventura. Numa noite tempestuosa, um velho mago bate à sua porta, trazendo uma mensagem urgente:\n";
+    cout << "— 'O mal retorna, jovem. O destino do reino está em suas mãos. Reúna coragem, prepare-se e escreva seu nome entre os heróis de Eldoria. Sua jornada começa agora...' 🔮\n";
+    cout << "Com o coração acelerado, você sente que está prestes a viver a maior aventura de sua vida. ✨\n";
+    cout << "\nPressione Enter para continuar... 👉 👉";
     cin.ignore();
-    cout << "\n\n=== Bem-vindo ao RPG de Batalha ===\n\n";
-    cout << "Vamos começar criando seu personagem!\n";
+    cout << "\n\n=== 🎯 Bem-vindo ao RPG de Batalha! 🎯 ===\n\n";
+    cout << "Vamos começar criando seu personagem! 👤✨\n";
     // Nome do personagem
     string nome;
     while (true) {
@@ -56,38 +56,34 @@ void MenuIni::inicio() {
             cout << "Digite o nome do seu personagem: ";
             getline(cin, nome);
             if (nome.length() > 30) {
-                throw length_error("O nome deve ter no máximo 30 caracteres!");
+                throw length_error("O nome deve ter no máximo 30 caracteres! ❌");
             }
             break;
         } catch (const length_error& e) {
             cout << "Erro: " << e.what() << endl;
         }
     }
-    cout << "Perfeito! Seu personagem se chamará " << nome << "!\n\n";
+    cout << "Perfeito! Seu personagem se chamará " << nome << "! 🎉\n\n";
     // Dificuldade
     map<int, string> m; 
     m[1] = "Fácil"; 
     m[2] = "Médio"; 
     m[3] = "Difícil";
-    
     int dific;
     do {
-        cout << "Selecione o nível de dificuldade:\n";
-        cout << "1 - Fácil\n";
-        cout << "2 - Médio\n";
-        cout << "3 - Difícil\n";
+        cout << "Selecione o nível de dificuldade: ⚙️\n";
+        cout << "1 - Fácil ⭐\n";
+        cout << "2 - Médio 💪\n";
+        cout << "3 - Difícil 🔥\n";
         cout << "Sua escolha: ";
         cin >> dific;
-        
         if (dific < 1 || dific > 3) {
-            cout << "\nOpção inválida! Por favor, escolha entre 1 e 3.\n\n";
+            cout << "\nOpção inválida! Por favor, escolha entre 1 e 3. ❌\n\n";
         }
     } while (dific < 1 || dific > 3);
-    
-    cout << "Dificuldade " << m[dific] << " selecionada!\n";
+    cout << "Dificuldade " << m[dific] << " selecionada! ✅\n";
     player->setDificuldade(dific);
     dif.setDificuldade(dific);
-    
     // Configuração inicial do personagem
     player->setNome(nome);
     player->setNivel(1);
@@ -97,19 +93,17 @@ void MenuIni::inicio() {
     player->setVida(100);
     player->setDinheiro(100);
     player->setFase(1);
-    
     // Inicializa o gerenciador de missões
     GerenciadorMissoes gerenciadorMissoes(player);
     cin.ignore();
-    cout << "\nSeu personagem foi criado com sucesso!\n\n";
+    cout << "\nSeu personagem foi criado com sucesso! 🎉\n\n";
     cout << "Você começa com:\n";
-    cout << "- 100 de vida\n";
-    cout << "- 5 de força\n";
-    cout << "- 3 de defesa\n";
-    cout << "- 100 moedas\n\n";
-    cout << "Pressione Enter para continuar...";
+    cout << "- 100 de vida ❤️\n";
+    cout << "- 5 de força 💪\n";
+    cout << "- 3 de defesa 🛡️\n";
+    cout << "- 100 moedas 💰\n\n";
+    cout << "Pressione Enter para continuar... 👉 👉";
     cin.ignore();
-    
     system("cls");
     menuPrinc();
 }
@@ -206,17 +200,15 @@ void MenuIni::menuPrinc() {
         system("cls");
         if(!player->getVida()) player->setVida(100);
         player->imprimir_dados();
-        cout << "\n=== Menu Principal ===\n";
-        cout << "1 - Iniciar Missão Atual\n";
-        cout << "2 - Ver Missões Disponíveis\n";
-        cout << "3 - Ver Progresso da Missão\n";
-        cout << "4 - Loja\n";
-        cout << "5 - Inventário\n";
-        cout << "6 - Salvar Jogo\n";
-        cout << "7 - Carregar Jogo\n";
-        cout << "8 - Resetar Jogo\n";
-        cout << "9 - Preferências\n";
-        cout << "0 - Sair e salvar\n";
+        cout << "\n=== 🏠 Menu Principal ===\n";
+        cout << "1 - Iniciar Missão Atual ⚔️\n";
+        cout << "2 - Ver Missões Disponíveis 📖\n";
+        cout << "3 - Ver Progresso da Missão 📈\n";
+        cout << "4 - Loja 🛒\n";
+        cout << "5 - Inventário 🎒\n";
+        cout << "6 - Resetar Jogo 🔄\n";
+        cout << "7 - Preferências ⚙️\n";
+        cout << "0 - Sair e salvar 🚪\n";
         cout << "Escolha uma opção: ";
         
         cin >> escolha;
@@ -250,7 +242,7 @@ void MenuIni::menuPrinc() {
                                 cout << "Você recebeu:\n";
                                 cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
                                 cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
-                                cout << "Pressione Enter para continuar...";
+                                cout << "Pressione Enter para continuar... 👉";
                                 cin.ignore();
                                 cin.ignore();
                                 break;
@@ -268,7 +260,7 @@ void MenuIni::menuPrinc() {
                                     cout << "Você recebeu:\n";
                                     cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
                                     cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
-                                    cout << "Pressione Enter para continuar...";
+                                    cout << "Pressione Enter para continuar... 👉";
                                     cin.ignore();
                                     cin.ignore();
                                     break;
@@ -278,7 +270,7 @@ void MenuIni::menuPrinc() {
                     }
                 } else {
                     cout << "\nTodas as missões foram concluídas!\n";
-                    cout << "Pressione Enter para continuar...";
+                    cout << "Pressione Enter para continuar... 👉";
                     cin.ignore();
                 }
                 break;
@@ -287,7 +279,8 @@ void MenuIni::menuPrinc() {
                 break;
             case 3:
                 gerenciadorMissoes.mostrarProgressoAtual();
-                cout << "Pressione Enter para continuar...";
+                cout << "Pressione Enter para continuar... 👉";
+                cin.ignore();
                 cin.ignore();
                 break;
             case 4:
@@ -297,25 +290,25 @@ void MenuIni::menuPrinc() {
             case 5:
                 player->gerenciarInventario();
                 break;
-            case 6:
+            case 88:
                 player->salvar("save.txt", gerenciadorMissoes.getMissaoAtualIndex());
                 cout << "\nJogo salvo com sucesso!\n";
-                cout << "Pressione Enter para continuar...";
+                cout << "Pressione Enter para continuar... 👉";
                 cin.ignore();
                 cin.ignore();
                 break;
-            case 7:
+            case 89:
                 player->carregar("save.txt");
                 cout << "\nJogo carregado com sucesso!\n";
-                cout << "Pressione Enter para continuar...";
+                cout << "Pressione Enter para continuar... 👉";
                 cin.ignore();
                 cin.ignore();
                 break;
-            case 8:
+            case 6:
                 system("cls");
                 reset();
                 break;
-            case 9:
+            case 7:
                 system("cls");
                 preferencias();
                 break;
@@ -326,7 +319,7 @@ void MenuIni::menuPrinc() {
                 break;
             default:
                 cout << "\nOpção inválida!\n";
-                cout << "Pressione Enter para continuar...";
+                cout << "Pressione Enter para continuar... 👉";
                 cin.ignore();
                 cin.ignore();
         }

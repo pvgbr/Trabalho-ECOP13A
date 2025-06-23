@@ -11,17 +11,18 @@ enum class HabilidadeBoss {
     REGENERACAO_DRAGONICA = 2
 };
 
+// Classe do inimigo final (Boss), que herda da classe Inimigo
 class Boss : public Inimigo {
 private:
     string fraseFinal;
 public:
     Boss(string nome, int forca, int defesa, string frase);
-    void imprimir_dados() override;
+    
     string getFraseFinal() const;
-    // Mecânica especial: ataque especial do boss
-    int ataqueEspecial();
-    // Sistema de habilidades
-    void usarHabilidade(HabilidadeBoss habilidade);
+    
+    void imprimir_dados() override; // Função sobrescrita para imprir dados do boss
+    int ataqueEspecial(); // Função para o boss usar o seu ataque especial
+    void usarHabilidade(HabilidadeBoss habilidade); // Função para o boss usar sua habilidade
 };
 
 #endif 

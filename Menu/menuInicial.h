@@ -9,6 +9,7 @@
 #include "../Inventario/consumiveis.h"
 using namespace std;
 
+// Classe de Menu inicial, na qual todo o jogo acontece
 class MenuIni {
     
     private:
@@ -19,15 +20,13 @@ class MenuIni {
 
     public:
         MenuIni(Jogador*, int missaoAtual = 0);
-        void mostra_menu();
 
         Jogador* getPlayer();
 
-        void menuPrinc();
-        void inicio();
-        void preferencias();
-        void reset();
-        void menuLoja(Jogador* player);
+        void menuPrinc(); // Função para imprimir o menu
+        void inicio(); // Função de inicio do jogo, com a historia incial e criação de personagem
+        void preferencias(); // Função para alterar preferencias do jogo
+        void reset(); // Função para resetar o jogo
 };
 
 #endif

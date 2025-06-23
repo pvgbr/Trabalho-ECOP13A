@@ -7,30 +7,30 @@
 using namespace std;
 
 void interagirComLoja(Jogador& jogador) {
-    Loja loja; // Cria a instância da loja
+    Loja loja;
     int escolha = -1;
 
     do {
-        loja.mostrarItens(jogador); // Mostra os itens e o dinheiro do jogador
+        loja.mostrarItens(jogador); 
         cout << "> ";
         cin >> escolha;
         cin.ignore();
 
         if (escolha == 0) {
-            cout << "Saindo da loja..." << endl;
+            cout << "Saindo da loja... 👋" << endl;
             break;
         }
 
-        if (escolha > 0 && (size_t)escolha <= loja.getNumeroDeArmamentos()) {
+        if (escolha > 0 && (int)escolha <= loja.getNumeroDeArmamentos()) {
             loja.comprarArmamento(jogador, escolha);
-        } else if ((size_t)escolha > loja.getNumeroDeArmamentos() && (size_t)escolha <= loja.getNumeroDeArmamentos() + loja.getNumeroDeConsumiveis()) {
+        } else if ((int)escolha > loja.getNumeroDeArmamentos() && (int)escolha <= loja.getNumeroDeArmamentos() + loja.getNumeroDeConsumiveis()) {
             loja.comprarConsumivel(jogador, escolha);
         } else {
-            cout << "Seleção inválida. Tente novamente." << endl;
+            cout << "Seleção inválida. Tente novamente. ❌" << endl;
         }
         
         if (escolha != 0) {
-            cout << "Pressione Enter para continuar..." << endl;
+            cout << "Pressione Enter para continuar... 👉 👉" << endl;
             cin.ignore();
             system("cls");
         }

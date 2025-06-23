@@ -8,6 +8,7 @@
 
 using namespace std;
 
+// Classe de Inimigos, que herda da classe Personagem
 class Inimigo : public Personagem {
 
     protected:
@@ -21,12 +22,9 @@ class Inimigo : public Personagem {
         Inimigo(string, int, int, Dificuldade);
         ~Inimigo() { }
 
-        void imprimir_dados();
+        void imprimir_dados(); // Função sobrescrita para imprimir dados do inimigo
+        
         void setDific(Dificuldade);
-        int get_recompensaXP();
-        int get_recompensaDinheiro();
-
-        void set_recompensas();
         void setRecompensaXP(int xp);
         void setRecompensaDinheiro(int dinheiro);
 };

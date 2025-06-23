@@ -6,20 +6,23 @@
 #include "consumiveis.h"
 using namespace std;
 
+// Classe template de inventario
 template <typename T>
 class Inventario {
 private:
     vector<T> itens;
 
 public:
-    void adicionarItem(const T& item);
-    void mostrarItens() const;
-    int verificaItem(const T& item);
-    bool removerItem(const T& item);
-    void removerItemUnico(const T& item);
+
+    void adicionarItem(const T& item); // Função para adicionar item ao inventario
+    void mostrarItens() const; // Função para mostrar todos os itens do inventário
+    int verificaItem(const T& item); // Função que retorna a quantidade do item buscado no inventario
+    bool removerItem(const T& item); // Função para remover todos os itens do mesmo tipo do inventario
+    void removerItemUnico(const T& item); // Função de remover apenas um item do tipo do inventario
     const vector<T>& getItens() const;
     vector<T>& getItens();
-    void clear();
+    void clear(); // Função para limpar o inventario
+
 };
 
 template <typename T>

@@ -6,6 +6,7 @@ using namespace std;
 
 class Jogador;
 
+// Classe de consumiveis
 class Consumiveis {
 
     private:
@@ -18,13 +19,11 @@ class Consumiveis {
         Consumiveis(int, string);
         ~Consumiveis() { }
 
-        void usarConsumivel(Jogador*);
+        void usarConsumivel(Jogador*); // Função usada para utlizar um consumivel
 
-        // Operadores adicionados
         friend ostream& operator<<(ostream& os, const Consumiveis& c);
         bool operator==(const Consumiveis& other) const;
 
-        // Getters adicionados
         int getId() const;
         string getNome() const;
 

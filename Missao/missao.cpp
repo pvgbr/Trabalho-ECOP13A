@@ -9,20 +9,20 @@ Missao::Missao(int id, string titulo, string descricao,
 
 void Missao::iniciar() {
     system("cls");
-    cout << "\n=== " << titulo << " ===\n";
+    cout << "\n=== 🚩 " << titulo << " ===\n";
     cout << descricao << "\n";
     if (id == 0) {
-        cout << "\nPressione Enter para começar sua aventura...";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nPressione Enter para começar sua aventura... 🚀";
+        cin.ignore();
         cin.ignore();
         return;
     }
-    cout << "Inimigos a derrotar: " << inimigos.size() << "\n";
+    cout << "Inimigos a derrotar: " << inimigos.size() << " 👾\n";
     cout << "Recompensas:\n";
-    cout << "- XP: " << recompensaXP << "\n";
-    cout << "- Dinheiro: " << recompensaDinheiro << "\n\n";
-    cout << "Pressione Enter para continuar...";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "- XP: " << recompensaXP << " ✨\n";
+    cout << "- Dinheiro: " << recompensaDinheiro << " 💰\n\n";
+    cout << "Pressione Enter para continuar... 👉 👉";
+    cin.ignore();
     cin.ignore();
 }
 
@@ -61,13 +61,13 @@ int Missao::getRecompensaDinheiro() const {
 }
 
 void Missao::mostrarProgresso() const {
-    cout << "\n=== Progresso da Missão ===\n";
+    cout << "\n=== 📈 Progresso da Missão ===\n";
     cout << "Título: " << titulo << "\n";
-    cout << "Inimigos derrotados: " << inimigosDerrotados << "/" << inimigos.size() << "\n";
+    cout << "Inimigos derrotados: " << inimigosDerrotados << "/" << inimigos.size() << " ⚔️\n";
     if (concluida) {
-        cout << "Status: Concluída!\n";
+        cout << "Status: Concluída! 🏆\n";
     } else {
-        cout << "Status: Em andamento\n";
+        cout << "Status: Em andamento ⏳\n";
     }
     cout << "==========================\n\n";
 }

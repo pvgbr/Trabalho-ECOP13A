@@ -4,7 +4,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Jogador; // Forward declaration
+class Jogador;
 
 enum class TipoArmamento {
     INDETERMINADO,
@@ -12,6 +12,7 @@ enum class TipoArmamento {
     ESCUDO
 };
 
+// Classe de armamentos
 class Armamento {  
     
     protected:
@@ -26,7 +27,6 @@ class Armamento {
     public:
         Armamento(int id, string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade);
             
-        // Métodos de acesso (Getters)
         int getId() const;
         string getNome() const;
         TipoArmamento getTipo() const;
@@ -35,10 +35,8 @@ class Armamento {
         int getDurabilidade() const;
         int getDurabilidadeMaxima() const;
 
-        // Modificadores
-        void reduzirDurabilidade(int quantidade);
+        void reduzirDurabilidade(int quantidade); // Função usada para reduzir a durabilidade de armas ou escudos
 
-        // Operadores
         friend ostream& operator<<(ostream& os, const Armamento& a);
         bool operator==(const Armamento& other) const;
 };

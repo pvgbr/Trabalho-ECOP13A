@@ -60,19 +60,19 @@ void GerenciadorMissoes::inicializarMissoes() {
 
 void GerenciadorMissoes::mostrarMissoesDisponiveis() const {
     system("cls");
-    cout << "\n=== Missões Disponíveis ===\n\n";
+    cout << "\n=== 📜 Missões Disponíveis ===\n\n";
     for (int i = 0; i < missoes.size(); ++i) {
         cout << "Missão " << (i + 1) << ": " << missoes[i].getTitulo() << "\n";
         if (i == missaoAtual) {
-            cout << "Status: Atual\n";
+            cout << "Status: Atual 🚩\n";
         } else if (i < missaoAtual) {
-            cout << "Status: Concluída\n";
+            cout << "Status: Concluída 🏆\n";
         } else {
-            cout << "Status: Bloqueada\n";
+            cout << "Status: Bloqueada 🔒\n";
         }
         cout << "------------------------\n";
     }
-    cout << "\nPressione Enter para continuar...";
+    cout << "\nPressione Enter para continuar... 👉 👉";
     cin.ignore();
     cin.ignore();
 }
@@ -108,7 +108,7 @@ bool GerenciadorMissoes::avancarMissao() {
             cout << "Parabéns! Você completou todas as missões!\n";
         }
         
-        cout << "\nPressione Enter para continuar...";
+        cout << "\nPressione Enter para continuar... 👉";
         cin.ignore();
         cin.ignore();
         

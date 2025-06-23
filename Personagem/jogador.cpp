@@ -21,11 +21,11 @@ void Jogador::imprimir_dados(){
     m[3] = "Difícil";
 
     cout<<"---------------------------------"<<endl;
-    cout<<"Nome: "<< nome <<"   Nivel: "<<nivel<<" ("<<xp<<"/"<< nivel*100 <<") "<<endl;
-    cout<<"Vida: "<< vida <<endl;
-    cout<<"Força: "<< forca << " (+" << getBonusAtaqueEquipado() << ")" << endl;
-    cout<<"Defesa: "<< defesa << " (+" << getBonusDefesaEquipado() << ")" << endl;
-    cout<<"Dinheiro: "<< dinheiro <<endl;
+    cout<<"Nome: "<< nome <<"   Nível: "<<nivel<<" ("<<xp<<"/"<< nivel*100 <<") "<<endl;
+    cout<<"Vida: "<< vida <<" ❤️"<<endl;
+    cout<<"Força: "<< forca << " (+" << getBonusAtaqueEquipado() << ") 💪" << endl;
+    cout<<"Defesa: "<< defesa << " (+" << getBonusDefesaEquipado() << ") 🛡️" << endl;
+    cout<<"Dinheiro: "<< dinheiro <<" 💰"<<endl;
     cout<<"Dificuldade: "<< m[dificuldade] << endl;
     cout << "Equipado: ";
     if (armaEquipada) cout << armaEquipada->getNome(); else cout << "Nenhuma";
@@ -227,7 +227,7 @@ void Jogador::mostrarConsumiveisBatalha() const {
     if (consumiveis.empty()) {
         cout << "Nenhum consumivel no inventario." << endl;
     } else {
-        for (size_t i = 0; i < consumiveis.size(); ++i) {
+        for (int i = 0; i < consumiveis.size(); ++i) {
             cout << i + 1 << ". " << consumiveis[i] << endl; 
         }
     }
@@ -238,7 +238,7 @@ bool Jogador::usarConsumivelBatalha(int indice) {
     int indiceReal = indice - 1;
     const auto& consumiveis = invConsumivel.getItens();
 
-    if (indiceReal >= 0 && (size_t)indiceReal < consumiveis.size()) {
+    if (indiceReal >= 0 && (int)indiceReal < consumiveis.size()) {
         Consumiveis itemParaUsar = consumiveis[indiceReal];
         invConsumivel.removerItem(itemParaUsar); 
         itemParaUsar.usarConsumivel(this);
@@ -286,27 +286,27 @@ void Jogador::adicionarConsumivelAoInventario(const Consumiveis& consumivel) {
 }
 
 void Jogador::mostrarInventariosCompletos() const {
-    cout << "\n=== Inventário de Armas ===\n";
+    cout << "\n=== 🎒 Inventário de Armas ===\n";
     const auto& armas = invArma.getItens();
     if (armas.empty()) {
-        cout << "Nenhuma arma no inventário.\n";
+        cout << "Nenhuma arma no inventário. ⚠️\n";
     } else {
-        for (size_t i = 0; i < armas.size(); ++i) {
+        for (int i = 0; i < armas.size(); ++i) {
             cout << i + 1 << ". " << armas[i] << endl;
         }
     }
 
-    cout << "\n=== Inventário de Consumíveis ===\n";
+    cout << "\n=== 🧪 Inventário de Consumíveis ===\n";
     const auto& consumiveis = invConsumivel.getItens();
     if (consumiveis.empty()) {
-        cout << "Nenhum consumível no inventário.\n";
+        cout << "Nenhum consumível no inventário. ⚠️\n";
     } else {
-        for (size_t i = 0; i < consumiveis.size(); ++i) {
+        for (int i = 0; i < consumiveis.size(); ++i) {
             cout << i + 1 << ". " << consumiveis[i] << endl;
         }
     }
 
-    cout << "\n=== Equipamentos Atuais ===\n";
+    cout << "\n=== 🛡️ Equipamentos Atuais ===\n";
     cout << "Arma: " << (armaEquipada ? armaEquipada->getNome() : "Nenhuma") << endl;
     cout << "Escudo: " << (escudoEquipado ? escudoEquipado->getNome() : "Nenhum") << endl;
 }
@@ -323,7 +323,7 @@ void Jogador::equiparItem(int indiceNoInventario) {
     int indiceReal = indiceNoInventario - 1;
     auto& inventarioArmas = invArma.getItens();
 
-    if (indiceReal < 0 || (size_t)indiceReal >= inventarioArmas.size()) {
+    if (indiceReal < 0 || (int)indiceReal >= inventarioArmas.size()) {
         cout << "Indice de item invalido." << endl;
         return;
     }
@@ -413,13 +413,13 @@ void Jogador::gerenciarInventario() {
             cin.clear();
             cin.ignore();
             cout << "Entrada inválida!" << endl;
-            cout << "\nPressione Enter para continuar...";
+            cout << "\nPressione Enter para continuar... 👉";
             cin.ignore();
             cin.ignore();
             continue;
         }
 
-        if (escolha > 0 && (size_t)escolha <= invArma.getItens().size()) {
+        if (escolha > 0 && (int)escolha <= invArma.getItens().size()) {
             equiparItem(escolha);
             cout << "\nItem equipado com sucesso!" << endl;
         } else if (escolha == 98) {
@@ -433,7 +433,7 @@ void Jogador::gerenciarInventario() {
         }
         
         if (escolha != 0) {
-            cout << "\nPressione Enter para continuar...";
+            cout << "\nPressione Enter para continuar... 👉";
             cin.ignore();
             cin.ignore();
         }

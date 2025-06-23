@@ -5,6 +5,7 @@
 #include "../Personagem/personagem.h"
 using namespace std;
 
+// Classe para definir dificuldade do jogo
 class Dificuldade {
 
     protected:
@@ -19,12 +20,12 @@ class Dificuldade {
         Dificuldade(int);
         ~Dificuldade() { }
 
-        void setDificuldade(int);
+        void setDificuldade(int); // Função para definir dificuldade do jogo
         
-        int getMInimigos();
-        int getMEAleatorio();
         int getDificuldade();
+
         // Multiplicadores de economia e dificuldade
+        int getMInimigos();
         double getMultiplicadorRecompensa();
         double getMultiplicadorPreco();
         double getMultiplicadorDanoInimigo();
