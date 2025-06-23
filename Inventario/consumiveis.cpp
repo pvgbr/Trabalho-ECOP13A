@@ -40,6 +40,9 @@ void Consumiveis::usarConsumivel(Jogador* player) {
         case 4:
             player->alterarVida(100);
             break;
+        case 5:
+            player->alterarForca(10);
+            break;   
         default:
             break; 
     }

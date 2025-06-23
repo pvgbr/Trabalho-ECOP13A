@@ -29,12 +29,14 @@ Loja::Loja() {
     // Consumíveis: (id, nome) - ID correspondente ao da classe Consumivel
     consumiveis_disponiveis.push_back(Consumiveis(3, "Poção de Vida Pequena"));
     precos_consumiveis.push_back(50);
-    consumiveis_disponiveis.push_back(Consumiveis(2, "Poção de Força"));
-    precos_consumiveis.push_back(150);
     consumiveis_disponiveis.push_back(Consumiveis(1, "Poção de Vida"));
     precos_consumiveis.push_back(100);
     consumiveis_disponiveis.push_back(Consumiveis(4, "Super Poção de Vida"));
     precos_consumiveis.push_back(150);
+    consumiveis_disponiveis.push_back(Consumiveis(2, "Poção de Força"));
+    precos_consumiveis.push_back(150);
+    consumiveis_disponiveis.push_back(Consumiveis(5, "Poção de Super Força"));
+    precos_consumiveis.push_back(200);
 }
 
 void Loja::mostrarItens(const Jogador& jogador) const {
