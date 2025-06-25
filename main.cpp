@@ -9,7 +9,7 @@
 using namespace std;
 
 int main() {
-    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleOutputCP(CP_  UTF8);
     srand(time(NULL));
     
     Jogador* player = new Jogador();
