@@ -10,8 +10,6 @@
 #include "../Missao/missao.h"
 #include "../Inventario/consumiveis.h"
 
-// Declaração da função limparTela para que seja visível antes do uso
-
 using namespace std;
 
 MenuIni::MenuIni(Jogador* p, int missaoAtual) : player{p}, missaoAtual{missaoAtual} {
@@ -227,8 +225,22 @@ void MenuIni::menuPrinc() {
                                     gerenciadorMissoes.avancarMissao();
                                     system("cls");
                                     cout << "\n==============================\n";
-                                    cout << "Parabéns! Você derrotou o Boss Final e salvou o reino!\n";
-                                    cout << "O Dragão Ancião ruge pela última vez: \"Você nunca derrotará as trevas!\"\n";
+                                    cout << "Após uma batalha árdua e intensa, o Dragão Ancião cai diante de sua força e coragem. "
+                                        << "O rugido final da criatura ecoa pelas montanhas, dissipando as trevas que há tanto tempo "
+                                        << "assolavam o Reino de Eldoria.\n";
+
+                                    cout << "O céu, antes encoberto por nuvens sombrias, se abre e raios de sol dourado iluminam as terras devastadas. "
+                                        << "O povo de Eldoria, sentindo a mudança no ar, sai de suas casas e vilarejos, celebrando a vitória do herói "
+                                        << "que ousou desafiar o impossível.\n";
+
+                                    cout << "O velho mago, que um dia lhe entregou a missão, surge entre a multidão, sorrindo com orgulho:\n";
+                                    cout << "\t— \"Você cumpriu seu destino, bravo aventureiro. O reino está livre graças à sua bravura e ao seu coração puro. "
+                                        << "Seu nome será lembrado por gerações!\"\n";
+
+                                    cout << "As cicatrizes da batalha permanecerão como lembrança do sacrifício e da esperança. "
+                                        << "Mas agora, Eldoria pode finalmente sonhar com um futuro de paz.\n";
+
+                                    cout << "Parabéns, herói! Você salvou o reino e se tornou uma lenda.\n";
                                     cout << "\nFIM DE JOGO\n";
                                     cout << "==============================\n";
                                     cout << "\nPressione Enter para sair...";
@@ -243,6 +255,8 @@ void MenuIni::menuPrinc() {
                                 cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
                                 cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
                                 cout << "Pressione Enter para continuar... 👉";
+                                player->alterarXP(missaoAtual->getRecompensaXP() / 10);
+                                player->alterarDinheiro(missaoAtual->getRecompensaDinheiro() / 5);
                                 cin.ignore();
                                 cin.ignore();
                                 break;
@@ -261,6 +275,8 @@ void MenuIni::menuPrinc() {
                                     cout << "- " << missaoAtual->getRecompensaXP() / 10 << " XP\n";
                                     cout << "- " << missaoAtual->getRecompensaDinheiro() / 5 << " moedas\n\n";
                                     cout << "Pressione Enter para continuar... 👉";
+                                    player->alterarXP(missaoAtual->getRecompensaXP() / 10);
+                                    player->alterarDinheiro(missaoAtual->getRecompensaDinheiro() / 5);
                                     cin.ignore();
                                     cin.ignore();
                                     break;

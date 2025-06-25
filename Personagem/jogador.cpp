@@ -88,7 +88,6 @@ void Jogador::salvar(string caminho, int missaoAtual) {
             return;
         }
 
-        // Dados básicos do jogador
         arq << nome << '\n';
         arq << forca << '\n';
         arq << defesa << '\n';
@@ -102,23 +101,20 @@ void Jogador::salvar(string caminho, int missaoAtual) {
             arq << missaoAtual << '\n';
         }
 
-        // Equipamentos atuais
         arq << (armaEquipada ? armaEquipada->getId() : 0) << '\n';
         arq << (escudoEquipado ? escudoEquipado->getId() : 0) << '\n';
 
-        // Inventário de armas
         const auto& armas = invArma.getItens();
         arq << armas.size() << '\n';
         for (const auto& arma : armas) {
             arq << arma.getId() << '\n';
             arq << arma.getNome() << '\n';
-            arq << static_cast<int>(arma.getTipo()) << '\n';
+            arq << (int)(arma.getTipo()) << '\n';
             arq << arma.getBonusAtaque() << '\n';
             arq << arma.getBonusDefesa() << '\n';
             arq << arma.getDurabilidade() << '\n';
         }
 
-        // Inventário de consumíveis
         const auto& consumiveis = invConsumivel.getItens();
         arq << consumiveis.size() << '\n';
         for (const auto& consumivel : consumiveis) {
@@ -141,15 +137,14 @@ void Jogador::salvar(string caminho, int missaoAtual) {
 void Jogador::carregar(string caminho, int* missaoAtual) {
     ifstream arq(caminho);
     if (arq.is_open()) {
-        // Limpar inventários antes de carregar
+
         invArma.clear();
         invConsumivel.clear();
         
-        // Resetar para equipamentos padrão
+
         armaEquipada = &armaPadrao;
         escudoEquipado = &escudoPadrao;
 
-        // Dados básicos do jogador
         getline(arq, nome);
         arq >> forca;
         arq >> defesa;
@@ -167,12 +162,10 @@ void Jogador::carregar(string caminho, int* missaoAtual) {
         }
         arq.ignore(); 
 
-        // IDs dos equipamentos atuais
         int idArmaEquipada, idEscudoEquipado;
         arq >> idArmaEquipada >> idEscudoEquipado;
         arq.ignore();
 
-        // Carregar inventário de armas
         int numArmas;
         arq >> numArmas;
         arq.ignore();
@@ -190,7 +183,6 @@ void Jogador::carregar(string caminho, int* missaoAtual) {
             Armamento arma(id, nomeItem, static_cast<TipoArmamento>(tipoInt), bonusAtk, bonusDef, durabilidade);
             invArma.adicionarItem(arma);
             
-            // Equipar itens se necessário
             if (id == idArmaEquipada) {
                 armaEquipada = &invArma.getItens().back();
             }
@@ -199,7 +191,6 @@ void Jogador::carregar(string caminho, int* missaoAtual) {
             }
         }
 
-        // Carregar inventário de consumíveis
         int numConsumiveis;
         arq >> numConsumiveis;
         arq.ignore();
@@ -251,7 +242,7 @@ bool Jogador::usarConsumivelBatalha(int indice) {
 }
 
 void Jogador::adicionarArmamentoAoInventario(const Armamento& arma) {
-    // Salva os IDs dos itens equipados antes da potencial re-alocação do vetor
+
     int idArmaEquipada = -1;
     if (armaEquipada && armaEquipada != &armaPadrao) {
         idArmaEquipada = armaEquipada->getId();
@@ -262,14 +253,11 @@ void Jogador::adicionarArmamentoAoInventario(const Armamento& arma) {
         idEscudoEquipado = escudoEquipado->getId();
     }
 
-    // Adiciona o novo item, o que pode invalidar os ponteiros armaEquipada/escudoEquipado
     invArma.adicionarItem(arma);
 
-    // Reseta para o padrão, caso os itens não sejam encontrados novamente (não deve acontecer)
     armaEquipada = &armaPadrao;
     escudoEquipado = &escudoPadrao;
 
-    // Re-encontra os itens no inventário e re-atribui os ponteiros
     auto& inventarioItens = invArma.getItens();
     for (Armamento& item : inventarioItens) {
         if (item.getId() == idArmaEquipada) {
@@ -366,7 +354,6 @@ void Jogador::gerenciarPosBatalha() {
 }
 
 void Jogador::reduzirDurabilidadeEquipamentos() {
-    // Reduz durabilidade da arma equipada
     if (armaEquipada && armaEquipada != &armaPadrao && armaEquipada->getDurabilidade() > 0) {
         armaEquipada->reduzirDurabilidade(1);
         if (armaEquipada->getDurabilidade() <= 0) {
@@ -374,11 +361,10 @@ void Jogador::reduzirDurabilidadeEquipamentos() {
             cout << "⚔️  Sua arma " << armaEquipada->getNome() << " quebrou! ⚔️" << endl;
             cout << "\033[0m";
             invArma.removerItemUnico(*armaEquipada);
-            armaEquipada = &armaPadrao; // Volta para arma padrão
+            armaEquipada = &armaPadrao; 
         }
     }
     
-    // Reduz durabilidade do escudo equipado
     if (escudoEquipado && escudoEquipado != &escudoPadrao && escudoEquipado->getDurabilidade() > 0) {
         escudoEquipado->reduzirDurabilidade(1);
         if (escudoEquipado->getDurabilidade() <= 0) {
@@ -386,7 +372,7 @@ void Jogador::reduzirDurabilidadeEquipamentos() {
             cout << "🛡️  Seu escudo " << escudoEquipado->getNome() << " quebrou! 🛡️" << endl;
             cout << "\033[0m";
             invArma.removerItemUnico(*escudoEquipado);
-            escudoEquipado = &escudoPadrao; // Volta para escudo padrão
+            escudoEquipado = &escudoPadrao; 
         }
     }
 }
@@ -440,7 +426,6 @@ void Jogador::gerenciarInventario() {
     }
 }
 
-// Sistema de habilidades do jogador
 pair<int, bool> Jogador::usarHabilidade(HabilidadeJogador habilidade, Personagem* alvo) {
     switch (habilidade) {
         case HabilidadeJogador::GOLPE_DUPLO: {
@@ -456,7 +441,7 @@ pair<int, bool> Jogador::usarHabilidade(HabilidadeJogador habilidade, Personagem
         }
         case HabilidadeJogador::ATAQUE_GELO: {
             if (alvo) {
-                int dano = forca + 5 + (rand() % 6); // Dano base + bônus
+                int dano = forca + 5 + (rand() % 6);
                 alvo->alterarVida(-dano);
                 bool congelou = (rand() % 100) < 40; // 40% de chance
                 cout << "Você lança um ATAQUE DE GELO! Causa " << dano << " de dano";

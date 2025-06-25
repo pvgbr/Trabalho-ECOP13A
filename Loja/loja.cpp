@@ -48,7 +48,7 @@ void Loja::mostrarItens(const Jogador& jogador) const {
     cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preço" << endl;
     cout << "------------------------------------------------" << endl;
     for (int i = 0; i < armamentos_disponiveis.size(); ++i) {
-        int preco = static_cast<int>(precos_armamentos[i] * multPreco);
+        int preco = (int)(precos_armamentos[i] * multPreco);
         cout << left << setw(5) << to_string(i + 1) + "." 
                     << setw(30) << armamentos_disponiveis[i].getNome() 
                     << preco << " moedas 💰" << endl;
@@ -57,7 +57,7 @@ void Loja::mostrarItens(const Jogador& jogador) const {
     cout << left << setw(5) << "Num" << setw(30) << "Nome" << "Preço" << endl;
     cout << "------------------------------------------------" << endl;
     for (int i = 0; i < consumiveis_disponiveis.size(); ++i) {
-        int preco = static_cast<int>(precos_consumiveis[i] * multPreco);
+        int preco = (int)(precos_consumiveis[i] * multPreco);
         cout << left << setw(5) << to_string(i + 1 + armamentos_disponiveis.size()) + "." 
                     << setw(30) << consumiveis_disponiveis[i].getNome() 
                     << preco << " moedas 💰" << endl;
@@ -72,7 +72,7 @@ bool Loja::comprarArmamento(Jogador& jogador, int indice_loja) {
     int indice_real = indice_loja - 1;
     if (indice_real >= 0 && (int)indice_real < armamentos_disponiveis.size()) {
         const Armamento& item_para_comprar = armamentos_disponiveis[indice_real];
-        int preco = static_cast<int>(precos_armamentos[indice_real] * multPreco);
+        int preco = (int)(precos_armamentos[indice_real] * multPreco);
 
         if (jogador.getDinheiro() >= preco) {
             jogador.alterarDinheiro(-preco); 
@@ -95,7 +95,7 @@ bool Loja::comprarConsumivel(Jogador& jogador, int indice_loja) {
     int indice_real = indice_loja - 1 - armamentos_disponiveis.size(); 
     if (indice_real >= 0 && (int)indice_real < consumiveis_disponiveis.size()) {
         const Consumiveis& item_para_comprar = consumiveis_disponiveis[indice_real];
-        int preco = static_cast<int>(precos_consumiveis[indice_real] * multPreco);
+        int preco = (int)(precos_consumiveis[indice_real] * multPreco);
 
         if (jogador.getDinheiro() >= preco) {
             jogador.alterarDinheiro(-preco); 

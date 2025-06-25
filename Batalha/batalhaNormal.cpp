@@ -37,7 +37,7 @@ void BatalhaNormal::atacar(Personagem &atacante, Personagem &defensor, bool joga
         }
         // Aplicar multiplicador de dano de inimigo
         Dificuldade dif(player->getDificuldade());
-        forcaTotalAtacante = static_cast<int>(forcaTotalAtacante * dif.getMultiplicadorDanoInimigo());
+        forcaTotalAtacante = (int)(forcaTotalAtacante * dif.getMultiplicadorDanoInimigo());
     }
 
     int dano = (forcaTotalAtacante * 1.2) - (defesaTotalDefensor * 0.8);
@@ -234,7 +234,7 @@ bool BatalhaNormal::batalhar() {
 
 void BatalhaNormal::eventoAleatorioPosBatalha() {
     int chance = rand() % 100;
-    if (chance < 10) { // 30% de chance
+    if (chance < 5) { // 5% de chance
         cout << "\033[1;31m"; // Vermelho
         cout << R"(
    !!! INIMIGO SURPRESA APARECEU !!!

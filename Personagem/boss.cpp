@@ -25,10 +25,9 @@ string Boss::getFraseFinal() const {
     return fraseFinal;
 }
 
-// Mecânica especial: ataque especial do boss
 int Boss::ataqueEspecial() {
     int bonus = rand() % 11;
-    int dano = static_cast<int>(forca * 1.5) + bonus;
+    int dano = (int)(forca * 1.5) + bonus;
     cout << "O Boss usa seu ataque especial! Causa " << dano << " de dano!" << endl;
     return dano;
 }
@@ -51,5 +50,3 @@ void Boss::usarHabilidade(HabilidadeBoss habilidade) {
             break;
     }
 }
-
-// Nenhuma implementação adicional necessária, pois tudo está inline no header. 

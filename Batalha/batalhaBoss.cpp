@@ -154,7 +154,6 @@ bool BatalhaBoss::batalhar() {
             continue;
         }
 
-        // CHECA VITÓRIA ANTES DO TURNO DO BOSS
         if (!boss.estaVivo()) {
             cout << "\nVOCÊ DERROTOU O BOSS FINAL! O reino está salvo! 🏆\n";
             cout << "Frase final do Boss: '" << boss.getFraseFinal() << "'\n";
@@ -212,7 +211,7 @@ bool BatalhaBoss::batalhar() {
             cout << "⚡ O Boss canaliza energia e dispara o RAIO ANIQUILADOR! Você recebe " << dano << " de dano devastador! ⚡\n";
             player->alterarVida(-dano);
             cout << "-----------------------------" << endl;
-        } else { // REGENERAÇÃO DRAGÔNICA (15%)
+        } else {
             int vidaAntes = boss.getVida();
             boss.usarHabilidade(HabilidadeBoss::REGENERACAO_DRAGONICA);
             int vidaDepois = boss.getVida();
@@ -223,7 +222,6 @@ bool BatalhaBoss::batalhar() {
         cout << "\nPressione Enter para continuar... 👉";
         cin.ignore();
 
-        // CHECA DERROTA
         if (!player->estaVivo()) {
             cout << R"(
 

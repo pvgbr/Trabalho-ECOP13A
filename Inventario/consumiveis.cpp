@@ -6,7 +6,6 @@ Consumiveis::Consumiveis(int idx, string n) {
     nome = n;
 }
 
-// Implementação dos operadores
 ostream& operator<<(ostream& os, const Consumiveis& c) {
     os << "Consumivel: " << c.nome << " (ID: " << c.id << ")";
     return os;
@@ -16,7 +15,6 @@ bool Consumiveis::operator==(const Consumiveis& other) const {
     return this->id == other.id && this->nome == other.nome;
 }
 
-// Implementação dos getters
 int Consumiveis::getId() const {
     return id;
 }

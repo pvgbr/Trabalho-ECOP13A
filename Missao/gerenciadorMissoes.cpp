@@ -87,8 +87,8 @@ bool GerenciadorMissoes::avancarMissao() {
     if (missaoAtual < missoes.size() && missoes[missaoAtual].estaConcluida()) {
         // Dar recompensas ao jogador
         double mult = jogador->getDificuldade() == 1 ? 1.0 : (jogador->getDificuldade() == 2 ? 0.7 : 0.5);
-        int xp = static_cast<int>(missoes[missaoAtual].getRecompensaXP() * mult);
-        int dinheiro = static_cast<int>(missoes[missaoAtual].getRecompensaDinheiro() * mult);
+        int xp = (int)(missoes[missaoAtual].getRecompensaXP() * mult);
+        int dinheiro = (int)(missoes[missaoAtual].getRecompensaDinheiro() * mult);
         jogador->alterarXP(xp);
         jogador->alterarDinheiro(dinheiro);
         

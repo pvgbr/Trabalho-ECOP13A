@@ -4,7 +4,6 @@
 Armamento::Armamento(int id, string nome, TipoArmamento tipo, int bonusAtaque, int bonusDefesa, int durabilidade)
     : id(id), nome(nome), tipo(tipo), bonusAtaque(bonusAtaque), bonusDefesa(bonusDefesa), durabilidade(durabilidade), durabilidadeMaxima(durabilidade) {}
 
-// Implementação dos getters
 int Armamento::getId() const {
     return id;
 }
@@ -40,7 +39,6 @@ void Armamento::reduzirDurabilidade(int quantidade) {
     }
 }
 
-// Implementação dos operadores
 ostream& operator<<(ostream& os, const Armamento& a) {
     os << a.nome << " (";
     if (a.bonusAtaque > 0) {
